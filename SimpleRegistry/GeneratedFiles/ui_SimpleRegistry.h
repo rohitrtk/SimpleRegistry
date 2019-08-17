@@ -15,6 +15,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -25,6 +26,7 @@ class Ui_SimpleRegistryClass
 {
 public:
     QWidget *centralWidget;
+    QPushButton *myPushButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -38,6 +40,12 @@ public:
         SimpleRegistryClass->resize(800, 600);
         centralWidget = new QWidget(SimpleRegistryClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+        myPushButton = new QPushButton(centralWidget);
+        myPushButton->setObjectName(QString::fromUtf8("myPushButton"));
+        myPushButton->setGeometry(QRect(100, 50, 511, 381));
+        QFont font;
+        font.setPointSize(40);
+        myPushButton->setFont(font);
         SimpleRegistryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SimpleRegistryClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -65,6 +73,7 @@ public:
     void retranslateUi(QMainWindow *SimpleRegistryClass)
     {
         SimpleRegistryClass->setWindowTitle(QCoreApplication::translate("SimpleRegistryClass", "SimpleRegistry", nullptr));
+        myPushButton->setText(QCoreApplication::translate("SimpleRegistryClass", "WEE", nullptr));
         menuFile->setTitle(QCoreApplication::translate("SimpleRegistryClass", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("SimpleRegistryClass", "Edit", nullptr));
     } // retranslateUi

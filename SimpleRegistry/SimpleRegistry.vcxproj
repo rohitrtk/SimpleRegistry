@@ -114,13 +114,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Person.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SimpleRegistry.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="SimpleRegistry.ui" />
+    <QtUic Include="SimpleRegistry.ui">
+      <SubType>Designer</SubType>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleRegistry.qrc" />

@@ -4,122 +4,122 @@
 #include <string>
 #include <QDate>
 #include <vector>
-#include <sstream>
-#include <ostream>
+#include <memory>
 
+#define ERROR_PERSON_BUILDER_FIRST_NAME		"NULL FIRST NAME"
+#define ERROR_PERSON_BUILDER_LAST_NAME		"NULL LAST NAME"
+#define ERROR_PERSON_BUILDER_DOB			"NULL DOB"
+#define ERROR_PERSON_BUILDER_AGE			"NULL AGE"
+
+#define ERROR_PARENT_BUILDER_HOME_ADDRESS	"NULL HOME ADDRESS"
+#define ERROR_PARENT_BUILDER_EMAIL_ADDRESS	"NULL EMAIL ADDRESS"
+#define ERROR_PARENT_BUILDER_HOME_PHONE		"NULL HOME PHONE"
+#define ERROR_PARENT_BUILDER_CELL_PHONE		"NULL CELL PHONE"
+
+#define ERROR_CHILD_BUILDER_PREV_ATTENDED	"NULL PREVIOUSLY ATTENDED"
+#define ERROR_CHILD_BUILDER_YEARS_ATTENDED	"NULL YEARS ATTENDED"
+#define ERROR_CHILD_BUILDER_PREV_LOCATION	"NULL PREVIOUS LOCATION"
+#define ERROR_CHILD_BUILDER_ALLERGIES		"NULL ALLERGIES"
+
+class PersonBuilder;
+class ParentBuilder;
+class ChildBuilder;
 class Person;
 class Parent;
 class Child;
 class EmergencyContact;
-struct HomeAddress;
 
-using Age = int;
+using sr_int = unsigned char;
 
-struct HomeAddress
+class PersonBuilder
 {
-	int streetNumber = 0;
-	std::string streetName = "";
-	std::string streetName2 = "";
-	std::string cityName = "";
-	std::string province = "";
-	std::string postalCode = "";
+	friend class Person;
+public:
+	PersonBuilder() {}
+	virtual ~PersonBuilder() {}
+
+	std::shared_ptr<Person> Build();
+
+	virtual PersonBuilder* FirstName(std::string firstName);
+	virtual PersonBuilder* LastName(std::string lastName);
+	virtual PersonBuilder* DateOfBirth(QDate dateOfBirth);
+	virtual PersonBuilder* Age(sr_int age);
+
+private:
+	std::unique_ptr<std::string> firstName;
+	std::unique_ptr<std::string> lastName;
+	std::unique_ptr<QDate> dateOfBirth;
+	std::unique_ptr<sr_int> age;
 };
 
-std::ostream& operator << (std::ostream& os, const HomeAddress& ha)
+class ParentBuilder : public PersonBuilder
 {
-	os << ha.streetNumber << " " << ha.streetName << " " << ha.streetName2 << " " << ha.cityName << " " << ha.province << " " << ha.postalCode << std::endl;
-	return os;
-}
+	friend class Parent;
+public:
+	std::shared_ptr<Parent> Build();
+
+	virtual ParentBuilder* HomeAddress(std::string homeAddress);
+	virtual ParentBuilder* EmailAddress(std::string emailAddress);
+	virtual ParentBuilder* HomePhone(std::string homePhone);
+	virtual ParentBuilder* CellPhone(std::string cellPhone);
+
+private:
+	std::unique_ptr<std::string> homeAddress;
+	std::unique_ptr<std::string> emailAddress;
+	std::unique_ptr<std::string> homePhone;
+	std::unique_ptr<std::string> cellPhone;
+};
+
+class ChildBuilder : public PersonBuilder
+{
+	friend class Child;
+public:
+	std::shared_ptr<Child> Build();
+
+	virtual ChildBuilder* PreviouslyAttended(bool previouslyAttended);
+	virtual ChildBuilder* YearsAttended(sr_int yearsAttended);
+	virtual ChildBuilder* PreviousLocation(std::string previousLocation);
+	virtual ChildBuilder* Allergies(std::vector<std::string> allergies);
+
+private:
+	std::unique_ptr<bool>						previouslyAttended;
+	std::unique_ptr<sr_int>						yearsAttended;
+	std::unique_ptr<std::string>				previousLocation;
+	std::unique_ptr<std::vector<std::string>>	allergies;
+};
 
 class Person
 {
 public:
-	Person() {}
-	Person(std::string firstName, std::string lastName, Age age, QDate* dateOfBirth) :
-		firstName(firstName), lastName(lastName), age(age), dateOfBirth(*dateOfBirth) {}
-	
-	virtual std::string GetInfoAsString() = 0;
+	Person(PersonBuilder* builder);
 
-	inline void SetFirstName(std::string firstName) { this->firstName = firstName; }
-	inline std::string GetFirstName() { return this->firstName; }
-
-	inline void SetLastName(std::string lastName) { this->lastName = lastName; }
-	inline std::string GetLastName() { return this->lastName; }
-
-	inline void SetAge(Age age) { this->age = age; }
-	inline Age GetAge() { return this->age; }
-
-	inline void SetDateOfBirth(QDate dateOfBirth) { this->dateOfBirth = dateOfBirth; }
-	inline const QDate& GetDateOfBirth() { return this->dateOfBirth; }
+	inline const std::string& GetFirstName() const	{ return this->firstName; }
+	inline const std::string& GetLastName() const	{ return this->lastName; }
+	inline const sr_int& GetAge() const				{ return this->age; }
+	inline const QDate& GetDateOfBirth() const 		{ return this->dateOfBirth; }
 
 protected:
+	Person() {}
+
 	std::string firstName;
 	std::string lastName;
-	Age age;
+	sr_int age;
 	QDate dateOfBirth;
-};
-
-class EmergencyContact : public Person
-{
-public:
-	EmergencyContact() {}
-	EmergencyContact(std::string firstName, std::string lastName, std::string phoneNumber, std::string relation) :
-		Person(firstName, lastName, 0, nullptr), relation(relation), phoneNumber(phoneNumber) {}
-
-	inline std::string GetInfoAsString() override 
-	{
-		std::stringstream ss;
-		ss << "Name: " << firstName << " " << lastName << " Relation: " << relation << " Phone: " << phoneNumber << std::endl;
-		return ss.str();
-	}
-
-	inline std::string SetRelation(std::string relation) { this->relation = relation; }
-	inline std::string GetRelation() { return this->relation; }
-
-private:
-	std::string relation;
-	std::string phoneNumber;
 };
 
 class Parent : public Person
 {
 public:
-	Parent() {}
-	Parent(std::string firstName, std::string lastName, Age age, QDate dateOfBirth, HomeAddress homeAddress,
-		std::string emailAddress, std::string homePhone, std::string cellPhone = "") :
-		Person(firstName, lastName, age, &dateOfBirth) , homeAddress(homeAddress), 
-		emailAddress(emailAddress), homePhone(homePhone), cellPhone(cellPhone) {}
+	Parent(ParentBuilder* parentBuilder);
 
-	inline std::string GetInfoAsString() override 
-	{
-		std::stringstream ss;
-		ss << "Name: " << firstName << " " << lastName << " Age: " << age << " Home Address: " << homeAddress << "Email Address: " << emailAddress
-			<< " Home Phone: " << homePhone << " Cell Phone: " << cellPhone << std::endl;
-		return ss.str();
-	}
-
-	inline void SetHomeAddress(HomeAddress* homeAddress) { this->homeAddress = *homeAddress; }
-	inline const HomeAddress& GetHomeAddress() { return this->homeAddress; }
-
-	inline void SetEmailAddress(std::string emailAddress) { this->emailAddress = emailAddress; }
-	inline std::string GetEmailAddress() { return this->emailAddress; }
-
-	inline void SetHomePhone(std::string homePhone) { this->homePhone = homePhone; }
-	inline std::string GetHomePhone() { return this->homePhone; }
-
-	inline void SetCellPhone() { this->cellPhone = cellPhone; }
-	inline std::string GetCellPhone() { return this->cellPhone; }
-	
-	inline void SetEmergencyContact(EmergencyContact* emergencyContact) { this->emergencyContact = *emergencyContact; }
-	inline const EmergencyContact& GetEmergencyContact() { return this->emergencyContact; }
+	inline const std::string& GetEmailAddress()		{ return this->emailAddress; }
+	inline const std::string& GetHomePhone()		{ return this->homePhone; }
+	inline const std::string& GetCellPhone()		{ return this->cellPhone; }
 
 private:
-	HomeAddress homeAddress;
 	std::string emailAddress;
 	std::string homePhone;
 	std::string cellPhone;
-	EmergencyContact emergencyContact;
-	std::vector<std::string> interests;
 
 	std::vector<Child> children;
 };
@@ -127,22 +127,13 @@ private:
 class Child : public Person 
 {
 public:
-	Child() {}
-	Child(std::string firstName, std::string lastName, Age age, QDate dateOfBirth) :
-		Person(firstName, lastName, age, &dateOfBirth) {}
-
-	inline std::string GetInfoAsString() override 
-	{
-		std::stringstream ss;
-		ss << "Name: " << firstName << " " << lastName << " Age: " << age << std::endl;
-		return ss.str();
-	}
+	Child(ChildBuilder* childBuilder);
 
 private:
 	std::vector<Parent> parents;
 
 	bool previouslyAttended;
-	Age numYearsAttended;
+	sr_int numYearsAttended;
 	std::string previousLocation;
 	std::vector<std::string> allergies;
 	std::vector<std::string> interests;

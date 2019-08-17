@@ -14,6 +14,8 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
+public slots:
+
 private:
 	Ui::SimpleRegistryClass ui;
 };
