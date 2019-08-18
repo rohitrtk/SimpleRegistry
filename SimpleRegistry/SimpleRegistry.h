@@ -15,7 +15,7 @@ public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
 public slots:
-
+	void ButtonClicked();
 private:
 	Ui::SimpleRegistryClass ui;
 };

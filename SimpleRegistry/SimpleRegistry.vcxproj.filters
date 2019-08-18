@@ -36,7 +36,7 @@
     <ClCompile Include="SimpleRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Person.cpp">
+    <ClCompile Include="SRPerson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Person.h">
+    <ClInclude Include="SRPerson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

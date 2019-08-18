@@ -1,5 +1,5 @@
 #include "SimpleRegistry.h"
-#include "Person.h"
+#include "SRPerson.h"
 #include <QDebug>
 #include <memory>
 
@@ -7,17 +7,30 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-
+	ui.myPushButton->setText("WEE");
 	connect(ui.myPushButton, SIGNAL(clicked()), this, SLOT(ButtonClicked()));
 
-	PersonBuilder personBuilder;
-	ParentBuilder parentBuilder;
-	ChildBuilder  childBuilder;
+	PersonBuilder builder;
 
-	std::shared_ptr<Person> person = 
-		personBuilder.Age(20)->
-		FirstName("Rohit")->
-		LastName("Kisto")->
-		DateOfBirth(QDate())->
-		Build();
+	Person* p = builder.FirstName("Rohit")->LastName("Terry")->Age(20)->DateOfBirth(QDate(1, 1, 1))->Build<Person>();
+	p->PrintInfo();
+
+	Parent* pa = builder.FirstName("Big Rohit")->LastName("Terry")->Age(20)
+		->DateOfBirth(QDate(1,1,1))->HomeAddress("Dank St")->EmailAddress("Dank@hotmail.com")
+		->HomePhone("123456789")->CellPhone("12353427548")->Build<Parent>();
+	pa->PrintInfo();
+}
+
+void SimpleRegistry::ButtonClicked()
+{
+	static int i = 0;
+
+	if(i % 2 == 0) ui.myPushButton->setText("WOO");
+	else
+	{
+		ui.myPushButton->setText("WEE");
+		i = -1;
+	}
+
+	i++;
 }
