@@ -13,12 +13,17 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 	PersonBuilder builder;
 
 	Person* p = builder.FirstName("Rohit")->LastName("Terry")->Age(20)->DateOfBirth(QDate(1, 1, 1))->Build<Person>();
-	p->PrintInfo();
+	qInfo() << p->GetInfo();
 
 	Parent* pa = builder.FirstName("Big Rohit")->LastName("Terry")->Age(20)
 		->DateOfBirth(QDate(1,1,1))->HomeAddress("Dank St")->EmailAddress("Dank@hotmail.com")
 		->HomePhone("123456789")->CellPhone("12353427548")->Build<Parent>();
-	pa->PrintInfo();
+	qInfo() << pa->GetInfo();
+
+	Child* cb = builder.FirstName("Small Rohit")->LastName("Terry")->Age(20)
+		->DateOfBirth(QDate(1, 1, 1))->PrevAttended(false)->YearsAttended(0)
+		->PrevLocation("Yeet")->Build<Child>();
+	qInfo() << cb->GetInfo();
 }
 
 void SimpleRegistry::ButtonClicked()

@@ -131,6 +131,7 @@
     <QtRcc Include="SimpleRegistry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SRConsants.h" />
     <ClInclude Include="SRPerson.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

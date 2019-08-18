@@ -59,5 +59,8 @@
     <ClInclude Include="SRPerson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SRConsants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
