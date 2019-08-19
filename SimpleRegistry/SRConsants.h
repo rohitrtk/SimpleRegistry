@@ -19,7 +19,7 @@
 #define ERROR_BUILDER_PREV_LOCATION		"NULL PREVIOUS LOCATION"
 #define ERROR_BUILDER_ALLERGIES			"NULL ALLERGIES"
 
-using sr_int = unsigned char;
+using sr_int = unsigned short int;
 using sr_list = std::vector<std::string>;
 
 #endif 

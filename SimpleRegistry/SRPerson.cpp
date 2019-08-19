@@ -22,7 +22,7 @@ QString Person::GetInfo()
 	if (firstName)		ss << "First Name: "	<< *firstName		<< " ";
 	if (lastName)		ss << "Last Name: "		<< *lastName		<< " ";
 	if (age)			ss << "Age: "			<< *age				<< " ";
-	//if (dateOfBirth)	ss << "DOB: "			<< dateOfBirth		<< " ";
+	if (dateOfBirth)	ss << "DOB: "			<< dateOfBirth->toString().toStdString() << " ";
 	
 	return std::move(ss.str().c_str());
 }

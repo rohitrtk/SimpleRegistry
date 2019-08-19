@@ -21,24 +21,26 @@ public:
 	PersonBuilder() {}
 
 	template<typename T>
-	T* Build()
+	std::unique_ptr<T> Build()
 	{
-		return new T(this);
+		return std::make_unique<T>(this);
 	}
 
 	PersonBuilder* FirstName(std::string firstName);
 	PersonBuilder* LastName(std::string lastName);
 	PersonBuilder* DateOfBirth(QDate dateOfBirth);
 	PersonBuilder* Age(sr_int age);
+
 	PersonBuilder* HomeAddress(std::string homeAddress);
 	PersonBuilder* EmailAddress(std::string emailAddress);
 	PersonBuilder* HomePhone(std::string homePhone);
 	PersonBuilder* CellPhone(std::string cellPhone);
+
 	PersonBuilder* PrevAttended(bool prevAttended);
 	PersonBuilder* YearsAttended(sr_int yearsAttended);
+	PersonBuilder* PrevLocation(std::string prevLocation);
 	PersonBuilder* Allergies(sr_list allergies);
 	PersonBuilder* Interests(sr_list interests);
-	PersonBuilder* PrevLocation(std::string prevLocation);
 
 private:
 	std::unique_ptr<std::string>	firstName;
