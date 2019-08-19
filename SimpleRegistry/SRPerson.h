@@ -26,6 +26,8 @@ public:
 		return std::make_unique<T>(this);
 	}
 
+	PersonBuilder* ID(sr_int id);
+
 	PersonBuilder* FirstName(std::string firstName);
 	PersonBuilder* LastName(std::string lastName);
 	PersonBuilder* DateOfBirth(QDate dateOfBirth);
@@ -43,6 +45,8 @@ public:
 	PersonBuilder* Interests(sr_list interests);
 
 private:
+	std::unique_ptr<sr_int>			id;
+	
 	std::unique_ptr<std::string>	firstName;
 	std::unique_ptr<std::string>	lastName;
 	std::unique_ptr<sr_int>			age;
@@ -65,6 +69,7 @@ class Person
 public:
 	Person(PersonBuilder* builder);
 
+	inline sr_int	   GetID()			const	{ return *this->id; }
 	inline std::string GetFirstName()   const	{ return *this->firstName; }
 	inline std::string GetLastName()    const	{ return *this->lastName; }
 	inline sr_int      GetAge()         const	{ return *this->age; }
@@ -73,6 +78,7 @@ public:
 	virtual QString GetInfo();
 
 protected:
+	std::unique_ptr<sr_int>		 id;
 	std::unique_ptr<std::string> firstName;
 	std::unique_ptr<std::string> lastName;
 	std::unique_ptr<sr_int>		 age;
@@ -96,6 +102,8 @@ private:
 	std::unique_ptr<std::string> homePhone;
 	std::unique_ptr<std::string> cellPhone;
 	std::unique_ptr<std::string> emailAddress;
+
+	std::unique_ptr<sr_list> children;
 };
 
 class Child : public Person
@@ -117,6 +125,8 @@ private:
 	std::unique_ptr<sr_int>			yearsAttended;
 	std::unique_ptr<sr_list>		allergies;
 	std::unique_ptr<sr_list>		interests;
+
+	std::unique_ptr<sr_list> guardians;
 };
 
 #endif

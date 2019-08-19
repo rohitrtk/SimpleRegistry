@@ -16,6 +16,7 @@ public:
 
 public slots:
 	void ButtonClicked();
+
 private:
 	Ui::SimpleRegistryClass ui;
 };

@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#define ERROR_BUILDER_NO_ID				"NULL ID"
+
 #define ERROR_BUILDER_FIRST_NAME		"NULL FIRST NAME"
 #define ERROR_BUILDER_LAST_NAME			"NULL LAST NAME"
 #define ERROR_BUILDER_DOB				"NULL DOB"
@@ -19,7 +21,7 @@
 #define ERROR_BUILDER_PREV_LOCATION		"NULL PREVIOUS LOCATION"
 #define ERROR_BUILDER_ALLERGIES			"NULL ALLERGIES"
 
-using sr_int = unsigned short int;
-using sr_list = std::vector<std::string>;
+using sr_int		= unsigned short int;
+using sr_list		= std::vector<std::string>;
 
 #endif 

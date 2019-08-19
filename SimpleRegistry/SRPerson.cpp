@@ -4,11 +4,13 @@
 
 Person::Person(PersonBuilder* builder)
 {
+	this->id =					std::move(builder->id);
 	this->firstName =			std::move(builder->firstName);
 	this->lastName =			std::move(builder->lastName);
 	this->dateOfBirth =			std::move(builder->dateOfBirth);
 	this->age =					std::move(builder->age);
 
+	if (!id)			throw ERROR_BUILDER_NO_ID;
 	if (!firstName)		throw ERROR_BUILDER_FIRST_NAME;
 	if (!lastName)		throw ERROR_BUILDER_LAST_NAME;
 	if (!dateOfBirth)	throw ERROR_BUILDER_DOB;
@@ -65,6 +67,8 @@ Parent::Parent(PersonBuilder* builder) : Person(builder)
 	if (!emailAddress)	throw ERROR_BUILDER_EMAIL_ADDRESS;
 	if (!homePhone)		throw ERROR_BUILDER_HOME_PHONE;
 	if (!cellPhone)		throw ERROR_BUILDER_CELL_PHONE;
+
+	this->children = std::make_unique<sr_list>();
 }
 
 Child::Child(PersonBuilder* builder) : Person(builder)
@@ -76,6 +80,14 @@ Child::Child(PersonBuilder* builder) : Person(builder)
 
 	if (!prevAttended)	throw ERROR_BUILDER_PREV_ATTENDED;
 	if (!yearsAttended) throw ERROR_BUILDER_YEARS_ATTENDED;
+	
+	this->guardians = std::make_unique<sr_list>();
+}
+
+PersonBuilder* PersonBuilder::ID(sr_int id)
+{
+	this->id = std::make_unique<sr_int>(id);
+	return this;
 }
 
 PersonBuilder* PersonBuilder::FirstName(std::string firstName)
