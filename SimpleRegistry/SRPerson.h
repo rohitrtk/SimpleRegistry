@@ -43,6 +43,7 @@ public:
 	PersonBuilder* PrevLocation(std::string prevLocation);
 	PersonBuilder* Allergies(sr_list allergies);
 	PersonBuilder* Interests(sr_list interests);
+	PersonBuilder* Group(sr::Group group);
 
 private:
 	std::unique_ptr<sr_int>			id;
@@ -62,6 +63,7 @@ private:
 	std::unique_ptr<sr_int>			yearsAttended;
 	std::unique_ptr<sr_list>		allergies;
 	std::unique_ptr<sr_list>		interests;
+	std::unique_ptr<sr::Group>		group;
 };
 
 class Person
@@ -69,11 +71,11 @@ class Person
 public:
 	Person(PersonBuilder* builder);
 
-	inline sr_int	   GetID()			const	{ return *this->id; }
-	inline std::string GetFirstName()   const	{ return *this->firstName; }
-	inline std::string GetLastName()    const	{ return *this->lastName; }
-	inline sr_int      GetAge()         const	{ return *this->age; }
-	inline QDate       GetDateOfBirth() const 	{ return *this->dateOfBirth; }
+	inline const sr_int&	  GetID()		   const { return *this->id; }
+	inline const std::string& GetFirstName()   const { return *this->firstName; }
+	inline const std::string& GetLastName()    const { return *this->lastName; }
+	inline const sr_int&      GetAge()         const { return *this->age; }
+	inline const QDate&       GetDateOfBirth() const { return *this->dateOfBirth; }
 
 	virtual QString GetInfo();
 
@@ -90,10 +92,10 @@ class Parent : public Person
 public:
 	Parent(PersonBuilder* builder);
 
-	inline std::string GetEmailAddress()	const { return *this->emailAddress; }
-	inline std::string GetHomePhone()		const { return *this->homePhone; }
-	inline std::string GetCellPhone()		const { return *this->cellPhone; }
-	inline std::string GetHomeAddress()		const { return *this->homeAddress; }
+	inline const std::string& GetEmailAddress()	const { return *this->emailAddress; }
+	inline const std::string& GetHomePhone()	const { return *this->homePhone; }
+	inline const std::string& GetCellPhone()	const { return *this->cellPhone; }
+	inline const std::string& GetHomeAddress()	const { return *this->homeAddress; }
 
 	virtual QString GetInfo() override;
 
@@ -111,11 +113,12 @@ class Child : public Person
 public:
 	Child(PersonBuilder* builder);
 
-	inline std::string GetPrevLocation()	const { return *this->prevLocation; }
-	inline bool GetPrevAttended()			const { return *this->prevAttended; }
-	inline sr_int GetYearsAttended()		const { return *this->yearsAttended; }
-	inline sr_list GetAllergies()			const { return *this->allergies; }
-	inline sr_list GetInterests()			const { return *this->interests; }
+	inline const std::string& GetPrevLocation()	const { return *this->prevLocation; }
+	inline const bool& GetPrevAttended()		const { return *this->prevAttended; }
+	inline const sr_int& GetYearsAttended()		const { return *this->yearsAttended; }
+	inline const sr_list& GetAllergies()		const { return *this->allergies; }
+	inline const sr_list& GetInterests()		const { return *this->interests; }
+	inline const sr::Group& GetGroup()			const { return *this->group; }
 
 	virtual QString GetInfo() override;
 
@@ -127,6 +130,7 @@ private:
 	std::unique_ptr<sr_list>		interests;
 
 	std::unique_ptr<sr_list> guardians;
+	std::unique_ptr<sr::Group> group;
 };
 
 #endif

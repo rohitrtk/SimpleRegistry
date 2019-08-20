@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #define ERROR_BUILDER_NO_ID				"NULL ID"
 
@@ -20,8 +21,22 @@
 #define ERROR_BUILDER_YEARS_ATTENDED	"NULL YEARS ATTENDED"
 #define ERROR_BUILDER_PREV_LOCATION		"NULL PREVIOUS LOCATION"
 #define ERROR_BUILDER_ALLERGIES			"NULL ALLERGIES"
+#define ERROR_BUILDER_GROUP				"NULL GROUP NUMBER"
+
+#define ERROR_CREATE_PARENT_NULL		"NULL PERSON LIST"
+
+class Person;
 
 using sr_int		= unsigned short int;
 using sr_list		= std::vector<std::string>;
+using sr_ppl		= std::vector<std::unique_ptr<Person>>;
+
+namespace sr
+{
+	enum class Group
+	{
+		GROUP_1 = 1, GROUP_2 = 2, GROUP_3 = 3
+	};
+}
 
 #endif 

@@ -23,6 +23,7 @@ QString Person::GetInfo()
 
 	if (firstName)		ss << "First Name: "	<< *firstName		<< " ";
 	if (lastName)		ss << "Last Name: "		<< *lastName		<< " ";
+	if (id)				ss << "ID Number: "		<< *id				<< " ";
 	if (age)			ss << "Age: "			<< *age				<< " ";
 	if (dateOfBirth)	ss << "DOB: "			<< dateOfBirth->toString().toStdString() << " ";
 	
@@ -77,9 +78,11 @@ Child::Child(PersonBuilder* builder) : Person(builder)
 	this->yearsAttended =	std::move(builder->yearsAttended);
 	this->allergies =		std::move(builder->allergies);
 	this->interests =		std::move(builder->interests);
+	this->group =			std::move(builder->group);
 
 	if (!prevAttended)	throw ERROR_BUILDER_PREV_ATTENDED;
 	if (!yearsAttended) throw ERROR_BUILDER_YEARS_ATTENDED;
+	if (!group)			throw ERROR_BUILDER_GROUP;
 	
 	this->guardians = std::make_unique<sr_list>();
 }
@@ -165,5 +168,11 @@ PersonBuilder* PersonBuilder::Interests(sr_list interests)
 PersonBuilder* PersonBuilder::PrevLocation(std::string prevLocation)
 {
 	this->prevLocation = std::make_unique<std::string>(prevLocation);
+	return this;
+}
+
+PersonBuilder* PersonBuilder::Group(sr::Group group)
+{
+	this->group = std::make_unique<sr::Group>(group);
 	return this;
 }
