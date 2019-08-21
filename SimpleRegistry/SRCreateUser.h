@@ -10,6 +10,13 @@
 #include <string>
 #include <memory>
 
+class PersonBuilder;
+
+enum class FormType
+{
+	PARENT, CHILD
+};
+
 class SRCreateUser : public QWidget
 {
 	Q_OBJECT
@@ -17,6 +24,9 @@ class SRCreateUser : public QWidget
 public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
+
+	void SetupParentWindow();
+	void SetupChildWindow();
 
 	inline void SetPersonList(std::shared_ptr<sr::_ppl> list)
 	{
@@ -31,18 +41,33 @@ public slots:
 private:
 	Ui::SRCreateUser ui;
 
+	FormType formType;
+
+	const unsigned short int WindowWidth	= 465;
+	const unsigned short int WindowHeight	= 400;
+
+	// Label Stuff
+	const QString p_homeAddress					= "Home Address";
+	const QString p_homePhone					= "Home Phone";
+	const QString p_cellPhone					= "Cell Phone";
+	const QString p_emailAddress				= "Email Address";
+	const QString c_prevLocation				= "Previous Location";
+	const QString c_prevAttended				= "Previously Attended";
+	const QString c_yearsAttended				= "Years Attended";
+
 	std::unique_ptr<class SRPopUp> popUp;
 	std::shared_ptr<sr::_ppl> personList;
 	bool paramMissing;
 
-	void MakeFirstName(class PersonBuilder& builder);
-	void MakeLastName(class PersonBuilder& builder);
-	void MakeAge(class PersonBuilder& builder);
-	void MakeDateOfBirth(class PersonBuilder& builder);
-	void MakeHomeAddress(class PersonBuilder& builder);
-	void MakeHomePhone(class PersonBuilder& builder);
-	void MakeCellPhone(class PersonBuilder& builder);
-	void MakeEmail(class PersonBuilder& builder);
+	void MakeFirstName(PersonBuilder& builder);
+	void MakeLastName(PersonBuilder& builder);
+	void MakeAge(PersonBuilder& builder);
+	void MakeDateOfBirth(PersonBuilder& builder);
+
+	void MakeVar1(PersonBuilder& builder);
+	void MakeVar2(PersonBuilder& builder);
+	void MakeVar3(PersonBuilder& builder);
+	void MakeVar4(PersonBuilder& builder);
 };
 
 #endif

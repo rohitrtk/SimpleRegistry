@@ -4,6 +4,10 @@
 #include <QLayoutItem>
 #include "SRPopUp.h"
 #include "SRPerson.h"
+#include <QWidget>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QLabel>
 
 SRCreateUser::SRCreateUser(QWidget *parent)
 	: QWidget(parent)
@@ -14,11 +18,36 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 
+	this->resize(WindowWidth, WindowHeight);
+
 	this->paramMissing = 0;
 }
 
 SRCreateUser::~SRCreateUser()
 {
+}
+
+void SRCreateUser::SetupParentWindow()
+{
+	this->formType = FormType::PARENT;
+
+	this->ui.label_var1->setText(p_homeAddress);
+	this->ui.label_var2->setText(p_homePhone);
+	this->ui.label_var3->setText(p_cellPhone);
+	this->ui.label_var4->setText(p_emailAddress);
+}
+
+void SRCreateUser::SetupChildWindow()
+{
+	this->formType = FormType::CHILD;
+
+	this->ui.label_var1->setText(c_prevLocation);
+	this->ui.label_var2->setText(c_prevAttended);
+	this->ui.label_var3->setText(c_yearsAttended);
+	this->ui.label_var4->setEnabled(false);
+	this->ui.label_var4->setHidden(true);
+	this->ui.textEdit_var4->setEnabled(false);
+	this->ui.textEdit_var4->setHidden(true);
 }
 
 void SRCreateUser::Create()
@@ -37,10 +66,10 @@ void SRCreateUser::Create()
 	MakeLastName(builder);
 	MakeAge(builder);
 	MakeDateOfBirth(builder);
-	MakeHomeAddress(builder);
-	MakeHomePhone(builder);
-	MakeCellPhone(builder);
-	MakeEmail(builder);
+	MakeVar1(builder);
+	MakeVar2(builder);
+	MakeVar3(builder);
+	MakeVar4(builder);
 
 	if (this->paramMissing)
 	{
@@ -100,7 +129,7 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 
 void SRCreateUser::MakeAge(PersonBuilder& builder)
 {
-	// *
+	// *TODO
 	QString age_str = ui.textEdit_age->toPlainText().trimmed();
 	if (!age_str.isEmpty())
 	{
@@ -113,49 +142,54 @@ void SRCreateUser::MakeAge(PersonBuilder& builder)
 
 void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
 {
-	// *
+	// *TODO
 	builder.DateOfBirth(QDate(1, 1, 1));
 }
 
-void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
+void SRCreateUser::MakeVar1(PersonBuilder& builder)
 {
-	QString ha = ui.textEdit_homeAddress->toPlainText().trimmed();
-	if (!ha.isEmpty())
+	QString s = ui.textEdit_var1->toPlainText().trimmed();
+
+	if (s.isEmpty())
 	{
-		builder.HomeAddress(std::move(ha.toStdString()));
-		return;
+		this->paramMissing = true;
 	}
 
-	this->paramMissing = true;
+	if (this->formType == FormType::PARENT) builder.HomeAddress(std::move(s.toStdString()));
+	else builder.PrevLocation(std::move(s.toStdString()));
 }
 
-void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
+void SRCreateUser::MakeVar2(PersonBuilder& builder)
 {
-	QString homePhone = ui.textEdit_homePhone->toPlainText().trimmed();
-	if (!homePhone.isEmpty())
+	QString s = ui.textEdit_var2->toPlainText().trimmed();
+
+	if (s.isEmpty())
 	{
-		builder.HomePhone(std::move(homePhone.toStdString()));
-		return;
+		this->paramMissing = true;
 	}
 
-	this->paramMissing = true;
+	if (this->formType == FormType::PARENT) builder.HomePhone(std::move(s.toStdString()));
+	// *TODO
+	else builder.PrevAttended(true);
 }
 
-void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
+void SRCreateUser::MakeVar3(PersonBuilder& builder)
 {
-	QString cellPhone = ui.textEdit_cellPhone->toPlainText().trimmed();
-	if (!cellPhone.isEmpty())
+	QString s = ui.textEdit_var2->toPlainText().trimmed();
+
+	if (s.isEmpty())
 	{
-		builder.CellPhone(std::move(cellPhone.toStdString()));
-		return;
+		this->paramMissing = true;
 	}
 
-	this->paramMissing = true;
+	if (this->formType == FormType::PARENT) builder.CellPhone(std::move(s.toStdString()));
+	// *
+	else builder.YearsAttended(1);
 }
 
-void SRCreateUser::MakeEmail(PersonBuilder& builder)
+void SRCreateUser::MakeVar4(PersonBuilder& builder)
 {
-	QString email = ui.textEdit_emailAddress->toPlainText().trimmed();
+	QString email = ui.textEdit_var4->toPlainText().trimmed();
 	if (!email.isEmpty())
 	{
 		builder.EmailAddress(std::move(email.toStdString()));

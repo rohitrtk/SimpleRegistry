@@ -22,13 +22,15 @@ public:
 
 public slots:
 	void ButtonClicked();
-	void CreateUser();
+	void CreateParent();
+	void CreateChild();
 
 private:
 	Ui::SimpleRegistryClass ui;
 
 	std::shared_ptr<sr::_ppl> people;
-	std::unique_ptr<SRCreateUser> createUserForm;
+	std::unique_ptr<SRCreateUser> createParentForm;
+	std::unique_ptr<SRCreateUser> createChildForm;
 };
 
 #endif

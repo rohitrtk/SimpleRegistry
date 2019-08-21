@@ -14,12 +14,14 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 	this->ui.myPushButton->setText("WEE");
 
 	connect(ui.myPushButton, SIGNAL(clicked()), this, SLOT(ButtonClicked()));
-	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateUser()));
+	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
+	connect(ui.actionCreate_Child, SIGNAL(triggered()), this, SLOT(CreateChild()));
 
 	people = std::make_shared<sr::_ppl>();
 
 	PersonBuilder builder;
 
+	// Manual add to list of people
 	std::unique_ptr<Person> p = builder.ID(1)->FirstName("Rohit")->LastName("Terry")->Age(20)->DateOfBirth(QDate(1, 1, 1))->Build<Person>();
 
 	std::unique_ptr<Parent> pa = builder.ID(2)->FirstName("Big Rohit")->LastName("Terry")->Age(20)
@@ -54,13 +56,25 @@ void SimpleRegistry::ButtonClicked()
 	}
 }
 
-void SimpleRegistry::CreateUser()
+void SimpleRegistry::CreateParent()
 {
-	if (!this->createUserForm)
+	if (!this->createParentForm)
 	{
-		this->createUserForm = std::make_unique<SRCreateUser>();
-		this->createUserForm->SetPersonList(this->people);
-		this->createUserForm->show();
+		this->createParentForm = std::make_unique<SRCreateUser>();
+		this->createParentForm->SetPersonList(this->people);
+		this->createParentForm->SetupParentWindow();
+		this->createParentForm->show();
+	}
+}
+
+void SimpleRegistry::CreateChild()
+{
+	if (!this->createChildForm)
+	{
+		this->createChildForm = std::make_unique<SRCreateUser>();
+		this->createChildForm->SetPersonList(this->people);
+		this->createChildForm->SetupChildWindow();
+		this->createChildForm->show();
 	}
 }
 
