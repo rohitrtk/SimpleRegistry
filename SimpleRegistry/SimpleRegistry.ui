@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,6 +46,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionCreate_Parent"/>
+    <addaction name="actionCreate_Child"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -64,6 +66,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionCreate_Parent">
+   <property name="text">
+    <string>Create Parent</string>
+   </property>
+  </action>
+  <action name="actionCreate_Child">
+   <property name="text">
+    <string>Create Child</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

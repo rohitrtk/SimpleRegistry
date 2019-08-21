@@ -39,7 +39,10 @@
     <ClCompile Include="SRPerson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRCreateParent.cpp">
+    <ClCompile Include="SRPopUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRCreateUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +50,10 @@
     <QtMoc Include="SimpleRegistry.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="SRCreateParent.h">
+    <QtMoc Include="SRPopUp.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SRCreateUser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -55,7 +61,10 @@
     <QtUic Include="SimpleRegistry.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="SRCreateParent.ui">
+    <QtUic Include="SRPopUp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SRCreateUser.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

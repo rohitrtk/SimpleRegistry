@@ -1,15 +1,22 @@
 #include "SimpleRegistry.h"
 #include "SRPerson.h"
-#include <QDebug>
-#include <memory>
 #include "SRPerson.h"
+#include <memory>
+#include <QDebug>
+#include <QDate>
+#include <QAction>
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	ui.myPushButton->setText("WEE");
+	
+	this->ui.myPushButton->setText("WEE");
+
 	connect(ui.myPushButton, SIGNAL(clicked()), this, SLOT(ButtonClicked()));
+	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateUser()));
+
+	people = std::make_shared<sr::_ppl>();
 
 	PersonBuilder builder;
 
@@ -23,9 +30,9 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 		->DateOfBirth(QDate(1, 1, 1))->PrevAttended(false)->YearsAttended(0)
 		->PrevLocation("Yeet")->Group(sr::Group::GROUP_1)->Build<Child>();
 
-	people.push_back(std::move(p));
-	people.push_back(std::move(pa));
-	people.push_back(std::move(cb));
+	people->push_back(std::move(p));
+	people->push_back(std::move(pa));
+	people->push_back(std::move(cb));
 }
 
 void SimpleRegistry::ButtonClicked()
@@ -41,8 +48,23 @@ void SimpleRegistry::ButtonClicked()
 
 	i++;
 
-	for (const auto& c : people)
+	for (const auto& c : *people)
 	{
 		qInfo() << c->GetInfo();
 	}
+}
+
+void SimpleRegistry::CreateUser()
+{
+	if (!this->createUserForm)
+	{
+		this->createUserForm = std::make_unique<SRCreateUser>();
+		this->createUserForm->SetPersonList(this->people);
+		this->createUserForm->show();
+	}
+}
+
+std::shared_ptr<sr::_ppl> SimpleRegistry::GetPeople()
+{
+	return this->people;
 }

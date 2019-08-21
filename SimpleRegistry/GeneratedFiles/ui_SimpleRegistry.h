@@ -25,6 +25,8 @@ QT_BEGIN_NAMESPACE
 class Ui_SimpleRegistryClass
 {
 public:
+    QAction *actionCreate_Parent;
+    QAction *actionCreate_Child;
     QWidget *centralWidget;
     QPushButton *myPushButton;
     QMenuBar *menuBar;
@@ -37,7 +39,11 @@ public:
     {
         if (SimpleRegistryClass->objectName().isEmpty())
             SimpleRegistryClass->setObjectName(QString::fromUtf8("SimpleRegistryClass"));
-        SimpleRegistryClass->resize(800, 600);
+        SimpleRegistryClass->resize(800, 612);
+        actionCreate_Parent = new QAction(SimpleRegistryClass);
+        actionCreate_Parent->setObjectName(QString::fromUtf8("actionCreate_Parent"));
+        actionCreate_Child = new QAction(SimpleRegistryClass);
+        actionCreate_Child->setObjectName(QString::fromUtf8("actionCreate_Child"));
         centralWidget = new QWidget(SimpleRegistryClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         myPushButton = new QPushButton(centralWidget);
@@ -64,6 +70,8 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
+        menuFile->addAction(actionCreate_Parent);
+        menuFile->addAction(actionCreate_Child);
 
         retranslateUi(SimpleRegistryClass);
 
@@ -73,6 +81,8 @@ public:
     void retranslateUi(QMainWindow *SimpleRegistryClass)
     {
         SimpleRegistryClass->setWindowTitle(QCoreApplication::translate("SimpleRegistryClass", "SimpleRegistry", nullptr));
+        actionCreate_Parent->setText(QCoreApplication::translate("SimpleRegistryClass", "Create Parent", nullptr));
+        actionCreate_Child->setText(QCoreApplication::translate("SimpleRegistryClass", "Create Child", nullptr));
         myPushButton->setText(QCoreApplication::translate("SimpleRegistryClass", "WEE", nullptr));
         menuFile->setTitle(QCoreApplication::translate("SimpleRegistryClass", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("SimpleRegistryClass", "Edit", nullptr));

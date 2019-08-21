@@ -116,9 +116,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SRCreateParent.cpp" />
+    <ClCompile Include="SRCreateUser.cpp" />
     <ClCompile Include="SRPerson.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
+    <ClCompile Include="SRPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SimpleRegistry.h" />
@@ -127,14 +128,19 @@
     <QtUic Include="SimpleRegistry.ui">
       <SubType>Designer</SubType>
     </QtUic>
-    <QtUic Include="SRCreateParent.ui" />
+    <QtUic Include="SRCreateUser.ui" />
+    <QtUic Include="SRPopUp.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleRegistry.qrc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SRConsants.h" />
-    <QtMoc Include="SRCreateParent.h">
+    <QtMoc Include="SRPopUp.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
+    <QtMoc Include="SRCreateUser.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
     </QtMoc>

@@ -3,14 +3,13 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_SimpleRegistry.h"
+#include "SRConsants.h"
 #include <memory>
 #include <vector>
-#include "SRConsants.h"
+#include "SRCreateUser.h"
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
-
-class Person;
 
 class SimpleRegistry : public QMainWindow
 {
@@ -19,15 +18,17 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
+	std::shared_ptr<sr::_ppl> GetPeople();
+
 public slots:
 	void ButtonClicked();
-
-	inline sr_ppl& GetPeople() { return this->people; }
+	void CreateUser();
 
 private:
 	Ui::SimpleRegistryClass ui;
 
-	sr_ppl people;
+	std::shared_ptr<sr::_ppl> people;
+	std::unique_ptr<SRCreateUser> createUserForm;
 };
 
 #endif

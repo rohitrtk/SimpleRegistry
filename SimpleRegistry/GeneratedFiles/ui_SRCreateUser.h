@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'SRCreateParent.ui'
+** Form generated from reading UI file 'SRCreateUser.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.13.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_SRCREATEPARENT_H
-#define UI_SRCREATEPARENT_H
+#ifndef UI_SRCREATEUSER_H
+#define UI_SRCREATEUSER_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -20,7 +20,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_SRCreateParent
+class Ui_SRCreateUser
 {
 public:
     QWidget *formLayoutWidget;
@@ -43,21 +43,28 @@ public:
     QTextEdit *textEdit_emailAddress;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout_2;
+    QPushButton *pushButton_clear;
     QPushButton *pushButton_cancel;
     QPushButton *pushButton_create;
 
-    void setupUi(QWidget *SRCreateParent)
+    void setupUi(QWidget *SRCreateUser)
     {
-        if (SRCreateParent->objectName().isEmpty())
-            SRCreateParent->setObjectName(QString::fromUtf8("SRCreateParent"));
-        SRCreateParent->resize(464, 412);
-        formLayoutWidget = new QWidget(SRCreateParent);
+        if (SRCreateUser->objectName().isEmpty())
+            SRCreateUser->setObjectName(QString::fromUtf8("SRCreateUser"));
+        SRCreateUser->resize(464, 394);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(SRCreateUser->sizePolicy().hasHeightForWidth());
+        SRCreateUser->setSizePolicy(sizePolicy);
+        formLayoutWidget = new QWidget(SRCreateUser);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 10, 441, 331));
+        formLayoutWidget->setGeometry(QRect(0, 0, 461, 331));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
+        formLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         formLayout->setContentsMargins(0, 0, 0, 0);
         label_firstName = new QLabel(formLayoutWidget);
         label_firstName->setObjectName(QString::fromUtf8("label_firstName"));
@@ -165,14 +172,20 @@ public:
 
         formLayout->setWidget(7, QFormLayout::FieldRole, textEdit_emailAddress);
 
-        horizontalLayoutWidget = new QWidget(SRCreateParent);
+        horizontalLayoutWidget = new QWidget(SRCreateUser);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(240, 350, 211, 51));
+        horizontalLayoutWidget->setGeometry(QRect(190, 340, 267, 51));
         horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
+        pushButton_clear = new QPushButton(horizontalLayoutWidget);
+        pushButton_clear->setObjectName(QString::fromUtf8("pushButton_clear"));
+        pushButton_clear->setFont(font);
+
+        horizontalLayout_2->addWidget(pushButton_clear);
+
         pushButton_cancel = new QPushButton(horizontalLayoutWidget);
         pushButton_cancel->setObjectName(QString::fromUtf8("pushButton_cancel"));
         pushButton_cancel->setFont(font);
@@ -186,32 +199,36 @@ public:
         horizontalLayout_2->addWidget(pushButton_create);
 
 
-        retranslateUi(SRCreateParent);
+        retranslateUi(SRCreateUser);
 
-        QMetaObject::connectSlotsByName(SRCreateParent);
+        QMetaObject::connectSlotsByName(SRCreateUser);
     } // setupUi
 
-    void retranslateUi(QWidget *SRCreateParent)
+    void retranslateUi(QWidget *SRCreateUser)
     {
-        SRCreateParent->setWindowTitle(QCoreApplication::translate("SRCreateParent", "SRCreateParent", nullptr));
-        label_firstName->setText(QCoreApplication::translate("SRCreateParent", "First Name", nullptr));
-        label_lastName->setText(QCoreApplication::translate("SRCreateParent", "Last Name", nullptr));
-        label_age->setText(QCoreApplication::translate("SRCreateParent", "Age", nullptr));
-        label_homeAddress->setText(QCoreApplication::translate("SRCreateParent", "Home Address", nullptr));
-        label_homePhone->setText(QCoreApplication::translate("SRCreateParent", "Home Phone", nullptr));
-        label_cellPhone->setText(QCoreApplication::translate("SRCreateParent", "Cell Phone", nullptr));
-        label_emailAddress->setText(QCoreApplication::translate("SRCreateParent", "Email Address", nullptr));
-        label_dateOfBirth->setText(QCoreApplication::translate("SRCreateParent", "Date Of Birth", nullptr));
-        pushButton_cancel->setText(QCoreApplication::translate("SRCreateParent", "Cancel", nullptr));
-        pushButton_create->setText(QCoreApplication::translate("SRCreateParent", "Create", nullptr));
+        SRCreateUser->setWindowTitle(QCoreApplication::translate("SRCreateUser", "Create New Parent", nullptr));
+        label_firstName->setText(QCoreApplication::translate("SRCreateUser", "First Name", nullptr));
+        label_lastName->setText(QCoreApplication::translate("SRCreateUser", "Last Name", nullptr));
+        label_age->setText(QCoreApplication::translate("SRCreateUser", "Age", nullptr));
+        label_homeAddress->setText(QCoreApplication::translate("SRCreateUser", "Home Address", nullptr));
+        label_homePhone->setText(QCoreApplication::translate("SRCreateUser", "Home Phone", nullptr));
+        label_cellPhone->setText(QCoreApplication::translate("SRCreateUser", "Cell Phone", nullptr));
+        label_emailAddress->setText(QCoreApplication::translate("SRCreateUser", "Email Address", nullptr));
+        label_dateOfBirth->setText(QCoreApplication::translate("SRCreateUser", "Date Of Birth", nullptr));
+#if QT_CONFIG(tooltip)
+        textEdit_dateOfBirth->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
+        pushButton_clear->setText(QCoreApplication::translate("SRCreateUser", "Clear", nullptr));
+        pushButton_cancel->setText(QCoreApplication::translate("SRCreateUser", "Cancel", nullptr));
+        pushButton_create->setText(QCoreApplication::translate("SRCreateUser", "Create", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class SRCreateParent: public Ui_SRCreateParent {};
+    class SRCreateUser: public Ui_SRCreateUser {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_SRCREATEPARENT_H
+#endif // UI_SRCREATEUSER_H

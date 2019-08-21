@@ -1,6 +1,7 @@
 #include "SRPerson.h"
 #include <sstream>
 #include <QString>
+#include <QDate>
 
 Person::Person(PersonBuilder* builder)
 {
@@ -69,7 +70,7 @@ Parent::Parent(PersonBuilder* builder) : Person(builder)
 	if (!homePhone)		throw ERROR_BUILDER_HOME_PHONE;
 	if (!cellPhone)		throw ERROR_BUILDER_CELL_PHONE;
 
-	this->children = std::make_unique<sr_list>();
+	this->children = std::make_unique<sr::_list>();
 }
 
 Child::Child(PersonBuilder* builder) : Person(builder)
@@ -84,12 +85,12 @@ Child::Child(PersonBuilder* builder) : Person(builder)
 	if (!yearsAttended) throw ERROR_BUILDER_YEARS_ATTENDED;
 	if (!group)			throw ERROR_BUILDER_GROUP;
 	
-	this->guardians = std::make_unique<sr_list>();
+	this->guardians = std::make_unique<sr::_list>();
 }
 
-PersonBuilder* PersonBuilder::ID(sr_int id)
+PersonBuilder* PersonBuilder::ID(sr::_int id)
 {
-	this->id = std::make_unique<sr_int>(id);
+	this->id = std::make_unique<sr::_int>(id);
 	return this;
 }
 
@@ -111,9 +112,9 @@ PersonBuilder* PersonBuilder::DateOfBirth(QDate dateOfBirth)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Age(sr_int age)
+PersonBuilder* PersonBuilder::Age(sr::_int age)
 {
-	this->age = std::make_unique<sr_int>(age);
+	this->age = std::make_unique<sr::_int>(age);
 	return this;
 }
 
@@ -147,21 +148,21 @@ PersonBuilder* PersonBuilder::PrevAttended(bool prevAttended)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::YearsAttended(sr_int yearsAttended)
+PersonBuilder* PersonBuilder::YearsAttended(sr::_int yearsAttended)
 {
-	this->yearsAttended = std::make_unique<sr_int>(yearsAttended);
+	this->yearsAttended = std::make_unique<sr::_int>(yearsAttended);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Allergies(sr_list allergies)
+PersonBuilder* PersonBuilder::Allergies(sr::_list allergies)
 {
-	this->allergies = std::make_unique<sr_list>(allergies);
+	this->allergies = std::make_unique<sr::_list>(allergies);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Interests(sr_list interests)
+PersonBuilder* PersonBuilder::Interests(sr::_list interests)
 {
-	this->interests = std::make_unique<sr_list>(interests);
+	this->interests = std::make_unique<sr::_list>(interests);
 	return this;
 }
 

@@ -27,12 +27,12 @@
 
 class Person;
 
-using sr_int		= unsigned short int;
-using sr_list		= std::vector<std::string>;
-using sr_ppl		= std::vector<std::unique_ptr<Person>>;
-
 namespace sr
 {
+	using _int		= unsigned short int;
+	using _list		= std::vector<std::string>;
+	using _ppl		= std::vector<std::unique_ptr<Person>>;
+
 	enum class Group
 	{
 		GROUP_1 = 1, GROUP_2 = 2, GROUP_3 = 3
