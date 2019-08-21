@@ -22,10 +22,10 @@ QString Person::GetInfo()
 {
 	std::stringstream ss;
 
-	if (firstName)		ss << "First Name: "	<< *firstName		<< " ";
-	if (lastName)		ss << "Last Name: "		<< *lastName		<< " ";
-	if (id)				ss << "ID Number: "		<< *id				<< " ";
-	if (age)			ss << "Age: "			<< *age				<< " ";
+	if (firstName)		ss << "First Name: "	<< firstName	<< " ";
+	if (lastName)		ss << "Last Name: "		<< lastName		<< " ";
+	if (id)				ss << "ID Number: "		<< *id			<< " ";
+	if (age)			ss << "Age: "			<< *age			<< " ";
 	if (dateOfBirth)	ss << "DOB: "			<< dateOfBirth->toString().toStdString() << " ";
 	
 	return std::move(ss.str().c_str());
@@ -37,10 +37,10 @@ QString Parent::GetInfo()
 
 	ss << Person::GetInfo().toStdString();
 
-	if (homeAddress)	ss << "Home Address: "	<< *homeAddress		<< " ";
-	if (homePhone)		ss << "Home Phone: "	<< *homePhone		<< " ";
-	if (cellPhone)		ss << "Cell Phone: "	<< *cellPhone		<< " ";
-	if (emailAddress)	ss << "Email Address: " << *emailAddress	<< " ";
+	if (homeAddress)	ss << "Home Address: "	<< homeAddress		<< " ";
+	if (homePhone)		ss << "Home Phone: "	<< homePhone		<< " ";
+	if (cellPhone)		ss << "Cell Phone: "	<< cellPhone		<< " ";
+	if (emailAddress)	ss << "Email Address: " << emailAddress		<< " ";
 
 	return std::move(ss.str().c_str());
 }
@@ -51,9 +51,9 @@ QString Child::GetInfo()
 
 	ss << Person::GetInfo().toStdString();
 
-	if (prevLocation)	ss << "Previous Location: "		<< *prevLocation	<< " ";
-	if (prevAttended)	ss << "Previously Attended: "	<< *prevAttended	<< " ";
-	if (yearsAttended)	ss << "Years Attended: "		<< *yearsAttended	<< " ";
+	if (prevLocation)	ss << "Previous Location: "		<< prevLocation	<< " ";
+	if (prevAttended)	ss << "Previously Attended: "	<< prevAttended	<< " ";
+	if (yearsAttended)	ss << "Years Attended: "		<< yearsAttended	<< " ";
 
 	return std::move(ss.str().c_str());
 }
@@ -94,15 +94,15 @@ PersonBuilder* PersonBuilder::ID(sr::_int id)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::FirstName(std::string firstName)
+PersonBuilder* PersonBuilder::FirstName(QString firstName)
 {
-	this->firstName = std::make_unique<std::string>(firstName);
+	this->firstName = std::make_unique<QString>(firstName);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::LastName(std::string lastName)
+PersonBuilder* PersonBuilder::LastName(QString lastName)
 {
-	this->lastName = std::make_unique<std::string>(lastName);
+	this->lastName = std::make_unique<QString>(lastName);
 	return this;
 }
 
@@ -118,27 +118,27 @@ PersonBuilder* PersonBuilder::Age(sr::_int age)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::HomeAddress(std::string homeAddress)
+PersonBuilder* PersonBuilder::HomeAddress(QString homeAddress)
 {
-	this->homeAddress = std::make_unique<std::string>(homeAddress);
+	this->homeAddress = std::make_unique<QString>(homeAddress);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::EmailAddress(std::string emailAddress)
+PersonBuilder* PersonBuilder::EmailAddress(QString emailAddress)
 {
-	this->emailAddress = std::make_unique<std::string>(emailAddress);
+	this->emailAddress = std::make_unique<QString>(emailAddress);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::HomePhone(std::string homePhone)
+PersonBuilder* PersonBuilder::HomePhone(QString homePhone)
 {
-	this->homePhone = std::make_unique<std::string>(homePhone);
+	this->homePhone = std::make_unique<QString>(homePhone);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::CellPhone(std::string cellPhone)
+PersonBuilder* PersonBuilder::CellPhone(QString cellPhone)
 {
-	this->cellPhone = std::make_unique<std::string>(cellPhone);
+	this->cellPhone = std::make_unique<QString>(cellPhone);
 	return this;
 }
 
@@ -166,9 +166,9 @@ PersonBuilder* PersonBuilder::Interests(sr::_list interests)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::PrevLocation(std::string prevLocation)
+PersonBuilder* PersonBuilder::PrevLocation(QString prevLocation)
 {
-	this->prevLocation = std::make_unique<std::string>(prevLocation);
+	this->prevLocation = std::make_unique<QString>(prevLocation);
 	return this;
 }
 

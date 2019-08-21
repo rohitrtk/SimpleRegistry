@@ -2,12 +2,14 @@
 #include <QTextEdit>
 #include <QObject>
 #include <QLayoutItem>
-#include "SRPopUp.h"
-#include "SRPerson.h"
 #include <QWidget>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QLabel>
+#include "SRPopUp.h"
+#include "SRPerson.h"
+#include "SRConsants.h"
+#include "SimpleRegistry.h"
 
 SRCreateUser::SRCreateUser(QWidget *parent)
 	: QWidget(parent)
@@ -19,6 +21,7 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 
 	this->resize(WindowWidth, WindowHeight);
+	
 
 	this->paramMissing = 0;
 }
@@ -27,9 +30,11 @@ SRCreateUser::~SRCreateUser()
 {
 }
 
-void SRCreateUser::SetupParentWindow()
+void SRCreateUser::SetupParentWindow(SimpleRegistry* mainWindow)
 {
-	this->formType = FormType::PARENT;
+	this->personType = PersonType::PARENT;
+	this->mainWindow = mainWindow;
+	this->setWindowTitle(WindowTitleParent);
 
 	this->ui.label_var1->setText(p_homeAddress);
 	this->ui.label_var2->setText(p_homePhone);
@@ -37,9 +42,11 @@ void SRCreateUser::SetupParentWindow()
 	this->ui.label_var4->setText(p_emailAddress);
 }
 
-void SRCreateUser::SetupChildWindow()
+void SRCreateUser::SetupChildWindow(SimpleRegistry* mainWindow)
 {
-	this->formType = FormType::CHILD;
+	this->personType = PersonType::CHILD;
+	this->mainWindow = mainWindow;
+	this->setWindowTitle(WindowTitleChild);
 
 	this->ui.label_var1->setText(c_prevLocation);
 	this->ui.label_var2->setText(c_prevAttended);
@@ -84,6 +91,8 @@ void SRCreateUser::Create()
 	}
 
 	this->personList->push_back(builder.Build<Parent>());
+
+	QApplication::postEvent(mainWindow, new QEvent(sr::UserCreatedEvent));
 }
 
 void SRCreateUser::Cancel()
@@ -108,7 +117,7 @@ void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 	QString firstName = ui.textEdit_firstName->toPlainText().trimmed();
 	if (!firstName.isEmpty())
 	{
-		builder.FirstName(std::move(firstName.toStdString()));
+		builder.FirstName(std::move(firstName));
 		return;
 	}
 
@@ -120,7 +129,7 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 	QString lastName = ui.textEdit_lastName->toPlainText().trimmed();
 	if (!lastName.isEmpty())
 	{
-		builder.LastName(std::move(lastName.toStdString()));
+		builder.LastName(std::move(lastName));
 		return;
 	}
 
@@ -155,8 +164,8 @@ void SRCreateUser::MakeVar1(PersonBuilder& builder)
 		this->paramMissing = true;
 	}
 
-	if (this->formType == FormType::PARENT) builder.HomeAddress(std::move(s.toStdString()));
-	else builder.PrevLocation(std::move(s.toStdString()));
+	if (this->personType == PersonType::PARENT) builder.HomeAddress(std::move(s));
+	else builder.PrevLocation(std::move(s));
 }
 
 void SRCreateUser::MakeVar2(PersonBuilder& builder)
@@ -168,7 +177,7 @@ void SRCreateUser::MakeVar2(PersonBuilder& builder)
 		this->paramMissing = true;
 	}
 
-	if (this->formType == FormType::PARENT) builder.HomePhone(std::move(s.toStdString()));
+	if (this->personType == PersonType::PARENT) builder.HomePhone(std::move(s));
 	// *TODO
 	else builder.PrevAttended(true);
 }
@@ -182,7 +191,7 @@ void SRCreateUser::MakeVar3(PersonBuilder& builder)
 		this->paramMissing = true;
 	}
 
-	if (this->formType == FormType::PARENT) builder.CellPhone(std::move(s.toStdString()));
+	if (this->personType == PersonType::PARENT) builder.CellPhone(std::move(s));
 	// *
 	else builder.YearsAttended(1);
 }
@@ -192,7 +201,7 @@ void SRCreateUser::MakeVar4(PersonBuilder& builder)
 	QString email = ui.textEdit_var4->toPlainText().trimmed();
 	if (!email.isEmpty())
 	{
-		builder.EmailAddress(std::move(email.toStdString()));
+		builder.EmailAddress(std::move(email));
 		return;
 	}
 

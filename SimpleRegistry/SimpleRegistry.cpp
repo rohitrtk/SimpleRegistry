@@ -1,59 +1,67 @@
 #include "SimpleRegistry.h"
 #include "SRPerson.h"
-#include "SRPerson.h"
 #include <memory>
 #include <QDebug>
 #include <QDate>
 #include <QAction>
+#include <QTableWidgetItem>
+#include <QLineEdit>
+#include "SRConsants.h"
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	
-	this->ui.myPushButton->setText("WEE");
 
-	connect(ui.myPushButton, SIGNAL(clicked()), this, SLOT(ButtonClicked()));
+	this->currentRows = 1;
+	this->ui.tableWidget->setRowCount(currentRows);
+	this->ui.tableWidget->setColumnCount(MinimumCols);
+
+	this->w_ID				= std::make_unique<QTableWidgetItem>(t_ID);
+	this->w_FirstName		= std::make_unique<QTableWidgetItem>(t_FirstName);
+	this->w_LastName		= std::make_unique<QTableWidgetItem>(t_LastName);
+	this->w_Age				= std::make_unique<QTableWidgetItem>(t_Age);
+	this->w_DOB				= std::make_unique<QTableWidgetItem>(t_DOB);
+	this->w_HomeAddress		= std::make_unique<QTableWidgetItem>(t_HomeAddress);
+	this->w_HomePhone		= std::make_unique<QTableWidgetItem>(t_HomePhone);
+	this->w_CellPhone		= std::make_unique<QTableWidgetItem>(t_CellPhone);
+	this->w_PrevLocation	= std::make_unique<QTableWidgetItem>(t_PrevLocation);
+	this->w_PrevAttended	= std::make_unique<QTableWidgetItem>(t_PrevAttended);
+	this->w_YearsAttended	= std::make_unique<QTableWidgetItem>(t_YearsAttended);
+
+	this->ui.tableWidget->setItem(0, 0, w_ID.get());
+	this->ui.tableWidget->setItem(0, 1, w_FirstName.get());
+	this->ui.tableWidget->setItem(0, 2, w_LastName.get());
+	this->ui.tableWidget->setItem(0, 3, w_Age.get());
+	this->ui.tableWidget->setItem(0, 4, w_DOB.get());
+	this->ui.tableWidget->setItem(0, 5, w_HomeAddress.get());
+	this->ui.tableWidget->setItem(0, 6, w_HomePhone.get());
+	this->ui.tableWidget->setItem(0, 7, w_CellPhone.get());
+	this->ui.tableWidget->setItem(0, 8, w_PrevLocation.get());
+	this->ui.tableWidget->setItem(0, 9, w_PrevAttended.get());
+	this->ui.tableWidget->setItem(0, 10, w_YearsAttended.get());
+
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child, SIGNAL(triggered()), this, SLOT(CreateChild()));
 
 	people = std::make_shared<sr::_ppl>();
-
-	PersonBuilder builder;
-
-	// Manual add to list of people
-	std::unique_ptr<Person> p = builder.ID(1)->FirstName("Rohit")->LastName("Terry")->Age(20)->DateOfBirth(QDate(1, 1, 1))->Build<Person>();
-
-	std::unique_ptr<Parent> pa = builder.ID(2)->FirstName("Big Rohit")->LastName("Terry")->Age(20)
-		->DateOfBirth(QDate(1,1,1))->HomeAddress("Dank St")->EmailAddress("Dank@hotmail.com")
-		->HomePhone("123456789")->CellPhone("12353427548")->Build<Parent>();
-
-	std::unique_ptr<Child> cb = builder.ID(3)->FirstName("Small Rohit")->LastName("Terry")->Age(20)
-		->DateOfBirth(QDate(1, 1, 1))->PrevAttended(false)->YearsAttended(0)
-		->PrevLocation("Yeet")->Group(sr::Group::GROUP_1)->Build<Child>();
-
-	people->push_back(std::move(p));
-	people->push_back(std::move(pa));
-	people->push_back(std::move(cb));
 }
 
-void SimpleRegistry::ButtonClicked()
+void SimpleRegistry::UpdateTable()
 {
-	static int i = 0;
+	this->currentRows++;
+	
+	QTableWidget& tw = *this->ui.tableWidget;
+	tw.setRowCount(currentRows);
 
-	if(i % 2 == 0) ui.myPushButton->setText("WOO");
-	else
-	{
-		ui.myPushButton->setText("WEE");
-		i = -1;
-	}
+	Person& p = *people->at(people->size() - 1);
 
-	i++;
-
-	for (const auto& c : *people)
-	{
-		qInfo() << c->GetInfo();
-	}
+	// *
+	tw.setItem(currentRows--, 0, new QTableWidgetItem(p.GetID()));
+	tw.setItem(currentRows--, 1, new QTableWidgetItem(p.GetFirstName()));
+	tw.setItem(currentRows--, 2, new QTableWidgetItem(p.GetLastName()));
+	tw.setItem(currentRows--, 3, new QTableWidgetItem(p.GetAge()));
+	tw.setItem(currentRows--, 4, new QTableWidgetItem(p.GetDateOfBirth().toString()));
 }
 
 void SimpleRegistry::CreateParent()
@@ -62,7 +70,7 @@ void SimpleRegistry::CreateParent()
 	{
 		this->createParentForm = std::make_unique<SRCreateUser>();
 		this->createParentForm->SetPersonList(this->people);
-		this->createParentForm->SetupParentWindow();
+		this->createParentForm->SetupParentWindow(this);
 		this->createParentForm->show();
 	}
 }
@@ -73,7 +81,7 @@ void SimpleRegistry::CreateChild()
 	{
 		this->createChildForm = std::make_unique<SRCreateUser>();
 		this->createChildForm->SetPersonList(this->people);
-		this->createChildForm->SetupChildWindow();
+		this->createChildForm->SetupChildWindow(this);
 		this->createChildForm->show();
 	}
 }
@@ -81,4 +89,17 @@ void SimpleRegistry::CreateChild()
 std::shared_ptr<sr::_ppl> SimpleRegistry::GetPeople()
 {
 	return this->people;
+}
+
+void SimpleRegistry::customEvent(QEvent* event)
+{
+	if (event->type() == sr::UserCreatedEvent)
+	{
+		UpdateTable();
+		qInfo() << "YEET";
+	}
+	else
+	{
+		QObject::customEvent(event);
+	}
 }

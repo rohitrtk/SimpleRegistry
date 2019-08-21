@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <QEvent>
 
 #define ERROR_BUILDER_NO_ID				"NULL ID"
 
@@ -30,8 +31,10 @@ class Person;
 namespace sr
 {
 	using _int		= unsigned short int;
-	using _list		= std::vector<std::string>;
+	using _list		= std::vector<QString>;
 	using _ppl		= std::vector<std::unique_ptr<Person>>;
+
+	const QEvent::Type UserCreatedEvent = static_cast<QEvent::Type>(4747);
 
 	enum class Group
 	{

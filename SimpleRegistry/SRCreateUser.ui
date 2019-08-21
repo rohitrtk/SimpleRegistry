@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SRCreateParent</class>
- <widget class="QWidget" name="SRCreateParent">
+ <class>SRCreateUser</class>
+ <widget class="QWidget" name="SRCreateUser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,15 +32,15 @@
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_firstName">
+    <item row="0" column="1">
+     <widget class="QTextEdit" name="textEdit_firstName">
       <property name="font">
        <font>
         <pointsize>14</pointsize>
        </font>
       </property>
-      <property name="text">
-       <string>First Name</string>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
      </widget>
     </item>
@@ -56,90 +56,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_age">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Age</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_var1">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Home Address</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_var2">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Home Phone</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_var3">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Cell Phone</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_var4">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Email Address</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_dateOfBirth">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Date Of Birth</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTextEdit" name="textEdit_firstName">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="1">
      <widget class="QTextEdit" name="textEdit_lastName">
       <property name="font">
@@ -152,6 +68,18 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_age">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Age</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="1">
      <widget class="QTextEdit" name="textEdit_age">
       <property name="font">
@@ -161,6 +89,18 @@
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_dateOfBirth">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Date Of Birth</string>
       </property>
      </widget>
     </item>
@@ -179,6 +119,18 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_var1">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Home Address</string>
+      </property>
+     </widget>
+    </item>
     <item row="4" column="1">
      <widget class="QTextEdit" name="textEdit_var1">
       <property name="font">
@@ -188,6 +140,18 @@
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_var2">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Home Phone</string>
       </property>
      </widget>
     </item>
@@ -203,6 +167,18 @@
       </property>
      </widget>
     </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_var3">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Cell Phone</string>
+      </property>
+     </widget>
+    </item>
     <item row="6" column="1">
      <widget class="QTextEdit" name="textEdit_var3">
       <property name="font">
@@ -215,6 +191,18 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_var4">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Email Address</string>
+      </property>
+     </widget>
+    </item>
     <item row="7" column="1">
      <widget class="QTextEdit" name="textEdit_var4">
       <property name="font">
@@ -224,6 +212,18 @@
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_firstName">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>First Name</string>
       </property>
      </widget>
     </item>

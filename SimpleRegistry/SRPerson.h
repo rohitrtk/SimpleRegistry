@@ -28,19 +28,19 @@ public:
 
 	PersonBuilder* ID(sr::_int id);
 
-	PersonBuilder* FirstName(std::string firstName);
-	PersonBuilder* LastName(std::string lastName);
+	PersonBuilder* FirstName(QString firstName);
+	PersonBuilder* LastName(QString lastName);
 	PersonBuilder* DateOfBirth(QDate dateOfBirth);
 	PersonBuilder* Age(sr::_int age);
 
-	PersonBuilder* HomeAddress(std::string homeAddress);
-	PersonBuilder* EmailAddress(std::string emailAddress);
-	PersonBuilder* HomePhone(std::string homePhone);
-	PersonBuilder* CellPhone(std::string cellPhone);
+	PersonBuilder* HomeAddress(QString homeAddress);
+	PersonBuilder* EmailAddress(QString emailAddress);
+	PersonBuilder* HomePhone(QString homePhone);
+	PersonBuilder* CellPhone(QString cellPhone);
 
 	PersonBuilder* PrevAttended(bool prevAttended);
 	PersonBuilder* YearsAttended(sr::_int yearsAttended);
-	PersonBuilder* PrevLocation(std::string prevLocation);
+	PersonBuilder* PrevLocation(QString prevLocation);
 	PersonBuilder* Allergies(sr::_list allergies);
 	PersonBuilder* Interests(sr::_list interests);
 	PersonBuilder* Group(sr::Group group);
@@ -48,17 +48,17 @@ public:
 private:
 	std::unique_ptr<sr::_int>		id;
 	
-	std::unique_ptr<std::string>	firstName;
-	std::unique_ptr<std::string>	lastName;
+	std::unique_ptr<QString>	firstName;
+	std::unique_ptr<QString>	lastName;
 	std::unique_ptr<sr::_int>		age;
 	std::unique_ptr<QDate>			dateOfBirth;
 
-	std::unique_ptr<std::string>	homeAddress;
-	std::unique_ptr<std::string>	homePhone;
-	std::unique_ptr<std::string>	cellPhone;
-	std::unique_ptr<std::string>	emailAddress;
+	std::unique_ptr<QString>	homeAddress;
+	std::unique_ptr<QString>	homePhone;
+	std::unique_ptr<QString>	cellPhone;
+	std::unique_ptr<QString>	emailAddress;
 
-	std::unique_ptr<std::string>	prevLocation;
+	std::unique_ptr<QString>	prevLocation;
 	std::unique_ptr<bool>			prevAttended;
 	std::unique_ptr<sr::_int>		yearsAttended;
 	std::unique_ptr<sr::_list>		allergies;
@@ -72,8 +72,8 @@ public:
 	Person(PersonBuilder* builder);
 
 	inline const sr::_int&	  GetID()		   const { return *this->id; }
-	inline const std::string& GetFirstName()   const { return *this->firstName; }
-	inline const std::string& GetLastName()    const { return *this->lastName; }
+	inline const QString& GetFirstName()   const { return *this->firstName; }
+	inline const QString& GetLastName()    const { return *this->lastName; }
 	inline const sr::_int&	  GetAge()         const { return *this->age; }
 	inline const QDate&       GetDateOfBirth() const { return *this->dateOfBirth; }
 
@@ -81,8 +81,8 @@ public:
 
 protected:
 	std::unique_ptr<sr::_int>		 id;
-	std::unique_ptr<std::string> firstName;
-	std::unique_ptr<std::string> lastName;
+	std::unique_ptr<QString> firstName;
+	std::unique_ptr<QString> lastName;
 	std::unique_ptr<sr::_int>		 age;
 	std::unique_ptr<QDate>		 dateOfBirth;
 };
@@ -92,18 +92,18 @@ class Parent : public Person
 public:
 	Parent(PersonBuilder* builder);
 
-	inline const std::string& GetEmailAddress()	const { return *this->emailAddress; }
-	inline const std::string& GetHomePhone()	const { return *this->homePhone; }
-	inline const std::string& GetCellPhone()	const { return *this->cellPhone; }
-	inline const std::string& GetHomeAddress()	const { return *this->homeAddress; }
+	inline const QString& GetEmailAddress()	const { return *this->emailAddress; }
+	inline const QString& GetHomePhone()	const { return *this->homePhone; }
+	inline const QString& GetCellPhone()	const { return *this->cellPhone; }
+	inline const QString& GetHomeAddress()	const { return *this->homeAddress; }
 
 	virtual QString GetInfo() override;
 
 private:
-	std::unique_ptr<std::string> homeAddress;
-	std::unique_ptr<std::string> homePhone;
-	std::unique_ptr<std::string> cellPhone;
-	std::unique_ptr<std::string> emailAddress;
+	std::unique_ptr<QString> homeAddress;
+	std::unique_ptr<QString> homePhone;
+	std::unique_ptr<QString> cellPhone;
+	std::unique_ptr<QString> emailAddress;
 
 	std::unique_ptr<sr::_list> children;
 };
@@ -113,7 +113,7 @@ class Child : public Person
 public:
 	Child(PersonBuilder* builder);
 
-	inline const std::string& GetPrevLocation()	const { return *this->prevLocation; }
+	inline const QString& GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool& GetPrevAttended()		const { return *this->prevAttended; }
 	inline const sr::_int& GetYearsAttended()	const { return *this->yearsAttended; }
 	inline const sr::_list& GetAllergies()		const { return *this->allergies; }
@@ -123,7 +123,7 @@ public:
 	virtual QString GetInfo() override;
 
 private:
-	std::unique_ptr<std::string>	prevLocation;
+	std::unique_ptr<QString>	prevLocation;
 	std::unique_ptr<bool>			prevAttended;
 	std::unique_ptr<sr::_int>		yearsAttended;
 	std::unique_ptr<sr::_list>		allergies;

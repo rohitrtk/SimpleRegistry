@@ -6,13 +6,15 @@
 #include "SRConsants.h"
 #include <QString>
 #include <QDate>
+#include <QEvent>
 #include <sstream>
 #include <string>
 #include <memory>
 
 class PersonBuilder;
+class SimpleRegistry;
 
-enum class FormType
+enum class PersonType
 {
 	PARENT, CHILD
 };
@@ -25,8 +27,8 @@ public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
 
-	void SetupParentWindow();
-	void SetupChildWindow();
+	void SetupParentWindow(SimpleRegistry* mainWindow);
+	void SetupChildWindow(SimpleRegistry* mainWindow);
 
 	inline void SetPersonList(std::shared_ptr<sr::_ppl> list)
 	{
@@ -41,10 +43,15 @@ public slots:
 private:
 	Ui::SRCreateUser ui;
 
-	FormType formType;
+	SimpleRegistry* mainWindow;
+
+	PersonType personType;
 
 	const unsigned short int WindowWidth	= 465;
 	const unsigned short int WindowHeight	= 400;
+
+	const QString WindowTitleParent = "Create New Parent";
+	const QString WindowTitleChild  = "Create New Child";
 
 	// Label Stuff
 	const QString p_homeAddress					= "Home Address";
