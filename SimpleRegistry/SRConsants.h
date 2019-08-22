@@ -30,11 +30,8 @@ class Person;
 
 namespace sr
 {
-	using _int		= unsigned short int;
 	using _list		= std::vector<QString>;
 	using _ppl		= std::vector<std::unique_ptr<Person>>;
-
-	const QEvent::Type UserCreatedEvent = static_cast<QEvent::Type>(4747);
 
 	enum class Group
 	{

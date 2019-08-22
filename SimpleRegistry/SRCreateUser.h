@@ -58,20 +58,34 @@ private:
 	const QString c_prevLocation				= "Previous Location";
 	const QString c_prevAttended				= "Previously Attended";
 	const QString c_yearsAttended				= "Years Attended";
-
+	
 	std::unique_ptr<class SRPopUp> popUp;
 	std::shared_ptr<sr::_ppl> personList;
 	bool paramMissing;
-
+	
 	void MakeFirstName(PersonBuilder& builder);
 	void MakeLastName(PersonBuilder& builder);
-	void MakeAge(PersonBuilder& builder);
 	void MakeDateOfBirth(PersonBuilder& builder);
 
 	void MakeVar1(PersonBuilder& builder);
 	void MakeVar2(PersonBuilder& builder);
 	void MakeVar3(PersonBuilder& builder);
 	void MakeVar4(PersonBuilder& builder);
+};
+
+const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
+
+class SRUserCreatedEvent : public QEvent
+{
+public:
+	SRUserCreatedEvent(const PersonType& personType) :
+		QEvent(USER_CREATED_EVENT),
+		personType(personType) {}
+
+	inline const PersonType GetPersonType() const {	return this->personType; }
+
+private:
+	PersonType personType;
 };
 
 #endif

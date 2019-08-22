@@ -42,31 +42,33 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 	people = std::make_shared<sr::_ppl>();
 }
 
-void SimpleRegistry::UpdateTable()
+void SimpleRegistry::UpdateTable(const PersonType& personType)
 {
-	QTableWidget& tw = *this->ui.tableWidget;
+	QTableWidget* tw = this->ui.tableWidget;
 	Person* p = this->people->at(this->people->size() - 1).get();
 	
-	tw.setItem(ui.tableWidget->rowCount() - 1, 0, new QTableWidgetItem(p->GetID()));
-	tw.setItem(ui.tableWidget->rowCount() - 1, 1, new QTableWidgetItem(p->GetFirstName()));
-	tw.setItem(ui.tableWidget->rowCount() - 1, 2, new QTableWidgetItem(p->GetLastName()));
-	tw.setItem(ui.tableWidget->rowCount() - 1, 3, new QTableWidgetItem(static_cast<QString>(p->GetAge())));
-	tw.setItem(ui.tableWidget->rowCount() - 1, 4, new QTableWidgetItem(p->GetDateOfBirth().toString()));
+	int row = this->ui.tableWidget->rowCount() - 1;
 
-	Parent* pa = static_cast<Parent*>(p);
-	Child* c = static_cast<Child*>(p);
-	if (pa)
+	tw->setItem(row, 0, new QTableWidgetItem(p->GetID()));
+	tw->setItem(row, 1, new QTableWidgetItem(p->GetFirstName()));
+	tw->setItem(row, 2, new QTableWidgetItem(p->GetLastName()));
+	tw->setItem(row, 3, new QTableWidgetItem(QString::number(p->GetAge())));
+	tw->setItem(row, 4, new QTableWidgetItem(p->GetDateOfBirth().toString()));
+
+	if (personType == PersonType::PARENT)
 	{
-		tw.setItem(ui.tableWidget->rowCount(), 5, new QTableWidgetItem(pa->GetHomeAddress()));
-		tw.setItem(ui.tableWidget->rowCount(), 6, new QTableWidgetItem(pa->GetHomePhone()));
-		tw.setItem(ui.tableWidget->rowCount(), 7, new QTableWidgetItem(pa->GetCellPhone()));
-		tw.setItem(ui.tableWidget->rowCount(), 8, new QTableWidgetItem(pa->GetEmailAddress()));
+		Parent* pa = static_cast<Parent*>(p);
+		tw->setItem(row, 5, new QTableWidgetItem(pa->GetHomeAddress()));
+		tw->setItem(row, 6, new QTableWidgetItem(pa->GetHomePhone()));
+		tw->setItem(row, 7, new QTableWidgetItem(pa->GetCellPhone()));
+		tw->setItem(row, 8, new QTableWidgetItem(pa->GetEmailAddress()));
 	}
-	else if (c)
+	else if (personType == PersonType::CHILD)
 	{
-		tw.setItem(ui.tableWidget->rowCount(), 9, new QTableWidgetItem(c->GetPrevAttended()));
-		tw.setItem(ui.tableWidget->rowCount(), 10, new QTableWidgetItem(c->GetPrevLocation()));
-		tw.setItem(ui.tableWidget->rowCount(), 11, new QTableWidgetItem(c->GetYearsAttended()));
+		Child* c = static_cast<Child*>(p);
+		tw->setItem(row, 9, new QTableWidgetItem(c->GetPrevLocation()));
+		tw->setItem(row, 10, new QTableWidgetItem(c->GetPrevAttended()));
+		tw->setItem(row, 11, new QTableWidgetItem(c->GetYearsAttended()));
 	}
 }
 
@@ -99,13 +101,14 @@ std::shared_ptr<sr::_ppl> SimpleRegistry::GetPeople()
 
 void SimpleRegistry::customEvent(QEvent* event)
 {
-	if (event->type() == sr::UserCreatedEvent)
+	if (event->type() == USER_CREATED_EVENT)
 	{
-		this->ui.tableWidget->insertRow(ui.tableWidget->rowCount());
-		UpdateTable();
+		UserCreated(static_cast<SRUserCreatedEvent*>(event));
 	}
-	else
-	{
-		QObject::customEvent(event);
-	}
+}
+
+void SimpleRegistry::UserCreated(SRUserCreatedEvent *event)
+{
+	this->ui.tableWidget->insertRow(ui.tableWidget->rowCount());
+	UpdateTable(event->GetPersonType());
 }

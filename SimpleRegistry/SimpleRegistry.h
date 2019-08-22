@@ -12,7 +12,7 @@
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
 
-constexpr sr::_int MinimumCols = 12;
+constexpr qint16 MinimumCols = 12;
 
 class SimpleRegistry : public QMainWindow
 {
@@ -23,11 +23,13 @@ public:
 
 	std::shared_ptr<sr::_ppl> GetPeople();
 
-	void UpdateTable();	
+	void UpdateTable(const PersonType& personType);	
 
 public slots:
 	void CreateParent();
 	void CreateChild();
+
+protected:
 	void customEvent(QEvent *event) override;
 
 private:
@@ -36,6 +38,8 @@ private:
 	std::shared_ptr<sr::_ppl> people;
 	std::unique_ptr<SRCreateUser> createParentForm;
 	std::unique_ptr<SRCreateUser> createChildForm;
+
+	void UserCreated(SRUserCreatedEvent *event);
 };
 
 #endif

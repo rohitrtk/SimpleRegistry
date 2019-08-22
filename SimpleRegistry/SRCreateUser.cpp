@@ -6,6 +6,7 @@
 #include <QTextEdit>
 #include <QPushButton>
 #include <QLabel>
+#include <QMessageBox>
 #include "SRPopUp.h"
 #include "SRPerson.h"
 #include "SRConsants.h"
@@ -21,9 +22,8 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 
 	this->resize(WindowWidth, WindowHeight);
-	
 
-	this->paramMissing = 0;
+	this->paramMissing = false;
 }
 
 SRCreateUser::~SRCreateUser()
@@ -71,7 +71,6 @@ void SRCreateUser::Create()
 	builder.ID(10);
 	MakeFirstName(builder);
 	MakeLastName(builder);
-	MakeAge(builder);
 	MakeDateOfBirth(builder);
 	MakeVar1(builder);
 	MakeVar2(builder);
@@ -80,19 +79,27 @@ void SRCreateUser::Create()
 
 	if (this->paramMissing)
 	{
-		popUp = std::make_unique<SRPopUp>();
 		std::stringstream ss;
-		ss << FIELD_MISSING_MSG << " parent!";
+		ss << FIELD_MISSING_MSG;
 
-		popUp->SetMessage(ss.str().c_str());
-		popUp->show();
+		if(personType == PersonType::PARENT) ss << " parent!";
+		else ss << " child!";
+
+		QMessageBox::information(this, "Missing fields", ss.str().c_str());
 
 		return;
 	}
 
-	this->personList->push_back(builder.Build<Parent>());
+	if (personType == PersonType::PARENT)
+	{
+		this->personList->push_back(builder.Build<Parent>());
+	}
+	else if(personType == PersonType::CHILD)
+	{
+		this->personList->push_back(builder.Build<Child>());
+	}
 
-	QApplication::postEvent(mainWindow, new QEvent(sr::UserCreatedEvent));
+	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(this->personType));
 }
 
 void SRCreateUser::Cancel()
@@ -136,23 +143,9 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 	this->paramMissing = true;
 }
 
-void SRCreateUser::MakeAge(PersonBuilder& builder)
-{
-	// *TODO
-	QString age_str = ui.textEdit_age->toPlainText().trimmed();
-	if (!age_str.isEmpty())
-	{
-		builder.Age(age_str.toInt());
-		return;
-	}
-
-	this->paramMissing = true;
-}
-
 void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
 {
-	// *TODO
-	builder.DateOfBirth(QDate(1, 1, 1));
+	builder.DateOfBirth(QDate(ui.dateEdit_dateOfBirth->date()));
 }
 
 void SRCreateUser::MakeVar1(PersonBuilder& builder)
@@ -184,7 +177,7 @@ void SRCreateUser::MakeVar2(PersonBuilder& builder)
 
 void SRCreateUser::MakeVar3(PersonBuilder& builder)
 {
-	QString s = ui.textEdit_var2->toPlainText().trimmed();
+	QString s = ui.textEdit_var3->toPlainText().trimmed();
 
 	if (s.isEmpty())
 	{
@@ -198,6 +191,8 @@ void SRCreateUser::MakeVar3(PersonBuilder& builder)
 
 void SRCreateUser::MakeVar4(PersonBuilder& builder)
 {
+	if (this->personType == PersonType::CHILD) return;
+
 	QString email = ui.textEdit_var4->toPlainText().trimmed();
 	if (!email.isEmpty())
 	{
