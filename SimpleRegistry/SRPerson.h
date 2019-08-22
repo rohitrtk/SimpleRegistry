@@ -18,7 +18,6 @@ class PersonBuilder
 	friend class Parent;
 	friend class Child;
 public:
-	PersonBuilder() {}
 
 	template<typename T>
 	std::unique_ptr<T> Build()
@@ -46,24 +45,24 @@ public:
 	PersonBuilder* Group(sr::Group group);
 
 private:
-	std::unique_ptr<sr::_int>		id;
+	std::unique_ptr<sr::_int>	id;
 	
 	std::unique_ptr<QString>	firstName;
 	std::unique_ptr<QString>	lastName;
-	std::unique_ptr<sr::_int>		age;
-	std::unique_ptr<QDate>			dateOfBirth;
+	std::unique_ptr<QDate>		dateOfBirth;
+	std::unique_ptr<sr::_int>	age;
 
 	std::unique_ptr<QString>	homeAddress;
 	std::unique_ptr<QString>	homePhone;
 	std::unique_ptr<QString>	cellPhone;
 	std::unique_ptr<QString>	emailAddress;
 
+	std::unique_ptr<bool>		prevAttended;
 	std::unique_ptr<QString>	prevLocation;
-	std::unique_ptr<bool>			prevAttended;
-	std::unique_ptr<sr::_int>		yearsAttended;
-	std::unique_ptr<sr::_list>		allergies;
-	std::unique_ptr<sr::_list>		interests;
-	std::unique_ptr<sr::Group>		group;
+	std::unique_ptr<sr::_int>	yearsAttended;
+	std::unique_ptr<sr::_list>	allergies;
+	std::unique_ptr<sr::_list>	interests;
+	std::unique_ptr<sr::Group>	group;
 };
 
 class Person
@@ -71,20 +70,20 @@ class Person
 public:
 	Person(PersonBuilder* builder);
 
-	inline const sr::_int&	  GetID()		   const { return *this->id; }
-	inline const QString& GetFirstName()   const { return *this->firstName; }
-	inline const QString& GetLastName()    const { return *this->lastName; }
-	inline const sr::_int&	  GetAge()         const { return *this->age; }
-	inline const QDate&       GetDateOfBirth() const { return *this->dateOfBirth; }
+	inline const sr::_int&	GetID()				const { return *this->id; }
+	inline const QString&	GetFirstName()		const { return *this->firstName; }
+	inline const QString&	GetLastName()		const { return *this->lastName; }
+	inline const sr::_int&	GetAge()			const { return *this->age; }
+	inline const QDate&		GetDateOfBirth()	const { return *this->dateOfBirth; }
 
 	virtual QString GetInfo();
 
 protected:
-	std::unique_ptr<sr::_int>		 id;
-	std::unique_ptr<QString> firstName;
-	std::unique_ptr<QString> lastName;
-	std::unique_ptr<sr::_int>		 age;
-	std::unique_ptr<QDate>		 dateOfBirth;
+	std::unique_ptr<sr::_int>	id;
+	std::unique_ptr<QString>	firstName;
+	std::unique_ptr<QString>	lastName;
+	std::unique_ptr<sr::_int>	age;
+	std::unique_ptr<QDate>		dateOfBirth;
 };
 
 class Parent : public Person
@@ -113,9 +112,9 @@ class Child : public Person
 public:
 	Child(PersonBuilder* builder);
 
-	inline const QString& GetPrevLocation()	const { return *this->prevLocation; }
-	inline const bool& GetPrevAttended()		const { return *this->prevAttended; }
-	inline const sr::_int& GetYearsAttended()	const { return *this->yearsAttended; }
+	inline const QString&	GetPrevLocation()	const { return *this->prevLocation; }
+	inline const bool&		GetPrevAttended()	const { return *this->prevAttended; }
+	inline const sr::_int&	GetYearsAttended()	const { return *this->yearsAttended; }
 	inline const sr::_list& GetAllergies()		const { return *this->allergies; }
 	inline const sr::_list& GetInterests()		const { return *this->interests; }
 	inline const sr::Group& GetGroup()			const { return *this->group; }
@@ -124,10 +123,10 @@ public:
 
 private:
 	std::unique_ptr<QString>	prevLocation;
-	std::unique_ptr<bool>			prevAttended;
-	std::unique_ptr<sr::_int>		yearsAttended;
-	std::unique_ptr<sr::_list>		allergies;
-	std::unique_ptr<sr::_list>		interests;
+	std::unique_ptr<bool>		prevAttended;
+	std::unique_ptr<sr::_int>	yearsAttended;
+	std::unique_ptr<sr::_list>	allergies;
+	std::unique_ptr<sr::_list>	interests;
 
 	std::unique_ptr<sr::_list> guardians;
 	std::unique_ptr<sr::Group> group;

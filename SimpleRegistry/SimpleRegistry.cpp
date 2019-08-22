@@ -13,33 +13,28 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->currentRows = 1;
-	this->ui.tableWidget->setRowCount(currentRows);
+	this->ui.tableWidget->setRowCount(1);
 	this->ui.tableWidget->setColumnCount(MinimumCols);
 
-	this->w_ID				= std::make_unique<QTableWidgetItem>(t_ID);
-	this->w_FirstName		= std::make_unique<QTableWidgetItem>(t_FirstName);
-	this->w_LastName		= std::make_unique<QTableWidgetItem>(t_LastName);
-	this->w_Age				= std::make_unique<QTableWidgetItem>(t_Age);
-	this->w_DOB				= std::make_unique<QTableWidgetItem>(t_DOB);
-	this->w_HomeAddress		= std::make_unique<QTableWidgetItem>(t_HomeAddress);
-	this->w_HomePhone		= std::make_unique<QTableWidgetItem>(t_HomePhone);
-	this->w_CellPhone		= std::make_unique<QTableWidgetItem>(t_CellPhone);
-	this->w_PrevLocation	= std::make_unique<QTableWidgetItem>(t_PrevLocation);
-	this->w_PrevAttended	= std::make_unique<QTableWidgetItem>(t_PrevAttended);
-	this->w_YearsAttended	= std::make_unique<QTableWidgetItem>(t_YearsAttended);
+	std::array<QString, MinimumCols> tableTitles;
+	tableTitles[0]	= "ID";
+	tableTitles[1]	= "First Name";
+	tableTitles[2]	= "Last Name";
+	tableTitles[3]	= "Age";
+	tableTitles[4]	= "Date Of Birth";
+	tableTitles[5]	= "Address";
+	tableTitles[6]	= "Home Phone";
+	tableTitles[7]	= "Cell Phone";
+	tableTitles[8]	= "Email Address";
+	tableTitles[9]	= "Previous Location";
+	tableTitles[10]	= "Previously Attended";
+	tableTitles[11]	= "Years Attended";
 
-	this->ui.tableWidget->setItem(0, 0, w_ID.get());
-	this->ui.tableWidget->setItem(0, 1, w_FirstName.get());
-	this->ui.tableWidget->setItem(0, 2, w_LastName.get());
-	this->ui.tableWidget->setItem(0, 3, w_Age.get());
-	this->ui.tableWidget->setItem(0, 4, w_DOB.get());
-	this->ui.tableWidget->setItem(0, 5, w_HomeAddress.get());
-	this->ui.tableWidget->setItem(0, 6, w_HomePhone.get());
-	this->ui.tableWidget->setItem(0, 7, w_CellPhone.get());
-	this->ui.tableWidget->setItem(0, 8, w_PrevLocation.get());
-	this->ui.tableWidget->setItem(0, 9, w_PrevAttended.get());
-	this->ui.tableWidget->setItem(0, 10, w_YearsAttended.get());
+	QTableWidget& tw = *this->ui.tableWidget;
+	for (size_t i = 0; i < tableTitles.size(); i++)
+	{
+		tw.setItem(0, i, new QTableWidgetItem(tableTitles[i]));
+	}
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child, SIGNAL(triggered()), this, SLOT(CreateChild()));
@@ -49,19 +44,30 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 
 void SimpleRegistry::UpdateTable()
 {
-	this->currentRows++;
-	
 	QTableWidget& tw = *this->ui.tableWidget;
-	tw.setRowCount(currentRows);
+	Person* p = this->people->at(this->people->size() - 1).get();
+	
+	tw.setItem(ui.tableWidget->rowCount() - 1, 0, new QTableWidgetItem(p->GetID()));
+	tw.setItem(ui.tableWidget->rowCount() - 1, 1, new QTableWidgetItem(p->GetFirstName()));
+	tw.setItem(ui.tableWidget->rowCount() - 1, 2, new QTableWidgetItem(p->GetLastName()));
+	tw.setItem(ui.tableWidget->rowCount() - 1, 3, new QTableWidgetItem(static_cast<QString>(p->GetAge())));
+	tw.setItem(ui.tableWidget->rowCount() - 1, 4, new QTableWidgetItem(p->GetDateOfBirth().toString()));
 
-	Person& p = *people->at(people->size() - 1);
-
-	// *
-	tw.setItem(currentRows--, 0, new QTableWidgetItem(p.GetID()));
-	tw.setItem(currentRows--, 1, new QTableWidgetItem(p.GetFirstName()));
-	tw.setItem(currentRows--, 2, new QTableWidgetItem(p.GetLastName()));
-	tw.setItem(currentRows--, 3, new QTableWidgetItem(p.GetAge()));
-	tw.setItem(currentRows--, 4, new QTableWidgetItem(p.GetDateOfBirth().toString()));
+	Parent* pa = static_cast<Parent*>(p);
+	Child* c = static_cast<Child*>(p);
+	if (pa)
+	{
+		tw.setItem(ui.tableWidget->rowCount(), 5, new QTableWidgetItem(pa->GetHomeAddress()));
+		tw.setItem(ui.tableWidget->rowCount(), 6, new QTableWidgetItem(pa->GetHomePhone()));
+		tw.setItem(ui.tableWidget->rowCount(), 7, new QTableWidgetItem(pa->GetCellPhone()));
+		tw.setItem(ui.tableWidget->rowCount(), 8, new QTableWidgetItem(pa->GetEmailAddress()));
+	}
+	else if (c)
+	{
+		tw.setItem(ui.tableWidget->rowCount(), 9, new QTableWidgetItem(c->GetPrevAttended()));
+		tw.setItem(ui.tableWidget->rowCount(), 10, new QTableWidgetItem(c->GetPrevLocation()));
+		tw.setItem(ui.tableWidget->rowCount(), 11, new QTableWidgetItem(c->GetYearsAttended()));
+	}
 }
 
 void SimpleRegistry::CreateParent()
@@ -95,8 +101,8 @@ void SimpleRegistry::customEvent(QEvent* event)
 {
 	if (event->type() == sr::UserCreatedEvent)
 	{
+		this->ui.tableWidget->insertRow(ui.tableWidget->rowCount());
 		UpdateTable();
-		qInfo() << "YEET";
 	}
 	else
 	{

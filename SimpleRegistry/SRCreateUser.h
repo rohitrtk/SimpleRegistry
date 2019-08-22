@@ -30,10 +30,7 @@ public:
 	void SetupParentWindow(SimpleRegistry* mainWindow);
 	void SetupChildWindow(SimpleRegistry* mainWindow);
 
-	inline void SetPersonList(std::shared_ptr<sr::_ppl> list)
-	{
-		this->personList = list;
-	}
+	inline void SetPersonList(const std::shared_ptr<sr::_ppl>& list) { this->personList = list; }
 
 public slots:
 	void Create();
