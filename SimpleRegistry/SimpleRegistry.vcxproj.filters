@@ -42,14 +42,23 @@
     <ClCompile Include="SRCSVHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SRCreateUser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SimpleRegistry.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="SRCreateUser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SimpleRegistry.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SRCreateUser.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

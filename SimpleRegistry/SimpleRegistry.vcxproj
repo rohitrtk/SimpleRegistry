@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="SRCSVHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SRCreateUser.cpp" />
     <ClCompile Include="SRPerson.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
   </ItemGroup>
@@ -127,6 +128,7 @@
     <QtUic Include="SimpleRegistry.ui">
       <SubType>Designer</SubType>
     </QtUic>
+    <QtUic Include="SRCreateUser.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleRegistry.qrc" />
@@ -134,6 +136,10 @@
   <ItemGroup>
     <ClInclude Include="SRCSVHandler.h" />
     <ClInclude Include="SRConsants.h" />
+    <QtMoc Include="SRCreateUser.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
     <ClInclude Include="SRPerson.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

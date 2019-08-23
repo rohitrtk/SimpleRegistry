@@ -6,31 +6,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1138</width>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SimpleRegistry</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="myPushButton">
+   <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>50</y>
-      <width>511</width>
-      <height>381</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1131</width>
+      <height>641</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>40</pointsize>
-     </font>
+    <property name="rowCount">
+     <number>0</number>
     </property>
-    <property name="text">
-     <string>WEE</string>
+    <property name="columnCount">
+     <number>0</number>
     </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderHighlightSections">
+     <bool>true</bool>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -38,7 +45,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1138</width>
      <height>21</height>
     </rect>
    </property>
@@ -46,6 +53,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionCreate_Parent"/>
+    <addaction name="actionCreate_Child"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -64,6 +73,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionCreate_Parent">
+   <property name="text">
+    <string>Create Parent</string>
+   </property>
+  </action>
+  <action name="actionCreate_Child">
+   <property name="text">
+    <string>Create Child</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

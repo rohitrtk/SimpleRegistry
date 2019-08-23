@@ -12,11 +12,12 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -25,8 +26,10 @@ QT_BEGIN_NAMESPACE
 class Ui_SimpleRegistryClass
 {
 public:
+    QAction *actionCreate_Parent;
+    QAction *actionCreate_Child;
     QWidget *centralWidget;
-    QPushButton *myPushButton;
+    QTableWidget *tableWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -37,19 +40,25 @@ public:
     {
         if (SimpleRegistryClass->objectName().isEmpty())
             SimpleRegistryClass->setObjectName(QString::fromUtf8("SimpleRegistryClass"));
-        SimpleRegistryClass->resize(800, 600);
+        SimpleRegistryClass->resize(1138, 740);
+        actionCreate_Parent = new QAction(SimpleRegistryClass);
+        actionCreate_Parent->setObjectName(QString::fromUtf8("actionCreate_Parent"));
+        actionCreate_Child = new QAction(SimpleRegistryClass);
+        actionCreate_Child->setObjectName(QString::fromUtf8("actionCreate_Child"));
         centralWidget = new QWidget(SimpleRegistryClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        myPushButton = new QPushButton(centralWidget);
-        myPushButton->setObjectName(QString::fromUtf8("myPushButton"));
-        myPushButton->setGeometry(QRect(100, 50, 511, 381));
-        QFont font;
-        font.setPointSize(40);
-        myPushButton->setFont(font);
+        tableWidget = new QTableWidget(centralWidget);
+        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        tableWidget->setGeometry(QRect(0, 0, 1131, 641));
+        tableWidget->setRowCount(0);
+        tableWidget->setColumnCount(0);
+        tableWidget->horizontalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setHighlightSections(true);
         SimpleRegistryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SimpleRegistryClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 1138, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -64,6 +73,8 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
+        menuFile->addAction(actionCreate_Parent);
+        menuFile->addAction(actionCreate_Child);
 
         retranslateUi(SimpleRegistryClass);
 
@@ -73,7 +84,8 @@ public:
     void retranslateUi(QMainWindow *SimpleRegistryClass)
     {
         SimpleRegistryClass->setWindowTitle(QCoreApplication::translate("SimpleRegistryClass", "SimpleRegistry", nullptr));
-        myPushButton->setText(QCoreApplication::translate("SimpleRegistryClass", "WEE", nullptr));
+        actionCreate_Parent->setText(QCoreApplication::translate("SimpleRegistryClass", "Create Parent", nullptr));
+        actionCreate_Child->setText(QCoreApplication::translate("SimpleRegistryClass", "Create Child", nullptr));
         menuFile->setTitle(QCoreApplication::translate("SimpleRegistryClass", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("SimpleRegistryClass", "Edit", nullptr));
     } // retranslateUi
