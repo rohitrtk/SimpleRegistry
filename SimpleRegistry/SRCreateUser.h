@@ -10,6 +10,7 @@
 #include <sstream>
 #include <string>
 #include <memory>
+#include "SRPerson.h"
 
 class PersonBuilder;
 class SimpleRegistry;
@@ -30,7 +31,7 @@ public:
 	void SetupParentWindow(SimpleRegistry* mainWindow);
 	void SetupChildWindow(SimpleRegistry* mainWindow);
 
-	inline void SetPersonList(const std::shared_ptr<sr::_ppl>& list) { this->personList = list; }
+	inline void SetPersonList(std::vector<std::unique_ptr<Person>>& list) { this->personList = &list; }
 
 public slots:
 	void Create();
@@ -60,7 +61,7 @@ private:
 	const QString c_yearsAttended				= "Years Attended";
 	
 	std::unique_ptr<class SRPopUp> popUp;
-	std::shared_ptr<sr::_ppl> personList;
+	std::vector<std::unique_ptr<Person>>* personList;
 	bool paramMissing;
 	
 	void MakeFirstName(PersonBuilder& builder);

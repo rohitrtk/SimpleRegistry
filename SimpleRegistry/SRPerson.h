@@ -40,7 +40,7 @@ public:
 	PersonBuilder* YearsAttended(qint16 yearsAttended);
 	PersonBuilder* PrevLocation(QString prevLocation);
 
-	PersonBuilder* Allergies(sr::_list allergies);
+	PersonBuilder* Allergies(sr::list allergies);
 	PersonBuilder* Group(sr::Group group);
 
 private:
@@ -59,7 +59,7 @@ private:
 	std::unique_ptr<bool>		prevAttended;
 	std::unique_ptr<QString>	prevLocation;
 	std::unique_ptr<qint16>	yearsAttended;
-	std::unique_ptr<sr::_list>	allergies;
+	std::unique_ptr<sr::list>	allergies;
 	std::unique_ptr<sr::Group>	group;
 };
 
@@ -111,7 +111,7 @@ public:
 	inline const QString&	GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool&		GetPrevAttended()	const { return *this->prevAttended; }
 	inline const qint16&	GetYearsAttended()	const { return *this->yearsAttended; }
-	inline const sr::_list& GetAllergies()		const { return *this->allergies; }
+	inline const sr::list& GetAllergies()		const { return *this->allergies; }
 	
 	inline const sr::Group& GetGroup()			const { return *this->group; }
 
@@ -121,7 +121,7 @@ private:
 	std::unique_ptr<QString>	prevLocation;
 	std::unique_ptr<bool>		prevAttended;
 	std::unique_ptr<qint16>	yearsAttended;
-	std::unique_ptr<sr::_list>	allergies;
+	std::unique_ptr<sr::list>	allergies;
 
 	std::unique_ptr<sr::Group> group;
 };

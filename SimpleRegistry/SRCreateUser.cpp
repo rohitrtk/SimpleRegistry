@@ -11,7 +11,7 @@
 #include "SRPerson.h"
 #include "SRConsants.h"
 #include "SimpleRegistry.h"
-
+#include <QDebug>
 SRCreateUser::SRCreateUser(QWidget *parent)
 	: QWidget(parent)
 {

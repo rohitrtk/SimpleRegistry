@@ -30,8 +30,7 @@ class Person;
 
 namespace sr
 {
-	using _list		= std::vector<QString>;
-	using _ppl		= std::vector<std::unique_ptr<Person>>;
+	using list = std::vector<QString>;
 
 	enum class Group
 	{

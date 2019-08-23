@@ -6,12 +6,16 @@
 #include <QAction>
 #include <QTableWidgetItem>
 #include <QLineEdit>
+#include <QCloseEvent>
 #include "SRConsants.h"
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	this->parentWindow = nullptr;
+	this->childWindow = nullptr;
 
 	this->ui.tableWidget->setRowCount(1);
 	this->ui.tableWidget->setColumnCount(MinimumCols);
@@ -38,14 +42,12 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child, SIGNAL(triggered()), this, SLOT(CreateChild()));
-
-	people = std::make_shared<sr::_ppl>();
 }
 
 void SimpleRegistry::UpdateTable(const PersonType& personType)
 {
 	QTableWidget* tw = this->ui.tableWidget;
-	Person* p = this->people->at(this->people->size() - 1).get();
+	Person* p = this->people.at(this->people.size() - 1).get();
 	
 	int row = this->ui.tableWidget->rowCount() - 1;
 
@@ -74,27 +76,27 @@ void SimpleRegistry::UpdateTable(const PersonType& personType)
 
 void SimpleRegistry::CreateParent()
 {
-	if (!this->createParentForm)
+	if (!parentWindow || !parentWindow->isVisible())
 	{
-		this->createParentForm = std::make_unique<SRCreateUser>();
-		this->createParentForm->SetPersonList(this->people);
-		this->createParentForm->SetupParentWindow(this);
-		this->createParentForm->show();
+		this->parentWindow = std::make_unique<SRCreateUser>();
+		this->parentWindow->SetPersonList(this->people);
+		this->parentWindow->SetupParentWindow(this);
+		this->parentWindow->show();
 	}
 }
 
 void SimpleRegistry::CreateChild()
 {
-	if (!this->createChildForm)
+	if (!this->childWindow || !childWindow->isVisible())
 	{
-		this->createChildForm = std::make_unique<SRCreateUser>();
-		this->createChildForm->SetPersonList(this->people);
-		this->createChildForm->SetupChildWindow(this);
-		this->createChildForm->show();
+		this->childWindow = std::make_unique<SRCreateUser>();
+		this->childWindow->SetPersonList(this->people);
+		this->childWindow->SetupChildWindow(this);
+		this->childWindow->show();
 	}
 }
 
-std::shared_ptr<sr::_ppl> SimpleRegistry::GetPeople()
+const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople()
 {
 	return this->people;
 }
@@ -107,7 +109,12 @@ void SimpleRegistry::customEvent(QEvent* event)
 	}
 }
 
-void SimpleRegistry::UserCreated(SRUserCreatedEvent *event)
+void SimpleRegistry::closeEvent(QCloseEvent* event)
+{
+	event->accept();
+}
+
+void SimpleRegistry::UserCreated(SRUserCreatedEvent* event)
 {
 	this->ui.tableWidget->insertRow(ui.tableWidget->rowCount());
 	UpdateTable(event->GetPersonType());

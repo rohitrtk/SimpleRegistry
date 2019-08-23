@@ -149,9 +149,9 @@ PersonBuilder* PersonBuilder::YearsAttended(qint16 yearsAttended)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Allergies(sr::_list allergies)
+PersonBuilder* PersonBuilder::Allergies(sr::list allergies)
 {
-	this->allergies = std::make_unique<sr::_list>(allergies);
+	this->allergies = std::make_unique<sr::list>(allergies);
 	return this;
 }
 

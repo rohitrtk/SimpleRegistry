@@ -21,7 +21,7 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
-	std::shared_ptr<sr::_ppl> GetPeople();
+	const std::vector<std::unique_ptr<Person>>& GetPeople();
 
 	void UpdateTable(const PersonType& personType);	
 
@@ -31,15 +31,17 @@ public slots:
 
 protected:
 	void customEvent(QEvent *event) override;
+	void closeEvent(QCloseEvent* event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;
 
-	std::shared_ptr<sr::_ppl> people;
-	std::unique_ptr<SRCreateUser> createParentForm;
-	std::unique_ptr<SRCreateUser> createChildForm;
+	std::vector<std::unique_ptr<Person>> people;
 
-	void UserCreated(SRUserCreatedEvent *event);
+	std::unique_ptr<SRCreateUser> parentWindow;
+	std::unique_ptr<SRCreateUser> childWindow;
+
+	void UserCreated(SRUserCreatedEvent* event);
 };
 
 #endif
