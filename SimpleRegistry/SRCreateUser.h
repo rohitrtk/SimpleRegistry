@@ -5,11 +5,11 @@
 #include "ui_SRCreateUser.h"
 #include "SRConsants.h"
 #include <QString>
-#include <QDate>
 #include <QEvent>
 #include <sstream>
 #include <string>
 #include <memory>
+#include <QCheckBox>
 #include "SRPerson.h"
 
 class PersonBuilder;
@@ -28,6 +28,7 @@ public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
 
+	void SetupWindow(SimpleRegistry* mainWindow, PersonType type = PersonType::PARENT);
 	void SetupParentWindow(SimpleRegistry* mainWindow);
 	void SetupChildWindow(SimpleRegistry* mainWindow);
 
@@ -50,17 +51,7 @@ private:
 
 	const QString WindowTitleParent = "Create New Parent";
 	const QString WindowTitleChild  = "Create New Child";
-
-	// Label Stuff
-	const QString p_homeAddress					= "Home Address";
-	const QString p_homePhone					= "Home Phone";
-	const QString p_cellPhone					= "Cell Phone";
-	const QString p_emailAddress				= "Email Address";
-	const QString c_prevLocation				= "Previous Location";
-	const QString c_prevAttended				= "Previously Attended";
-	const QString c_yearsAttended				= "Years Attended";
 	
-	std::unique_ptr<class SRPopUp> popUp;
 	std::vector<std::unique_ptr<Person>>* personList;
 	bool paramMissing;
 	
@@ -68,10 +59,14 @@ private:
 	void MakeLastName(PersonBuilder& builder);
 	void MakeDateOfBirth(PersonBuilder& builder);
 
-	void MakeVar1(PersonBuilder& builder);
-	void MakeVar2(PersonBuilder& builder);
-	void MakeVar3(PersonBuilder& builder);
-	void MakeVar4(PersonBuilder& builder);
+	void MakeHomeAddress(PersonBuilder& builder);
+	void MakeHomePhone(PersonBuilder& builder);
+	void MakeCellPhone(PersonBuilder& builder);
+	void MakeEmailAddress(PersonBuilder& builder);
+	
+	void MakePrevAttended(PersonBuilder& builder);
+	void MakePrevLocation(PersonBuilder& builder);
+	void MakeYearsAttended(PersonBuilder& builder);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
@@ -83,7 +78,7 @@ public:
 		QEvent(USER_CREATED_EVENT),
 		personType(personType) {}
 
-	inline const PersonType GetPersonType() const {	return this->personType; }
+	inline const PersonType GetPersonType() const { return this->personType; }
 
 private:
 	PersonType personType;

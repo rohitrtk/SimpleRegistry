@@ -69,8 +69,13 @@ void SimpleRegistry::UpdateTable(const PersonType& personType)
 	{
 		Child* c = static_cast<Child*>(p);
 		tw->setItem(row, 9, new QTableWidgetItem(c->GetPrevLocation()));
-		tw->setItem(row, 10, new QTableWidgetItem(c->GetPrevAttended()));
-		tw->setItem(row, 11, new QTableWidgetItem(c->GetYearsAttended()));
+		
+		QTableWidgetItem* q = new QTableWidgetItem();
+		Qt::CheckState checkState = (c->GetPrevAttended()) ? Qt::Checked : Qt::Unchecked;
+		q->setCheckState(checkState);
+		tw->setItem(row, 10, q);
+
+		tw->setItem(row, 11, new QTableWidgetItem(QString::number(c->GetYearsAttended())));
 	}
 }
 
@@ -80,7 +85,7 @@ void SimpleRegistry::CreateParent()
 	{
 		this->parentWindow = std::make_unique<SRCreateUser>();
 		this->parentWindow->SetPersonList(this->people);
-		this->parentWindow->SetupParentWindow(this);
+		this->parentWindow->SetupWindow(this);
 		this->parentWindow->show();
 	}
 }
@@ -91,7 +96,7 @@ void SimpleRegistry::CreateChild()
 	{
 		this->childWindow = std::make_unique<SRCreateUser>();
 		this->childWindow->SetPersonList(this->people);
-		this->childWindow->SetupChildWindow(this);
+		this->childWindow->SetupWindow(this, PersonType::CHILD);
 		this->childWindow->show();
 	}
 }
