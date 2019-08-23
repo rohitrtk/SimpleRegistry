@@ -49,7 +49,7 @@ private:
 	std::unique_ptr<QString>	firstName;
 	std::unique_ptr<QString>	lastName;
 	std::unique_ptr<QDate>		dateOfBirth;
-	std::unique_ptr<qint16>	age;
+	std::unique_ptr<qint16>		age;
 
 	std::unique_ptr<QString>	homeAddress;
 	std::unique_ptr<QString>	homePhone;
@@ -58,7 +58,7 @@ private:
 
 	std::unique_ptr<bool>		prevAttended;
 	std::unique_ptr<QString>	prevLocation;
-	std::unique_ptr<qint16>	yearsAttended;
+	std::unique_ptr<qint16>		yearsAttended;
 	std::unique_ptr<sr::list>	allergies;
 	std::unique_ptr<sr::Group>	group;
 };
@@ -77,11 +77,11 @@ public:
 	virtual QString GetInfo();
 
 protected:
-	std::unique_ptr<qint16>	id;
+	std::unique_ptr<qint16>		id;
 	std::unique_ptr<QString>	firstName;
 	std::unique_ptr<QString>	lastName;
 	std::unique_ptr<QDate>		dateOfBirth;
-	std::unique_ptr<qint16>	age;
+	std::unique_ptr<qint16>		age;
 };
 
 class Parent : public Person
@@ -110,8 +110,9 @@ public:
 
 	inline const QString&	GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool&		GetPrevAttended()	const { return *this->prevAttended; }
+	inline Qt::CheckState	GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
 	inline const qint16&	GetYearsAttended()	const { return *this->yearsAttended; }
-	inline const sr::list& GetAllergies()		const { return *this->allergies; }
+	inline const sr::list&	GetAllergies()		const { return *this->allergies; }
 	
 	inline const sr::Group& GetGroup()			const { return *this->group; }
 
@@ -120,7 +121,7 @@ public:
 private:
 	std::unique_ptr<QString>	prevLocation;
 	std::unique_ptr<bool>		prevAttended;
-	std::unique_ptr<qint16>	yearsAttended;
+	std::unique_ptr<qint16>		yearsAttended;
 	std::unique_ptr<sr::list>	allergies;
 
 	std::unique_ptr<sr::Group> group;

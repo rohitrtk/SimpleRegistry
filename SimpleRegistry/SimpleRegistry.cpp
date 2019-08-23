@@ -71,7 +71,7 @@ void SimpleRegistry::UpdateTable(const PersonType& personType)
 		tw->setItem(row, 9, new QTableWidgetItem(c->GetPrevLocation()));
 		
 		QTableWidgetItem* q = new QTableWidgetItem();
-		Qt::CheckState checkState = (c->GetPrevAttended()) ? Qt::Checked : Qt::Unchecked;
+		Qt::CheckState checkState = c->GetPrevAttendedS();
 		q->setCheckState(checkState);
 		tw->setItem(row, 10, q);
 

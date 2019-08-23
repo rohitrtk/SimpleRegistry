@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>401</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -234,10 +234,34 @@
      </widget>
     </item>
     <item row="8" column="1">
-     <widget class="QTextEdit" name="textEdit_prevLocation"/>
+     <widget class="QTextEdit" name="textEdit_prevLocation">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
     </item>
     <item row="9" column="1">
-     <widget class="QTextEdit" name="textEdit_yearsAttended"/>
+     <widget class="QTextEdit" name="textEdit_yearsAttended">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
     </item>
     <item row="10" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_2">

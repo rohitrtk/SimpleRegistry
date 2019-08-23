@@ -17,7 +17,7 @@ class SimpleRegistry;
 
 enum class PersonType
 {
-	PARENT, CHILD
+	PARENT, CHILD, UNDEFINED
 };
 
 class SRCreateUser : public QWidget
@@ -29,8 +29,6 @@ public:
 	~SRCreateUser();
 
 	void SetupWindow(SimpleRegistry* mainWindow, PersonType type = PersonType::PARENT);
-	void SetupParentWindow(SimpleRegistry* mainWindow);
-	void SetupChildWindow(SimpleRegistry* mainWindow);
 
 	inline void SetPersonList(std::vector<std::unique_ptr<Person>>& list) { this->personList = &list; }
 
@@ -38,6 +36,7 @@ public slots:
 	void Create();
 	void Cancel();
 	void Clear();
+	void HandlePrevAttended(int state);
 
 private:
 	Ui::SRCreateUser ui;
@@ -55,18 +54,20 @@ private:
 	std::vector<std::unique_ptr<Person>>* personList;
 	bool paramMissing;
 	
-	void MakeFirstName(PersonBuilder& builder);
-	void MakeLastName(PersonBuilder& builder);
-	void MakeDateOfBirth(PersonBuilder& builder);
+	void MakeFirstName		(PersonBuilder& builder);
+	void MakeLastName		(PersonBuilder& builder);
+	void MakeDateOfBirth	(PersonBuilder& builder);
 
-	void MakeHomeAddress(PersonBuilder& builder);
-	void MakeHomePhone(PersonBuilder& builder);
-	void MakeCellPhone(PersonBuilder& builder);
-	void MakeEmailAddress(PersonBuilder& builder);
+	void MakeHomeAddress	(PersonBuilder& builder);
+	void MakeHomePhone		(PersonBuilder& builder);
+	void MakeCellPhone		(PersonBuilder& builder);
+	void MakeEmailAddress	(PersonBuilder& builder);
 	
-	void MakePrevAttended(PersonBuilder& builder);
-	void MakePrevLocation(PersonBuilder& builder);
-	void MakeYearsAttended(PersonBuilder& builder);
+	void MakePrevAttended	(PersonBuilder& builder);
+	void MakePrevLocation	(PersonBuilder& builder);
+	void MakeYearsAttended	(PersonBuilder& builder);
+
+	void ParamMissing(PersonType type);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);

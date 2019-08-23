@@ -63,7 +63,7 @@ public:
         SRCreateUser->setSizePolicy(sizePolicy);
         formLayoutWidget = new QWidget(SRCreateUser);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(0, 0, 461, 401));
+        formLayoutWidget->setGeometry(QRect(0, 0, 461, 391));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -182,11 +182,17 @@ public:
 
         textEdit_prevLocation = new QTextEdit(formLayoutWidget);
         textEdit_prevLocation->setObjectName(QString::fromUtf8("textEdit_prevLocation"));
+        textEdit_prevLocation->setFont(font);
+        textEdit_prevLocation->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        textEdit_prevLocation->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         formLayout->setWidget(8, QFormLayout::FieldRole, textEdit_prevLocation);
 
         textEdit_yearsAttended = new QTextEdit(formLayoutWidget);
         textEdit_yearsAttended->setObjectName(QString::fromUtf8("textEdit_yearsAttended"));
+        textEdit_yearsAttended->setFont(font);
+        textEdit_yearsAttended->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        textEdit_yearsAttended->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         formLayout->setWidget(9, QFormLayout::FieldRole, textEdit_yearsAttended);
 
