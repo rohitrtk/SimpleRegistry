@@ -115,6 +115,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SRCSVHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SRPerson.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
@@ -131,6 +132,7 @@
     <QtRcc Include="SimpleRegistry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SRCSVHandler.h" />
     <ClInclude Include="SRConsants.h" />
     <ClInclude Include="SRPerson.h" />
   </ItemGroup>

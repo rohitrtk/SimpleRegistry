@@ -39,6 +39,9 @@
     <ClCompile Include="SRPerson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SRCSVHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SimpleRegistry.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SRConsants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SRCSVHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
