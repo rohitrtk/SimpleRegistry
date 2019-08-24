@@ -12,6 +12,8 @@
 #include "SRConsants.h"
 #include "SimpleRegistry.h"
 
+qint16 SRCreateUser::idAssign = 1;
+
 SRCreateUser::SRCreateUser(QWidget *parent)
 	: QWidget(parent)
 {
@@ -25,14 +27,14 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	this->resize(WindowWidth, WindowHeight);
 
 	this->paramMissing = false;
-	this->personType = PersonType::UNDEFINED;
+	this->personType = sr::PersonType::UNDEFINED;
 }
 
 SRCreateUser::~SRCreateUser()
 {
 }
 
-void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
+void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 {
 	this->mainWindow = mainWindow;
 	this->personType = type;
@@ -41,7 +43,7 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
 	this->ui.label_lastName->setText(ui.label_lastName->text() + "*");
 	this->ui.label_dateOfBirth->setText(ui.label_dateOfBirth->text() + "*");
 
-	if (type == PersonType::PARENT)
+	if (type == sr::PersonType::PARENT)
 	{
 		this->setWindowTitle(WindowTitleParent);
 		this->ui.label_homeAddress->setText(ui.label_homeAddress->text() + "*");
@@ -49,7 +51,7 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
 		this->ui.label_cellPhone->setText(ui.label_cellPhone->text() + "*");
 		this->ui.label_emailAddress->setText(ui.label_emailAddress->text() + "*");
 	}
-	else if (type == PersonType::CHILD)
+	else if (type == sr::PersonType::CHILD)
 	{
 		this->setWindowTitle(WindowTitleChild);
 		this->ui.checkBox_prevAttended->setText(ui.checkBox_prevAttended->text() + "*");
@@ -67,7 +69,7 @@ void SRCreateUser::Create()
 
 	PersonBuilder builder;
 
-	builder.ID(10);
+	builder.ID(idAssign);
 	MakeFirstName(builder);
 	MakeLastName(builder);
 	MakeDateOfBirth(builder);
@@ -83,23 +85,24 @@ void SRCreateUser::Create()
 	{
 		QString s("Missing one or more fields(*) to create");
 
-		if(personType == PersonType::PARENT) s += " parent!";
-		else if(personType == PersonType::CHILD) s += " child!";
+		if(personType == sr::PersonType::PARENT) s += " parent!";
+		else if(personType == sr::PersonType::CHILD) s += " child!";
 
 		QMessageBox::information(this, "Error", s);
 
 		return;
 	}
 
-	if (personType == PersonType::PARENT)
+	if (personType == sr::PersonType::PARENT)
 	{
 		this->personList->push_back(builder.Build<Parent>());
 	}
-	else if(personType == PersonType::CHILD)
+	else if(personType == sr::PersonType::CHILD)
 	{
 		this->personList->push_back(builder.Build<Child>());
 	}
 
+	SRCreateUser::idAssign++;
 	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(this->personType));
 }
 
@@ -129,7 +132,7 @@ void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 		return;
 	}
 
-	ParamMissing(PersonType::PARENT);
+	ParamMissing(sr::PersonType::PARENT);
 }
 
 void SRCreateUser::MakeLastName(PersonBuilder& builder)
@@ -141,7 +144,7 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 		return;
 	}
 
-	ParamMissing(PersonType::PARENT);
+	ParamMissing(sr::PersonType::PARENT);
 }
 
 void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
@@ -155,7 +158,7 @@ void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 	
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -168,7 +171,7 @@ void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -181,7 +184,7 @@ void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -194,7 +197,7 @@ void SRCreateUser::MakeEmailAddress(PersonBuilder& builder)
 	
 	if (email.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -217,7 +220,7 @@ void SRCreateUser::MakePrevLocation(PersonBuilder& builder)
 
 		if (s.isEmpty())
 		{
-			ParamMissing(PersonType::CHILD);
+			ParamMissing(sr::PersonType::CHILD);
 			return;
 		}
 
@@ -235,7 +238,7 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 
 		if (s.isEmpty())
 		{
-			ParamMissing(PersonType::CHILD);
+			ParamMissing(sr::PersonType::CHILD);
 			return;
 		}
 
@@ -245,7 +248,7 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 	builder.YearsAttended(0);
 }
 
-void SRCreateUser::ParamMissing(PersonType type)
+void SRCreateUser::ParamMissing(sr::PersonType type)
 {
 	if (this->personType == type)
 	{

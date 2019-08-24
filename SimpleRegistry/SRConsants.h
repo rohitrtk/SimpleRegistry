@@ -32,6 +32,11 @@ namespace sr
 {
 	using list = std::vector<QString>;
 
+	enum class PersonType
+	{
+		PARENT, CHILD, UNDEFINED
+	};
+
 	enum class Group
 	{
 		GROUP_1 = 1, GROUP_2 = 2, GROUP_3 = 3

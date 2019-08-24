@@ -4,10 +4,18 @@
 #include <QDate>
 
 Person::Person(PersonBuilder* builder) :
-	id			(std::move(builder->id)),
-	firstName	(std::move(builder->firstName)),
-	lastName	(std::move(builder->lastName)),
-	dateOfBirth	(std::move(builder->dateOfBirth))
+	id				(std::move(builder->id)),
+	firstName		(std::move(builder->firstName)),
+	lastName		(std::move(builder->lastName)),
+	dateOfBirth		(std::move(builder->dateOfBirth)),
+	homeAddress		(std::move(builder->homeAddress)),
+	homePhone		(std::move(builder->homePhone)),
+	cellPhone		(std::move(builder->cellPhone)),
+	emailAddress	(std::move(builder->emailAddress)),
+	prevLocation	(std::move(builder->prevLocation)),
+	prevAttended	(std::move(builder->prevAttended)),
+	yearsAttended	(std::move(builder->yearsAttended)),
+	allergies		(std::move(builder->allergies))
 {
 	if (!id)			throw ERROR_BUILDER_NO_ID;
 	if (!firstName)		throw ERROR_BUILDER_FIRST_NAME;
@@ -65,28 +73,23 @@ QString Child::GetInfo()
 	return std::move(ss.str().c_str());
 }
 
-Parent::Parent(PersonBuilder* builder) : Person(builder),
-	homeAddress		(std::move(builder->homeAddress)),
-	homePhone		(std::move(builder->homePhone)),
-	cellPhone		(std::move(builder->cellPhone)),
-	emailAddress	(std::move(builder->emailAddress))
+Parent::Parent(PersonBuilder* builder) : Person(builder)
 {
 	if (!homeAddress)	throw ERROR_BUILDER_HOME_ADDRESS;
 	if (!emailAddress)	throw ERROR_BUILDER_EMAIL_ADDRESS;
 	if (!homePhone)		throw ERROR_BUILDER_HOME_PHONE;
 	if (!cellPhone)		throw ERROR_BUILDER_CELL_PHONE;
+
+	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::PARENT);
 }
 
-Child::Child(PersonBuilder* builder) : Person(builder),
-	prevLocation	(std::move(builder->prevLocation)),
-	prevAttended	(std::move(builder->prevAttended)),
-	yearsAttended	(std::move(builder->yearsAttended)),
-	allergies		(std::move(builder->allergies))
+Child::Child(PersonBuilder* builder) : Person(builder)
 {
 	if (!prevAttended)	throw ERROR_BUILDER_PREV_ATTENDED;
 	if (!yearsAttended) throw ERROR_BUILDER_YEARS_ATTENDED;
 
 	this->group = std::move(builder->group);
+	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::CHILD);
 }
 
 PersonBuilder* PersonBuilder::ID(qint16 id)

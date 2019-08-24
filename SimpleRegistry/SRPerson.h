@@ -19,6 +19,9 @@ class PersonBuilder
 	friend class Child;
 public:
 
+	PersonBuilder() {}
+	~PersonBuilder() {}
+
 	template<typename T>
 	std::unique_ptr<T> Build()
 	{
@@ -66,63 +69,68 @@ private:
 class Person
 {
 public:
+	Person() = delete;
 	Person(PersonBuilder* builder);
 
-	inline const qint16&	GetID()				const { return *this->id; }
-	inline const QString&	GetFirstName()		const { return *this->firstName; }
-	inline const QString&	GetLastName()		const { return *this->lastName; }
-	inline const qint16&	GetAge()			const { return *this->age; }
-	inline const QDate&		GetDateOfBirth()	const { return *this->dateOfBirth; }
-
-	virtual QString GetInfo();
-
-protected:
-	std::unique_ptr<qint16>		id;
-	std::unique_ptr<QString>	firstName;
-	std::unique_ptr<QString>	lastName;
-	std::unique_ptr<QDate>		dateOfBirth;
-	std::unique_ptr<qint16>		age;
-};
-
-class Parent : public Person
-{
-public:
-	Parent(PersonBuilder* builder);
+	inline const qint16&			GetID()				const { return *this->id; }
+	inline const QString&			GetFirstName()		const { return *this->firstName; }
+	inline const QString&			GetLastName()		const { return *this->lastName; }
+	inline const qint16&			GetAge()			const { return *this->age; }
+	inline const QDate&				GetDateOfBirth()	const { return *this->dateOfBirth; }
+	inline const sr::PersonType&	GetPersonType()		const { return *this->personType; }
 
 	inline const QString& GetEmailAddress()	const { return *this->emailAddress; }
 	inline const QString& GetHomePhone()	const { return *this->homePhone; }
 	inline const QString& GetCellPhone()	const { return *this->cellPhone; }
 	inline const QString& GetHomeAddress()	const { return *this->homeAddress; }
 
-	virtual QString GetInfo() override;
-
-private:
-	std::unique_ptr<QString> homeAddress;
-	std::unique_ptr<QString> homePhone;
-	std::unique_ptr<QString> cellPhone;
-	std::unique_ptr<QString> emailAddress;
-};
-
-class Child : public Person
-{
-public:
-	Child(PersonBuilder* builder);
-
 	inline const QString&	GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool&		GetPrevAttended()	const { return *this->prevAttended; }
 	inline Qt::CheckState	GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
 	inline const qint16&	GetYearsAttended()	const { return *this->yearsAttended; }
 	inline const sr::list&	GetAllergies()		const { return *this->allergies; }
+
+	virtual QString GetInfo();
+
+protected:
+	std::unique_ptr<qint16>			id;
+	std::unique_ptr<QString>		firstName;
+	std::unique_ptr<QString>		lastName;
+	std::unique_ptr<QDate>			dateOfBirth;
+	std::unique_ptr<qint16>			age;
+	std::unique_ptr<sr::PersonType> personType;
+
+	std::unique_ptr<QString>	homeAddress;
+	std::unique_ptr<QString>	homePhone;
+	std::unique_ptr<QString>	cellPhone;
+	std::unique_ptr<QString>	emailAddress;
+
+	std::unique_ptr<QString>	prevLocation;
+	std::unique_ptr<bool>		prevAttended;
+	std::unique_ptr<qint16>		yearsAttended;
+	std::unique_ptr<sr::list>	allergies;
+};
+
+class Parent : public Person
+{
+public:
+	Parent() = delete;
+	Parent(PersonBuilder* builder);
+
+	virtual QString GetInfo() override;
+};
+
+class Child : public Person
+{
+public:
+	Child() = delete;
+	Child(PersonBuilder* builder);
 	
 	inline const sr::Group& GetGroup()			const { return *this->group; }
 
 	virtual QString GetInfo() override;
 
 private:
-	std::unique_ptr<QString>	prevLocation;
-	std::unique_ptr<bool>		prevAttended;
-	std::unique_ptr<qint16>		yearsAttended;
-	std::unique_ptr<sr::list>	allergies;
 
 	std::unique_ptr<sr::Group> group;
 };

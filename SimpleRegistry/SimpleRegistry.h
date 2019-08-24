@@ -12,7 +12,19 @@
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
 
-constexpr qint16 MinimumCols = 12;
+class TableManager
+{
+public:
+	TableManager() = delete;
+	TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people);
+	~TableManager() {}
+
+	void AddPersonToTable(Person* person);
+
+private:
+	QTableWidget* tableWidget;
+	std::vector<std::unique_ptr<Person>>* people;
+};
 
 class SimpleRegistry : public QMainWindow
 {
@@ -23,7 +35,7 @@ public:
 
 	const std::vector<std::unique_ptr<Person>>& GetPeople();
 
-	void UpdateTable(const PersonType& personType);	
+	void UpdateTable(const sr::PersonType& personType);	
 
 public slots:
 	void CreateParent();
@@ -36,10 +48,14 @@ protected:
 private:
 	Ui::SimpleRegistryClass ui;
 
+	qint16 MinimumCols;
+
 	std::vector<std::unique_ptr<Person>> people;
 
 	std::unique_ptr<SRCreateUser> parentWindow;
 	std::unique_ptr<SRCreateUser> childWindow;
+
+	std::unique_ptr<TableManager> tableManager;
 
 	void UserCreated(SRUserCreatedEvent* event);
 };

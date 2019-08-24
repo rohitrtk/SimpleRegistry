@@ -4,21 +4,16 @@
 #include <QWidget>
 #include "ui_SRCreateUser.h"
 #include "SRConsants.h"
+#include "SRPerson.h"
 #include <QString>
 #include <QEvent>
 #include <sstream>
 #include <string>
 #include <memory>
 #include <QCheckBox>
-#include "SRPerson.h"
 
 class PersonBuilder;
 class SimpleRegistry;
-
-enum class PersonType
-{
-	PARENT, CHILD, UNDEFINED
-};
 
 class SRCreateUser : public QWidget
 {
@@ -28,7 +23,7 @@ public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
 
-	void SetupWindow(SimpleRegistry* mainWindow, PersonType type = PersonType::PARENT);
+	void SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type = sr::PersonType::PARENT);
 
 	inline void SetPersonList(std::vector<std::unique_ptr<Person>>& list) { this->personList = &list; }
 
@@ -43,7 +38,9 @@ private:
 
 	SimpleRegistry* mainWindow;
 
-	PersonType personType;
+	sr::PersonType personType;
+
+	static qint16 idAssign;
 
 	const unsigned short int WindowWidth	= 465;
 	const unsigned short int WindowHeight	= 400;
@@ -67,7 +64,7 @@ private:
 	void MakePrevLocation	(PersonBuilder& builder);
 	void MakeYearsAttended	(PersonBuilder& builder);
 
-	void ParamMissing(PersonType type);
+	void ParamMissing(sr::PersonType type);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
@@ -75,14 +72,14 @@ const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
 class SRUserCreatedEvent : public QEvent
 {
 public:
-	SRUserCreatedEvent(const PersonType& personType) :
+	SRUserCreatedEvent(const sr::PersonType& personType) :
 		QEvent(USER_CREATED_EVENT),
 		personType(personType) {}
 
-	inline const PersonType GetPersonType() const { return this->personType; }
+	inline const sr::PersonType GetPersonType() const { return this->personType; }
 
 private:
-	PersonType personType;
+	sr::PersonType personType;
 };
 
 #endif
