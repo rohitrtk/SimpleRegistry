@@ -14,11 +14,11 @@
 
 class PersonBuilder;
 class SimpleRegistry;
+class SRUserCreatedEventFilter;
 
 class SRCreateUser : public QWidget
 {
 	Q_OBJECT
-
 public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
@@ -32,6 +32,9 @@ public slots:
 	void Cancel();
 	void Clear();
 	void HandlePrevAttended(int state);
+
+protected:
+	bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
 	Ui::SRCreateUser ui;
@@ -50,7 +53,7 @@ private:
 	
 	std::vector<std::unique_ptr<Person>>* personList;
 	bool paramMissing;
-	
+
 	void MakeFirstName		(PersonBuilder& builder);
 	void MakeLastName		(PersonBuilder& builder);
 	void MakeDateOfBirth	(PersonBuilder& builder);

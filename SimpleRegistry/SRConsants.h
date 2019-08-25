@@ -41,6 +41,13 @@ namespace sr
 	{
 		GROUP_1 = 1, GROUP_2 = 2, GROUP_3 = 3
 	};
+
+	enum class TableTitle
+	{
+		ID, TYPE, FIRST_NAME, LAST_NAME, AGE, DOB,
+		HOME_ADDRESS, HOME_PHONE, CELL_PHONE, EMAIL_ADDRESS,
+		PREV_ATTENDED, PREV_LOCATION, YEARS_ATTENDED
+	};
 }
 
 #endif 

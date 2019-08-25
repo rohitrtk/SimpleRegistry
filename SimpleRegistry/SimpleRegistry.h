@@ -8,14 +8,11 @@
 #include <memory>
 #include <vector>
 #include <array>
-
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 600
+#include <QTableWidget>
 
 class TableManager
 {
 public:
-	TableManager() = delete;
 	TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people);
 	~TableManager() {}
 
@@ -24,6 +21,8 @@ public:
 private:
 	QTableWidget* tableWidget;
 	std::vector<std::unique_ptr<Person>>* people;
+
+	QStringList tableTitles;
 };
 
 class SimpleRegistry : public QMainWindow
@@ -33,9 +32,10 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
-	const std::vector<std::unique_ptr<Person>>& GetPeople();
+	const qint16 BaseWidth	= 1280;
+	const qint16 BaseHeight = 720;
 
-	void UpdateTable(const sr::PersonType& personType);	
+	const std::vector<std::unique_ptr<Person>>& GetPeople();
 
 public slots:
 	void CreateParent();
@@ -43,12 +43,11 @@ public slots:
 
 protected:
 	void customEvent(QEvent *event) override;
-	void closeEvent(QCloseEvent* event) override;
+	void closeEvent (QCloseEvent* event) override;
+	void resizeEvent(QResizeEvent * event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;
-
-	qint16 MinimumCols;
 
 	std::vector<std::unique_ptr<Person>> people;
 

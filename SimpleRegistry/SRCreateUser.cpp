@@ -8,9 +8,11 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QDebug>
+#include <QKeyEvent>
 #include "SRPerson.h"
 #include "SRConsants.h"
 #include "SimpleRegistry.h"
+#include <QWidget>
 
 qint16 SRCreateUser::idAssign = 1;
 
@@ -19,6 +21,17 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	this->ui.textEdit_firstName->		installEventFilter(this);
+	this->ui.textEdit_lastName->		installEventFilter(this);
+	this->ui.dateEdit_dateOfBirth->		installEventFilter(this);
+	this->ui.textEdit_homeAddress->		installEventFilter(this);
+	this->ui.textEdit_homePhone->		installEventFilter(this);
+	this->ui.textEdit_cellPhone->		installEventFilter(this);
+	this->ui.textEdit_emailAddress->	installEventFilter(this);
+	this->ui.checkBox_prevAttended->	installEventFilter(this);
+	this->ui.textEdit_prevLocation->	installEventFilter(this);
+	this->ui.textEdit_yearsAttended->	installEventFilter(this);
+	
 	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
@@ -28,6 +41,16 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 
 	this->paramMissing = false;
 	this->personType = sr::PersonType::UNDEFINED;
+	
+	QWidget::setTabOrder(ui.textEdit_firstName,		ui.textEdit_lastName);
+	QWidget::setTabOrder(ui.textEdit_lastName,		ui.dateEdit_dateOfBirth);
+	QWidget::setTabOrder(ui.dateEdit_dateOfBirth,	ui.textEdit_homeAddress);
+	QWidget::setTabOrder(ui.textEdit_homeAddress,	ui.textEdit_homePhone);
+	QWidget::setTabOrder(ui.textEdit_homePhone,		ui.textEdit_cellPhone);
+	QWidget::setTabOrder(ui.textEdit_cellPhone,		ui.textEdit_emailAddress);
+	QWidget::setTabOrder(ui.textEdit_emailAddress,	ui.checkBox_prevAttended);
+	QWidget::setTabOrder(ui.checkBox_prevAttended,	ui.textEdit_prevLocation);
+	QWidget::setTabOrder(ui.textEdit_prevLocation,	ui.textEdit_yearsAttended);
 }
 
 SRCreateUser::~SRCreateUser()
@@ -268,4 +291,20 @@ void SRCreateUser::HandlePrevAttended(int state)
 		this->ui.textEdit_prevLocation->setEnabled(true);
 		this->ui.textEdit_yearsAttended->setEnabled(true);
 	}
+}
+
+bool SRCreateUser::eventFilter(QObject* object, QEvent* event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+		
+		if (keyEvent->key() == Qt::Key_Tab)
+		{
+			QWidget::focusNextChild();
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -40,7 +40,7 @@ public:
     {
         if (SimpleRegistryClass->objectName().isEmpty())
             SimpleRegistryClass->setObjectName(QString::fromUtf8("SimpleRegistryClass"));
-        SimpleRegistryClass->resize(1138, 740);
+        SimpleRegistryClass->resize(1280, 720);
         actionCreate_Parent = new QAction(SimpleRegistryClass);
         actionCreate_Parent->setObjectName(QString::fromUtf8("actionCreate_Parent"));
         actionCreate_Child = new QAction(SimpleRegistryClass);
@@ -49,16 +49,19 @@ public:
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         tableWidget = new QTableWidget(centralWidget);
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
-        tableWidget->setGeometry(QRect(0, 0, 1131, 641));
+        tableWidget->setGeometry(QRect(0, 0, 1279, 719));
+        tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
         tableWidget->setRowCount(0);
         tableWidget->setColumnCount(0);
-        tableWidget->horizontalHeader()->setVisible(false);
+        tableWidget->horizontalHeader()->setVisible(true);
         tableWidget->verticalHeader()->setVisible(false);
         tableWidget->verticalHeader()->setHighlightSections(true);
         SimpleRegistryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SimpleRegistryClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1138, 21));
+        menuBar->setGeometry(QRect(0, 0, 1280, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuEdit = new QMenu(menuBar);
