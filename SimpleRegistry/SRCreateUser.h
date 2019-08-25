@@ -5,16 +5,16 @@
 #include "ui_SRCreateUser.h"
 #include "SRConsants.h"
 #include "SRPerson.h"
-#include <QString>
-#include <QEvent>
 #include <sstream>
 #include <string>
 #include <memory>
-#include <QCheckBox>
 
 class PersonBuilder;
 class SimpleRegistry;
 class SRUserCreatedEventFilter;
+class QString;
+class QEvent;
+class QCheckBox;
 
 class SRCreateUser : public QWidget
 {
@@ -67,7 +67,7 @@ private:
 	void MakePrevLocation	(PersonBuilder& builder);
 	void MakeYearsAttended	(PersonBuilder& builder);
 
-	void ParamMissing(sr::PersonType type);
+	void ParamMissing(const sr::PersonType&& type);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
@@ -79,7 +79,7 @@ public:
 		QEvent(USER_CREATED_EVENT),
 		personType(personType) {}
 
-	inline const sr::PersonType GetPersonType() const { return this->personType; }
+	inline const sr::PersonType& GetPersonType() const { return this->personType; }
 
 private:
 	sr::PersonType personType;

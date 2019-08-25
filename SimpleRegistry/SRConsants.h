@@ -2,31 +2,24 @@
 #define SRCONSTANTS_H_
 
 #include <vector>
-#include <string>
-#include <memory>
-#include <QEvent>
+#include <QString>
 
-#define ERROR_BUILDER_NO_ID				"NULL ID"
+constexpr const char* ErrorBuilderID			= "MISSING ID";
+constexpr const char* ErrorBuilderFirstName		= "MISSING FIRST NAME";
+constexpr const char* ErrorBuilderLastName		= "MISSING LAST NAME";
+constexpr const char* ErrorBuilderDOB			= "MISSING DOB";
+constexpr const char* ErrorBuilderAge			= "MISSING AGE";
+constexpr const char* ErrorBuilderHomeAddress	= "MISSING HOME ADDRESS";
+constexpr const char* ErrorBuilderEmailAddress	= "MISSING EMAIL ADDRESS";
+constexpr const char* ErrorBuilderHomePhone		= "MISSING HOME PHONE";
+constexpr const char* ErrorBuilderCellPhone		= "MISSING CELL PHONE";
+constexpr const char* ErrorBuilderPrevAttended	= "MISSING PREVIOUSLY ATTENDED";
+constexpr const char* ErrorBuilderPrevLocation	= "MISSING PREVIOUS LOCATION";
+constexpr const char* ErrorBuilderYearsAttended = "MISSING YEARS ATTENDED";
+constexpr const char* ErrorBuilderAllergies		= "MISSING ALLERGIES";
+constexpr const char* ErrorBuilderGroup			= "MISSING GROUP";
 
-#define ERROR_BUILDER_FIRST_NAME		"NULL FIRST NAME"
-#define ERROR_BUILDER_LAST_NAME			"NULL LAST NAME"
-#define ERROR_BUILDER_DOB				"NULL DOB"
-#define ERROR_BUILDER_AGE				"NULL AGE"
-
-#define ERROR_BUILDER_HOME_ADDRESS		"NULL HOME ADDRESS"
-#define ERROR_BUILDER_EMAIL_ADDRESS		"NULL EMAIL ADDRESS"
-#define ERROR_BUILDER_HOME_PHONE		"NULL HOME PHONE"
-#define ERROR_BUILDER_CELL_PHONE		"NULL CELL PHONE"
-
-#define ERROR_BUILDER_PREV_ATTENDED		"NULL PREVIOUSLY ATTENDED"
-#define ERROR_BUILDER_YEARS_ATTENDED	"NULL YEARS ATTENDED"
-#define ERROR_BUILDER_PREV_LOCATION		"NULL PREVIOUS LOCATION"
-#define ERROR_BUILDER_ALLERGIES			"NULL ALLERGIES"
-#define ERROR_BUILDER_GROUP				"NULL GROUP NUMBER"
-
-#define ERROR_CREATE_PARENT_NULL		"NULL PERSON LIST"
-
-class Person;
+constexpr const char* ErrorCreateParent			= "PERSON LIST IS NULL";
 
 namespace sr
 {

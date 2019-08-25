@@ -4,10 +4,11 @@
 #include <QDebug>
 #include <QDate>
 #include <QAction>
-#include <QTableWidgetItem>
 #include <QLineEdit>
 #include <QCloseEvent>
 #include <QHeaderView>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 #include "SRConsants.h"
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
@@ -15,38 +16,43 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->parentWindow = nullptr;
-	this->childWindow = nullptr;
+	this->parentWindow = std::make_unique<SRCreateUser>();
+	this->parentWindow->SetPersonList(people);
+	this->parentWindow->SetupWindow(this);
 
-	tableManager = std::make_unique<TableManager>(this->ui.tableWidget, &this->people);
+	this->childWindow  = std::make_unique<SRCreateUser>();
+	this->childWindow->SetPersonList(people);
+	this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
+
+	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget, &this->people);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
 }
 
-void SimpleRegistry::CreateParent()
+void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
 {
-	if (!parentWindow || !parentWindow->isVisible())
+	if (person == sr::PersonType::PARENT && !parentWindow->isVisible())
 	{
-		this->parentWindow = std::make_unique<SRCreateUser>();
-		this->parentWindow->SetPersonList(this->people);
-		this->parentWindow->SetupWindow(this);
 		this->parentWindow->show();
 	}
-}
-
-void SimpleRegistry::CreateChild()
-{
-	if (!this->childWindow || !childWindow->isVisible())
+	else if (person == sr::PersonType::CHILD && !childWindow->isVisible())
 	{
-		this->childWindow = std::make_unique<SRCreateUser>();
-		this->childWindow->SetPersonList(this->people);
-		this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
 		this->childWindow->show();
 	}
 }
 
-const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople()
+void SimpleRegistry::CreateParent() const
+{
+	MakeWindow(sr::PersonType::PARENT);
+}
+
+void SimpleRegistry::CreateChild() const
+{
+	MakeWindow(sr::PersonType::CHILD);
+}
+
+const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople() const
 {
 	return this->people;
 }
@@ -82,7 +88,7 @@ TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>
 	tableWidget(tw),
 	people(people)
 {	
-	this->tableTitles 
+	this->tableTitles
 		<< "ID"				<< "Type"					<< "First Name" 
 		<< "Last Name"		<< "Age"					<< "Date Of Birth" 
 		<< "Address"		<< "Home Phone"				<< "Cell Phone" 

@@ -1,18 +1,18 @@
 #include "SRCreateUser.h"
+#include "SRPerson.h"
+#include "SimpleRegistry.h"
+#include "SRConsants.h"
 #include <QTextEdit>
-#include <QObject>
 #include <QLayoutItem>
-#include <QWidget>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QLabel>
-#include <QMessageBox>
 #include <QDebug>
+#include <QMessageBox>
 #include <QKeyEvent>
-#include "SRPerson.h"
-#include "SRConsants.h"
-#include "SimpleRegistry.h"
-#include <QWidget>
+#include <QCheckBox>
+#include <QEvent>
+#include <QString>
 
 qint16 SRCreateUser::idAssign = 1;
 
@@ -85,7 +85,7 @@ void SRCreateUser::Create()
 {
 	if (!this->personList)
 	{
-		throw ERROR_CREATE_PARENT_NULL;
+		throw ErrorCreateParent;
 	}
 
 	this->paramMissing = false;
@@ -148,7 +148,7 @@ void SRCreateUser::Clear()
 
 void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 {
-	QString firstName = ui.textEdit_firstName->toPlainText().trimmed();
+	QString& firstName = ui.textEdit_firstName->toPlainText().trimmed();
 	if (!firstName.isEmpty())
 	{
 		builder.FirstName(std::move(firstName));
@@ -271,7 +271,7 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 	builder.YearsAttended(0);
 }
 
-void SRCreateUser::ParamMissing(sr::PersonType type)
+void SRCreateUser::ParamMissing(const sr::PersonType&& type)
 {
 	if (this->personType == type)
 	{

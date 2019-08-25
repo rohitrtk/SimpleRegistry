@@ -8,7 +8,6 @@
 #include <memory>
 #include <vector>
 #include <array>
-#include <QTableWidget>
 
 class TableManager
 {
@@ -32,14 +31,11 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
-	const qint16 BaseWidth	= 1280;
-	const qint16 BaseHeight = 720;
-
-	const std::vector<std::unique_ptr<Person>>& GetPeople();
+	const std::vector<std::unique_ptr<Person>>& GetPeople() const;
 
 public slots:
-	void CreateParent();
-	void CreateChild();
+	void CreateParent() const;
+	void CreateChild()  const;
 
 protected:
 	void customEvent(QEvent *event) override;
@@ -56,6 +52,7 @@ private:
 
 	std::unique_ptr<TableManager> tableManager;
 
+	void MakeWindow(const sr::PersonType&& person) const;
 	void UserCreated(SRUserCreatedEvent* event);
 };
 

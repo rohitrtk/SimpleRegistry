@@ -5,12 +5,12 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <QDate>
 
 class PersonBuilder;
 class Person;
 class Parent;
 class Child;
+class QDate;
 
 class PersonBuilder
 {
@@ -18,7 +18,6 @@ class PersonBuilder
 	friend class Parent;
 	friend class Child;
 public:
-
 	PersonBuilder() {}
 	~PersonBuilder() {}
 
@@ -71,6 +70,7 @@ class Person
 public:
 	Person() = delete;
 	Person(PersonBuilder* builder);
+	virtual ~Person() {}
 
 	inline const qint16&			GetID()				const { return *this->id; }
 	inline const QString&			GetFirstName()		const { return *this->firstName; }
@@ -89,8 +89,6 @@ public:
 	inline Qt::CheckState	GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
 	inline const qint16&	GetYearsAttended()	const { return *this->yearsAttended; }
 	inline const sr::list&	GetAllergies()		const { return *this->allergies; }
-
-	virtual QString GetInfo();
 
 protected:
 	std::unique_ptr<qint16>			id;
@@ -116,8 +114,6 @@ class Parent : public Person
 public:
 	Parent() = delete;
 	Parent(PersonBuilder* builder);
-
-	virtual QString GetInfo() override;
 };
 
 class Child : public Person
@@ -127,8 +123,6 @@ public:
 	Child(PersonBuilder* builder);
 	
 	inline const sr::Group& GetGroup()			const { return *this->group; }
-
-	virtual QString GetInfo() override;
 
 private:
 
