@@ -27,12 +27,13 @@ namespace sr
 
 	enum class PersonType
 	{
-		PARENT, CHILD, UNDEFINED
+		UNDEFINED = 1, PARENT, CHILD
 	};
 
+	/* Ages - Pre's: 4-5, Group 1: 6-8, Group 2: 9-11, Group 3: 12-14, Group 4: 15-17 */
 	enum class Group
 	{
-		GROUP_1 = 1, GROUP_2 = 2, GROUP_3 = 3
+		PRE, GROUP_1, GROUP_2, GROUP_3, GROUP_4, ADULT
 	};
 
 	enum class TableTitle

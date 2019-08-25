@@ -79,16 +79,20 @@ public:
 	inline const QDate&				GetDateOfBirth()	const { return *this->dateOfBirth; }
 	inline const sr::PersonType&	GetPersonType()		const { return *this->personType; }
 
-	inline const QString& GetEmailAddress()	const { return *this->emailAddress; }
-	inline const QString& GetHomePhone()	const { return *this->homePhone; }
-	inline const QString& GetCellPhone()	const { return *this->cellPhone; }
-	inline const QString& GetHomeAddress()	const { return *this->homeAddress; }
+	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
+	inline const QString&			GetHomePhone()		const { return *this->homePhone; }
+	inline const QString&			GetCellPhone()		const { return *this->cellPhone; }
+	inline const QString&			GetHomeAddress()	const { return *this->homeAddress; }
 
-	inline const QString&	GetPrevLocation()	const { return *this->prevLocation; }
-	inline const bool&		GetPrevAttended()	const { return *this->prevAttended; }
-	inline Qt::CheckState	GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
-	inline const qint16&	GetYearsAttended()	const { return *this->yearsAttended; }
-	inline const sr::list&	GetAllergies()		const { return *this->allergies; }
+	inline const QString&			GetPrevLocation()	const { return *this->prevLocation; }
+	inline const bool&				GetPrevAttended()	const { return *this->prevAttended; }
+	inline Qt::CheckState			GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
+	inline const qint16&			GetYearsAttended()	const { return *this->yearsAttended; }
+	inline const sr::list&			GetAllergies()		const { return *this->allergies; }
+
+	inline const sr::Group&			GetGroup()			const { return *this->group; }
+	
+	QString							GetGroupAsString()	const;
 
 protected:
 	std::unique_ptr<qint16>			id;
@@ -98,15 +102,21 @@ protected:
 	std::unique_ptr<qint16>			age;
 	std::unique_ptr<sr::PersonType> personType;
 
-	std::unique_ptr<QString>	homeAddress;
-	std::unique_ptr<QString>	homePhone;
-	std::unique_ptr<QString>	cellPhone;
-	std::unique_ptr<QString>	emailAddress;
+	std::unique_ptr<QString>		homeAddress;
+	std::unique_ptr<QString>		homePhone;
+	std::unique_ptr<QString>		cellPhone;
+	std::unique_ptr<QString>		emailAddress;
 
-	std::unique_ptr<QString>	prevLocation;
-	std::unique_ptr<bool>		prevAttended;
-	std::unique_ptr<qint16>		yearsAttended;
-	std::unique_ptr<sr::list>	allergies;
+	std::unique_ptr<QString>		prevLocation;
+	std::unique_ptr<bool>			prevAttended;
+	std::unique_ptr<qint16>			yearsAttended;
+	std::unique_ptr<sr::list>		allergies;
+
+	std::unique_ptr<sr::Group>		group;
+
+private:
+	qint16 AssignAge() const;
+	sr::Group AssignGroup() const;
 };
 
 class Parent : public Person

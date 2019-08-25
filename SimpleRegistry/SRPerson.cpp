@@ -22,15 +22,48 @@ Person::Person(PersonBuilder* builder) :
 	if (!lastName)		throw ErrorBuilderLastName;
 	if (!dateOfBirth)	throw ErrorBuilderDOB;
 
-	// Setting age
+	this->age	= std::make_unique<qint16>(AssignAge());
+	this->group	= std::make_unique<sr::Group>(AssignGroup());
+}
+
+qint16 Person::AssignAge() const
+{
 	QDate currentDate = QDate::currentDate();
-	this->age = std::make_unique<qint16>(currentDate.year() - dateOfBirth->year());
+	qint16 age = currentDate.year() - dateOfBirth->year();
 
 	if ((currentDate.month() - dateOfBirth->month() < 0) &&
 		currentDate.day() - dateOfBirth->day() < 0)
 	{
-		*this->age -= 1;
+		age -= 1;
 	}
+
+	return std::move(age);
+}
+
+sr::Group Person::AssignGroup() const
+{
+	sr::Group group;
+	if		(*age > 17) group = sr::Group::ADULT;
+	else if (*age > 14) group = sr::Group::GROUP_4;
+	else if (*age > 11) group = sr::Group::GROUP_3;
+	else if (*age > 8)	group = sr::Group::GROUP_2;
+	else if (*age > 5)	group = sr::Group::GROUP_1;
+	else				group = sr::Group::PRE;
+
+	return group;
+}
+
+QString Person::GetGroupAsString() const
+{
+	QString s;
+	if		(*group == sr::Group::PRE)		s = "PRE";
+	else if (*group == sr::Group::GROUP_1)	s = "1";
+	else if (*group == sr::Group::GROUP_2)	s = "2";
+	else if (*group == sr::Group::GROUP_3)	s = "3";
+	else if (*group == sr::Group::GROUP_4)	s = "4";
+	else									s = "A";
+
+	return s;
 }
 
 Parent::Parent(PersonBuilder* builder) : Person(builder)
