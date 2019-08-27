@@ -144,12 +144,21 @@ void SRCreateUser::Cancel()
 
 void SRCreateUser::Clear()
 {
+
 	for (size_t i = 0; i < ui.formLayout->count(); ++i)
 	{
 		QTextEdit* q = dynamic_cast<QTextEdit*>(ui.formLayout->itemAt(i)->widget());
 		if (q)
 		{
 			q->clear();
+		}
+		else
+		{
+			QCheckBox* c = dynamic_cast<QCheckBox*>(ui.formLayout->itemAt(i)->widget());
+			if (c)
+			{
+				c->setCheckState(Qt::CheckState::Unchecked);
+			}
 		}
 	}
 }
