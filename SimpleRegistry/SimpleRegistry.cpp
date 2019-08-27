@@ -89,11 +89,11 @@ TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>
 	people(people)
 {	
 	this->tableTitles
-		<< "ID"					<< "Type"				<< "First Name" 
+		<< "ID"					<< "Type"				<< "First Name"
 		<< "Last Name"			<< "Gender"				<< "Age"
 		<< "Date Of Birth"		<< "Group"				<< "Address"
-		<< "Home Phone"			<< "Cell Phone"			<< "Email Address"		
-		<< "Previously Attended"<< "Previous Location"	<< "Years Attended"		
+		<< "Home Phone"			<< "Cell Phone"			<< "Email Address"
+		<< "Previously Attended"<< "Previous Location"	<< "Years Attended"
 		<< "Medical Allergies";
 
 	qint16 numColumns = tableTitles.size();
@@ -117,18 +117,19 @@ void TableManager::AddPersonToTable(Person* p)
 	
 	tableWidget->setItem(row, 2, new QTableWidgetItem(p->GetFirstName()));
 	tableWidget->setItem(row, 3, new QTableWidgetItem(p->GetLastName()));
-	tableWidget->setItem(row, 4, new QTableWidgetItem(QString::number(p->GetAge())));
-	tableWidget->setItem(row, 5, new QTableWidgetItem(p->GetDateOfBirth().toString()));
-	tableWidget->setItem(row, 6, new QTableWidgetItem(p->GetGroupAsString()));
+	tableWidget->setItem(row, 4, new QTableWidgetItem(p->GetGender()));
+	tableWidget->setItem(row, 5, new QTableWidgetItem(QString::number(p->GetAge())));
+	tableWidget->setItem(row, 6, new QTableWidgetItem(p->GetDateOfBirth().toString()));
+	tableWidget->setItem(row, 7, new QTableWidgetItem(p->GetGroupAsString()));
 
 	if (p->GetPersonType() == sr::PersonType::PARENT)
 	{
 		tableWidget->setItem(row, 1, new QTableWidgetItem("Parent"));
 
-		tableWidget->setItem(row, 7, new QTableWidgetItem(p->GetHomeAddress()));
-		tableWidget->setItem(row, 8, new QTableWidgetItem(p->GetHomePhone()));
-		tableWidget->setItem(row, 9, new QTableWidgetItem(p->GetCellPhone()));
-		tableWidget->setItem(row, 10, new QTableWidgetItem(p->GetEmailAddress()));
+		tableWidget->setItem(row, 8, new QTableWidgetItem(p->GetHomeAddress()));
+		tableWidget->setItem(row, 9, new QTableWidgetItem(p->GetHomePhone()));
+		tableWidget->setItem(row, 10, new QTableWidgetItem(p->GetCellPhone()));
+		tableWidget->setItem(row, 11, new QTableWidgetItem(p->GetEmailAddress()));
 	}
 	else if (p->GetPersonType() == sr::PersonType::CHILD)
 	{
@@ -137,10 +138,10 @@ void TableManager::AddPersonToTable(Person* p)
 		QTableWidgetItem* q = new QTableWidgetItem();
 		Qt::CheckState checkState = p->GetPrevAttendedS();
 		q->setCheckState(checkState);
-		tableWidget->setItem(row, 11, q);
+		tableWidget->setItem(row, 12, q);
 
-		tableWidget->setItem(row, 12, new QTableWidgetItem(p->GetPrevLocation()));
+		tableWidget->setItem(row, 13, new QTableWidgetItem(p->GetPrevLocation()));
 
-		tableWidget->setItem(row, 13, new QTableWidgetItem(QString::number(p->GetYearsAttended())));
+		tableWidget->setItem(row, 14, new QTableWidgetItem(QString::number(p->GetYearsAttended())));
 	}
 }

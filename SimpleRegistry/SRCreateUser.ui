@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>748</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -316,7 +316,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox"/>
+     <widget class="QComboBox" name="comboBox_gender"/>
     </item>
    </layout>
   </widget>

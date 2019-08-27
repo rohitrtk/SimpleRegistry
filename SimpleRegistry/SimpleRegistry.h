@@ -40,7 +40,7 @@ public slots:
 protected:
 	void customEvent(QEvent *event) override;
 	void closeEvent (QCloseEvent* event) override;
-	void resizeEvent(QResizeEvent * event) override;
+	void resizeEvent(QResizeEvent* event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;

@@ -32,7 +32,11 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	this->ui.checkBox_prevAttended->	installEventFilter(this);
 	this->ui.textEdit_prevLocation->	installEventFilter(this);
 	this->ui.textEdit_yearsAttended->	installEventFilter(this);
+	this->ui.comboBox_gender->			installEventFilter(this);
 	
+	this->ui.comboBox_gender->addItem("Male");
+	this->ui.comboBox_gender->addItem("Female");
+
 	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
@@ -99,6 +103,7 @@ void SRCreateUser::Create()
 	MakeFirstName(builder);
 	MakeLastName(builder);
 	MakeDateOfBirth(builder);
+	MakeGender(builder);
 	MakeHomeAddress(builder);
 	MakeHomePhone(builder);
 	MakeCellPhone(builder);
@@ -176,6 +181,12 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
 {
 	builder.DateOfBirth(QDate(ui.dateEdit_dateOfBirth->date()));
+}
+
+void SRCreateUser::MakeGender(PersonBuilder& builder)
+{
+	QString& gender = ui.comboBox_gender->currentText();
+	builder.Gender(gender);
 }
 
 void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
