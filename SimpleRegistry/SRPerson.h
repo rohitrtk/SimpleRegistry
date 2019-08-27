@@ -32,6 +32,7 @@ public:
 	PersonBuilder* FirstName(QString firstName);
 	PersonBuilder* LastName(QString lastName);
 	PersonBuilder* DateOfBirth(QDate dateOfBirth);
+	PersonBuilder* Gender(QString gender);
 
 	PersonBuilder* HomeAddress(QString homeAddress);
 	PersonBuilder* EmailAddress(QString emailAddress);
@@ -52,6 +53,7 @@ private:
 	std::unique_ptr<QString>	lastName;
 	std::unique_ptr<QDate>		dateOfBirth;
 	std::unique_ptr<qint16>		age;
+	std::unique_ptr<QString>	gender;
 
 	std::unique_ptr<QString>	homeAddress;
 	std::unique_ptr<QString>	homePhone;
@@ -78,6 +80,7 @@ public:
 	inline const qint16&			GetAge()			const { return *this->age; }
 	inline const QDate&				GetDateOfBirth()	const { return *this->dateOfBirth; }
 	inline const sr::PersonType&	GetPersonType()		const { return *this->personType; }
+	inline const QString&			GetGender()			const { return *this->gender; }
 
 	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
 	inline const QString&			GetHomePhone()		const { return *this->homePhone; }
@@ -99,8 +102,7 @@ protected:
 	std::unique_ptr<QString>		firstName;
 	std::unique_ptr<QString>		lastName;
 	std::unique_ptr<QDate>			dateOfBirth;
-	std::unique_ptr<qint16>			age;
-	std::unique_ptr<sr::PersonType> personType;
+	std::unique_ptr<QString>		gender;
 
 	std::unique_ptr<QString>		homeAddress;
 	std::unique_ptr<QString>		homePhone;
@@ -112,7 +114,9 @@ protected:
 	std::unique_ptr<qint16>			yearsAttended;
 	std::unique_ptr<sr::list>		allergies;
 
+	std::unique_ptr<qint16>			age;
 	std::unique_ptr<sr::Group>		group;
+	std::unique_ptr<sr::PersonType> personType;
 
 private:
 	qint16 AssignAge() const;

@@ -24,6 +24,7 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	this->ui.textEdit_firstName->		installEventFilter(this);
 	this->ui.textEdit_lastName->		installEventFilter(this);
 	this->ui.dateEdit_dateOfBirth->		installEventFilter(this);
+	this->ui.checkBox_prevAttended->	installEventFilter(this);
 	this->ui.textEdit_homeAddress->		installEventFilter(this);
 	this->ui.textEdit_homePhone->		installEventFilter(this);
 	this->ui.textEdit_cellPhone->		installEventFilter(this);
@@ -78,6 +79,8 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 	{
 		this->setWindowTitle(WindowTitleChild);
 		this->ui.checkBox_prevAttended->setText(ui.checkBox_prevAttended->text() + "*");
+		this->ui.label_prevLocation->setText(ui.label_prevLocation->text() + "*");
+		this->ui.label_YearsAttended->setText(ui.label_YearsAttended->text() + "*");
 	}
 }
 
@@ -266,9 +269,10 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 		}
 
 		builder.YearsAttended(s.toUInt());
+		return;
 	}
 
-	builder.YearsAttended(0);
+	builder.YearsAttended(-1);
 }
 
 void SRCreateUser::ParamMissing(const sr::PersonType&& type)
@@ -304,6 +308,10 @@ bool SRCreateUser::eventFilter(QObject* object, QEvent* event)
 			QWidget::focusNextChild();
 			return true;
 		}
+	}
+	else if (event->type() == QEvent::Hide)
+	{
+		this->Clear();
 	}
 
 	return false;

@@ -9,6 +9,7 @@ constexpr const char* ErrorBuilderFirstName		= "MISSING FIRST NAME";
 constexpr const char* ErrorBuilderLastName		= "MISSING LAST NAME";
 constexpr const char* ErrorBuilderDOB			= "MISSING DOB";
 constexpr const char* ErrorBuilderAge			= "MISSING AGE";
+constexpr const char* ErrorBuilderGender		= "MISSING GENDER";
 constexpr const char* ErrorBuilderHomeAddress	= "MISSING HOME ADDRESS";
 constexpr const char* ErrorBuilderEmailAddress	= "MISSING EMAIL ADDRESS";
 constexpr const char* ErrorBuilderHomePhone		= "MISSING HOME PHONE";
@@ -41,6 +42,11 @@ namespace sr
 		ID, TYPE, FIRST_NAME, LAST_NAME, AGE, DOB,
 		HOME_ADDRESS, HOME_PHONE, CELL_PHONE, EMAIL_ADDRESS,
 		PREV_ATTENDED, PREV_LOCATION, YEARS_ATTENDED
+	};
+
+	enum class Gender
+	{
+		MALE, FEMALE
 	};
 }
 

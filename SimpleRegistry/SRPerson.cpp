@@ -8,6 +8,7 @@ Person::Person(PersonBuilder* builder) :
 	firstName		(std::move(builder->firstName)),
 	lastName		(std::move(builder->lastName)),
 	dateOfBirth		(std::move(builder->dateOfBirth)),
+	gender			(std::move(builder->gender)),
 	homeAddress		(std::move(builder->homeAddress)),
 	homePhone		(std::move(builder->homePhone)),
 	cellPhone		(std::move(builder->cellPhone)),
@@ -21,6 +22,7 @@ Person::Person(PersonBuilder* builder) :
 	if (!firstName)		throw ErrorBuilderFirstName;
 	if (!lastName)		throw ErrorBuilderLastName;
 	if (!dateOfBirth)	throw ErrorBuilderDOB;
+	if (!gender)		throw ErrorBuilderGender;
 
 	this->age	= std::make_unique<qint16>(AssignAge());
 	this->group	= std::make_unique<sr::Group>(AssignGroup());
@@ -32,7 +34,7 @@ qint16 Person::AssignAge() const
 	qint16 age = currentDate.year() - dateOfBirth->year();
 
 	if ((currentDate.month() - dateOfBirth->month() < 0) &&
-		currentDate.day() - dateOfBirth->day() < 0)
+		 currentDate.day()   - dateOfBirth->day()   < 0)
 	{
 		age -= 1;
 	}
@@ -106,6 +108,12 @@ PersonBuilder* PersonBuilder::LastName(QString lastName)
 PersonBuilder* PersonBuilder::DateOfBirth(QDate dateOfBirth)
 {
 	this->dateOfBirth = std::make_unique<QDate>(dateOfBirth);
+	return this;
+}
+
+PersonBuilder* PersonBuilder::Gender(QString gender)
+{
+	this->gender = std::make_unique<QString>(gender);
 	return this;
 }
 

@@ -90,10 +90,11 @@ TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>
 {	
 	this->tableTitles
 		<< "ID"					<< "Type"				<< "First Name" 
-		<< "Last Name"			<< "Age"				<< "Date Of Birth" 
-		<< "Group"				<< "Address"			<< "Home Phone"
-		<< "Cell Phone"			<< "Email Address"		<< "Previously Attended"
-		<< "Previous Location"	<< "Years Attended"		<< "Medical Allergies";
+		<< "Last Name"			<< "Gender"				<< "Age"
+		<< "Date Of Birth"		<< "Group"				<< "Address"
+		<< "Home Phone"			<< "Cell Phone"			<< "Email Address"		
+		<< "Previously Attended"<< "Previous Location"	<< "Years Attended"		
+		<< "Medical Allergies";
 
 	qint16 numColumns = tableTitles.size();
 	this->tableWidget->setColumnCount(numColumns);
