@@ -36,6 +36,7 @@ public:
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;
+	//void SavePerson() const;
 
 protected:
 	void customEvent(QEvent *event) override;

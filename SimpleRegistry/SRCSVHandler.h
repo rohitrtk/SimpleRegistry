@@ -12,9 +12,9 @@
 class CSVHandler
 {
 	public:
-		void CreateFile(std::string);
-		std::vector<std::unique_ptr<Person>> ReadRecords(std::string);
-		std::unique_ptr<Person> WriteRecord(std::string);
+		void CreateFile(const std::string&);
+		std::vector<std::unique_ptr<Person>> ReadRecords(const std::string&);
+		void WriteRecord(const std::string&, std::vector<std::unique_ptr<Person>>);
 };
 
 #endif

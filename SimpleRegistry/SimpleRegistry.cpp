@@ -10,6 +10,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include "SRConsants.h"
+#include "SRCSVHandler.h"
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
 	: QMainWindow(parent)
@@ -28,6 +29,7 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
+	//connect(ui.actionSavePerson, SIGNAL(triggered()), this, SLOT(SavePerson()));
 }
 
 void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
@@ -144,3 +146,5 @@ void TableManager::AddPersonToTable(Person* p)
 		tableWidget->setItem(row, 13, new QTableWidgetItem(QString::number(p->GetYearsAttended())));
 	}
 }
+
+
