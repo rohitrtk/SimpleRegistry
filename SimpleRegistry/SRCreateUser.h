@@ -57,6 +57,7 @@ private:
 	void MakeFirstName		(PersonBuilder& builder);
 	void MakeLastName		(PersonBuilder& builder);
 	void MakeDateOfBirth	(PersonBuilder& builder);
+	void MakeGender			(PersonBuilder& builder);
 
 	void MakeHomeAddress	(PersonBuilder& builder);
 	void MakeHomePhone		(PersonBuilder& builder);

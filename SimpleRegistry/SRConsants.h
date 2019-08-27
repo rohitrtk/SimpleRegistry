@@ -24,8 +24,6 @@ constexpr const char* ErrorCreateParent			= "PERSON LIST IS NULL";
 
 namespace sr
 {
-	using list = std::vector<QString>;
-
 	enum class PersonType
 	{
 		UNDEFINED = 1, PARENT, CHILD

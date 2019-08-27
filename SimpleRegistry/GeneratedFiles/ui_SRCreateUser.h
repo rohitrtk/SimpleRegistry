@@ -52,7 +52,7 @@ public:
     QPushButton *pushButton_create;
     QLabel *label_lastName;
     QLabel *label_gender;
-    QComboBox *comboBox;
+    QComboBox *comboBox_gender;
 
     void setupUi(QWidget *SRCreateUser)
     {
@@ -66,7 +66,7 @@ public:
         SRCreateUser->setSizePolicy(sizePolicy);
         formLayoutWidget = new QWidget(SRCreateUser);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(0, 0, 461, 748));
+        formLayoutWidget->setGeometry(QRect(0, 0, 461, 391));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -229,10 +229,10 @@ public:
 
         formLayout->setWidget(2, QFormLayout::LabelRole, label_gender);
 
-        comboBox = new QComboBox(formLayoutWidget);
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
+        comboBox_gender = new QComboBox(formLayoutWidget);
+        comboBox_gender->setObjectName(QString::fromUtf8("comboBox_gender"));
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, comboBox);
+        formLayout->setWidget(2, QFormLayout::FieldRole, comboBox_gender);
 
 
         retranslateUi(SRCreateUser);
