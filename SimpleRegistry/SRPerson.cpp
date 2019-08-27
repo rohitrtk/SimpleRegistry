@@ -4,89 +4,87 @@
 #include <QDate>
 
 Person::Person(PersonBuilder* builder) :
-	id			(std::move(builder->id)),
-	firstName	(std::move(builder->firstName)),
-	lastName	(std::move(builder->lastName)),
-	dateOfBirth	(std::move(builder->dateOfBirth))
-{
-	if (!id)			throw ERROR_BUILDER_NO_ID;
-	if (!firstName)		throw ERROR_BUILDER_FIRST_NAME;
-	if (!lastName)		throw ERROR_BUILDER_LAST_NAME;
-	if (!dateOfBirth)	throw ERROR_BUILDER_DOB;
-
-	// Setting age
-	QDate currentDate = QDate::currentDate();
-	this->age = std::make_unique<qint16>(currentDate.year() - dateOfBirth->year());
-
-	if ((currentDate.month() - dateOfBirth->month() < 0) &&
-		currentDate.day() - dateOfBirth->day() < 0)
-	{
-		*this->age -= 1;
-	}
-}
-
-QString Person::GetInfo()
-{
-	std::stringstream ss;
-
-	if (firstName)		ss << "First Name: "	<< firstName	<< " ";
-	if (lastName)		ss << "Last Name: "		<< lastName		<< " ";
-	if (id)				ss << "ID Number: "		<< *id			<< " ";
-	if (age)			ss << "Age: "			<< *age			<< " ";
-	if (dateOfBirth)	ss << "DOB: "			<< dateOfBirth->toString().toStdString() << " ";
-	
-	return std::move(ss.str().c_str());
-}
-
-QString Parent::GetInfo()
-{
-	std::stringstream ss;
-
-	ss << Person::GetInfo().toStdString();
-
-	if (homeAddress)	ss << "Home Address: "	<< homeAddress		<< " ";
-	if (homePhone)		ss << "Home Phone: "	<< homePhone		<< " ";
-	if (cellPhone)		ss << "Cell Phone: "	<< cellPhone		<< " ";
-	if (emailAddress)	ss << "Email Address: " << emailAddress		<< " ";
-
-	return std::move(ss.str().c_str());
-}
-
-QString Child::GetInfo()
-{
-	std::stringstream ss;
-
-	ss << Person::GetInfo().toStdString();
-
-	if (prevLocation)	ss << "Previous Location: "		<< prevLocation	<< " ";
-	if (prevAttended)	ss << "Previously Attended: "	<< prevAttended	<< " ";
-	if (yearsAttended)	ss << "Years Attended: "		<< yearsAttended	<< " ";
-
-	return std::move(ss.str().c_str());
-}
-
-Parent::Parent(PersonBuilder* builder) : Person(builder),
+	id				(std::move(builder->id)),
+	firstName		(std::move(builder->firstName)),
+	lastName		(std::move(builder->lastName)),
+	dateOfBirth		(std::move(builder->dateOfBirth)),
+	gender			(std::move(builder->gender)),
 	homeAddress		(std::move(builder->homeAddress)),
 	homePhone		(std::move(builder->homePhone)),
 	cellPhone		(std::move(builder->cellPhone)),
-	emailAddress	(std::move(builder->emailAddress))
-{
-	if (!homeAddress)	throw ERROR_BUILDER_HOME_ADDRESS;
-	if (!emailAddress)	throw ERROR_BUILDER_EMAIL_ADDRESS;
-	if (!homePhone)		throw ERROR_BUILDER_HOME_PHONE;
-	if (!cellPhone)		throw ERROR_BUILDER_CELL_PHONE;
-}
-
-Child::Child(PersonBuilder* builder) : Person(builder),
+	emailAddress	(std::move(builder->emailAddress)),
 	prevLocation	(std::move(builder->prevLocation)),
 	prevAttended	(std::move(builder->prevAttended)),
 	yearsAttended	(std::move(builder->yearsAttended)),
 	allergies		(std::move(builder->allergies))
 {
-	if (!prevAttended)	throw ERROR_BUILDER_PREV_ATTENDED;
-	if (!yearsAttended) throw ERROR_BUILDER_YEARS_ATTENDED;
+	if (!id)			throw ErrorBuilderID;
+	if (!firstName)		throw ErrorBuilderFirstName;
+	if (!lastName)		throw ErrorBuilderLastName;
+	if (!dateOfBirth)	throw ErrorBuilderDOB;
+	if (!gender)		throw ErrorBuilderGender;
+
+	this->age	= std::make_unique<qint16>(AssignAge());
+	this->group	= std::make_unique<sr::Group>(AssignGroup());
+}
+
+qint16 Person::AssignAge() const
+{
+	QDate currentDate = QDate::currentDate();
+	qint16 age = currentDate.year() - dateOfBirth->year();
+
+	if ((currentDate.month() - dateOfBirth->month() < 0) &&
+		 currentDate.day()   - dateOfBirth->day()   < 0)
+	{
+		age -= 1;
+	}
+
+	return std::move(age);
+}
+
+sr::Group Person::AssignGroup() const
+{
+	sr::Group group;
+	if		(*age > 17) group = sr::Group::ADULT;
+	else if (*age > 14) group = sr::Group::GROUP_4;
+	else if (*age > 11) group = sr::Group::GROUP_3;
+	else if (*age > 8)	group = sr::Group::GROUP_2;
+	else if (*age > 5)	group = sr::Group::GROUP_1;
+	else				group = sr::Group::PRE;
+
+	return group;
+}
+
+QString Person::GetGroupAsString() const
+{
+	QString s;
+	if		(*group == sr::Group::PRE)		s = "PRE";
+	else if (*group == sr::Group::GROUP_1)	s = "1";
+	else if (*group == sr::Group::GROUP_2)	s = "2";
+	else if (*group == sr::Group::GROUP_3)	s = "3";
+	else if (*group == sr::Group::GROUP_4)	s = "4";
+	else									s = "A";
+
+	return s;
+}
+
+Parent::Parent(PersonBuilder* builder) : Person(builder)
+{
+	if (!homeAddress)	throw ErrorBuilderHomePhone;
+	if (!emailAddress)	throw ErrorBuilderEmailAddress;
+	if (!homePhone)		throw ErrorBuilderHomePhone;
+	if (!cellPhone)		throw ErrorBuilderCellPhone;
+
+	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::PARENT);
+}
+
+Child::Child(PersonBuilder* builder) : Person(builder)
+{
+	if (!prevAttended)	throw ErrorBuilderPrevAttended;
+	if (!yearsAttended) throw ErrorBuilderYearsAttended;
 
 	this->group = std::move(builder->group);
+	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::CHILD);
 }
 
 PersonBuilder* PersonBuilder::ID(qint16 id)
@@ -110,6 +108,12 @@ PersonBuilder* PersonBuilder::LastName(QString lastName)
 PersonBuilder* PersonBuilder::DateOfBirth(QDate dateOfBirth)
 {
 	this->dateOfBirth = std::make_unique<QDate>(dateOfBirth);
+	return this;
+}
+
+PersonBuilder* PersonBuilder::Gender(QString gender)
+{
+	this->gender = std::make_unique<QString>(gender);
 	return this;
 }
 

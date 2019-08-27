@@ -9,10 +9,20 @@
 #include <vector>
 #include <array>
 
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 600
+class TableManager
+{
+public:
+	TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people);
+	~TableManager() {}
 
-constexpr qint16 MinimumCols = 12;
+	void AddPersonToTable(Person* person);
+
+private:
+	QTableWidget* tableWidget;
+	std::vector<std::unique_ptr<Person>>* people;
+
+	QStringList tableTitles;
+};
 
 class SimpleRegistry : public QMainWindow
 {
@@ -21,17 +31,16 @@ class SimpleRegistry : public QMainWindow
 public:
 	SimpleRegistry(QWidget *parent = Q_NULLPTR);
 
-	const std::vector<std::unique_ptr<Person>>& GetPeople();
-
-	void UpdateTable(const PersonType& personType);	
+	const std::vector<std::unique_ptr<Person>>& GetPeople() const;
 
 public slots:
-	void CreateParent();
-	void CreateChild();
+	void CreateParent() const;
+	void CreateChild()  const;
 
 protected:
 	void customEvent(QEvent *event) override;
-	void closeEvent(QCloseEvent* event) override;
+	void closeEvent (QCloseEvent* event) override;
+	void resizeEvent(QResizeEvent * event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;
@@ -41,6 +50,9 @@ private:
 	std::unique_ptr<SRCreateUser> parentWindow;
 	std::unique_ptr<SRCreateUser> childWindow;
 
+	std::unique_ptr<TableManager> tableManager;
+
+	void MakeWindow(const sr::PersonType&& person) const;
 	void UserCreated(SRUserCreatedEvent* event);
 };
 

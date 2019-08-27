@@ -1,22 +1,38 @@
 #include "SRCreateUser.h"
+#include "SRPerson.h"
+#include "SimpleRegistry.h"
+#include "SRConsants.h"
 #include <QTextEdit>
-#include <QObject>
 #include <QLayoutItem>
-#include <QWidget>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QLabel>
-#include <QMessageBox>
 #include <QDebug>
-#include "SRPerson.h"
-#include "SRConsants.h"
-#include "SimpleRegistry.h"
+#include <QMessageBox>
+#include <QKeyEvent>
+#include <QCheckBox>
+#include <QEvent>
+#include <QString>
+
+qint16 SRCreateUser::idAssign = 1;
 
 SRCreateUser::SRCreateUser(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
+	this->ui.textEdit_firstName->		installEventFilter(this);
+	this->ui.textEdit_lastName->		installEventFilter(this);
+	this->ui.dateEdit_dateOfBirth->		installEventFilter(this);
+	this->ui.checkBox_prevAttended->	installEventFilter(this);
+	this->ui.textEdit_homeAddress->		installEventFilter(this);
+	this->ui.textEdit_homePhone->		installEventFilter(this);
+	this->ui.textEdit_cellPhone->		installEventFilter(this);
+	this->ui.textEdit_emailAddress->	installEventFilter(this);
+	this->ui.checkBox_prevAttended->	installEventFilter(this);
+	this->ui.textEdit_prevLocation->	installEventFilter(this);
+	this->ui.textEdit_yearsAttended->	installEventFilter(this);
+	
 	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
@@ -25,14 +41,24 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	this->resize(WindowWidth, WindowHeight);
 
 	this->paramMissing = false;
-	this->personType = PersonType::UNDEFINED;
+	this->personType = sr::PersonType::UNDEFINED;
+	
+	QWidget::setTabOrder(ui.textEdit_firstName,		ui.textEdit_lastName);
+	QWidget::setTabOrder(ui.textEdit_lastName,		ui.dateEdit_dateOfBirth);
+	QWidget::setTabOrder(ui.dateEdit_dateOfBirth,	ui.textEdit_homeAddress);
+	QWidget::setTabOrder(ui.textEdit_homeAddress,	ui.textEdit_homePhone);
+	QWidget::setTabOrder(ui.textEdit_homePhone,		ui.textEdit_cellPhone);
+	QWidget::setTabOrder(ui.textEdit_cellPhone,		ui.textEdit_emailAddress);
+	QWidget::setTabOrder(ui.textEdit_emailAddress,	ui.checkBox_prevAttended);
+	QWidget::setTabOrder(ui.checkBox_prevAttended,	ui.textEdit_prevLocation);
+	QWidget::setTabOrder(ui.textEdit_prevLocation,	ui.textEdit_yearsAttended);
 }
 
 SRCreateUser::~SRCreateUser()
 {
 }
 
-void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
+void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 {
 	this->mainWindow = mainWindow;
 	this->personType = type;
@@ -41,7 +67,7 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
 	this->ui.label_lastName->setText(ui.label_lastName->text() + "*");
 	this->ui.label_dateOfBirth->setText(ui.label_dateOfBirth->text() + "*");
 
-	if (type == PersonType::PARENT)
+	if (type == sr::PersonType::PARENT)
 	{
 		this->setWindowTitle(WindowTitleParent);
 		this->ui.label_homeAddress->setText(ui.label_homeAddress->text() + "*");
@@ -49,10 +75,12 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, PersonType type)
 		this->ui.label_cellPhone->setText(ui.label_cellPhone->text() + "*");
 		this->ui.label_emailAddress->setText(ui.label_emailAddress->text() + "*");
 	}
-	else if (type == PersonType::CHILD)
+	else if (type == sr::PersonType::CHILD)
 	{
 		this->setWindowTitle(WindowTitleChild);
 		this->ui.checkBox_prevAttended->setText(ui.checkBox_prevAttended->text() + "*");
+		this->ui.label_prevLocation->setText(ui.label_prevLocation->text() + "*");
+		this->ui.label_YearsAttended->setText(ui.label_YearsAttended->text() + "*");
 	}
 }
 
@@ -60,14 +88,14 @@ void SRCreateUser::Create()
 {
 	if (!this->personList)
 	{
-		throw ERROR_CREATE_PARENT_NULL;
+		throw ErrorCreateParent;
 	}
 
 	this->paramMissing = false;
 
 	PersonBuilder builder;
 
-	builder.ID(10);
+	builder.ID(idAssign);
 	MakeFirstName(builder);
 	MakeLastName(builder);
 	MakeDateOfBirth(builder);
@@ -83,23 +111,24 @@ void SRCreateUser::Create()
 	{
 		QString s("Missing one or more fields(*) to create");
 
-		if(personType == PersonType::PARENT) s += " parent!";
-		else if(personType == PersonType::CHILD) s += " child!";
+		if(personType == sr::PersonType::PARENT) s += " parent!";
+		else if(personType == sr::PersonType::CHILD) s += " child!";
 
 		QMessageBox::information(this, "Error", s);
 
 		return;
 	}
 
-	if (personType == PersonType::PARENT)
+	if (personType == sr::PersonType::PARENT)
 	{
 		this->personList->push_back(builder.Build<Parent>());
 	}
-	else if(personType == PersonType::CHILD)
+	else if(personType == sr::PersonType::CHILD)
 	{
 		this->personList->push_back(builder.Build<Child>());
 	}
 
+	SRCreateUser::idAssign++;
 	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(this->personType));
 }
 
@@ -122,14 +151,14 @@ void SRCreateUser::Clear()
 
 void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 {
-	QString firstName = ui.textEdit_firstName->toPlainText().trimmed();
+	QString& firstName = ui.textEdit_firstName->toPlainText().trimmed();
 	if (!firstName.isEmpty())
 	{
 		builder.FirstName(std::move(firstName));
 		return;
 	}
 
-	ParamMissing(PersonType::PARENT);
+	ParamMissing(sr::PersonType::PARENT);
 }
 
 void SRCreateUser::MakeLastName(PersonBuilder& builder)
@@ -141,7 +170,7 @@ void SRCreateUser::MakeLastName(PersonBuilder& builder)
 		return;
 	}
 
-	ParamMissing(PersonType::PARENT);
+	ParamMissing(sr::PersonType::PARENT);
 }
 
 void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
@@ -155,7 +184,7 @@ void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 	
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -168,7 +197,7 @@ void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -181,7 +210,7 @@ void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 
 	if (s.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -194,7 +223,7 @@ void SRCreateUser::MakeEmailAddress(PersonBuilder& builder)
 	
 	if (email.isEmpty())
 	{
-		ParamMissing(PersonType::PARENT);
+		ParamMissing(sr::PersonType::PARENT);
 		return;
 	}
 
@@ -217,7 +246,7 @@ void SRCreateUser::MakePrevLocation(PersonBuilder& builder)
 
 		if (s.isEmpty())
 		{
-			ParamMissing(PersonType::CHILD);
+			ParamMissing(sr::PersonType::CHILD);
 			return;
 		}
 
@@ -235,17 +264,18 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 
 		if (s.isEmpty())
 		{
-			ParamMissing(PersonType::CHILD);
+			ParamMissing(sr::PersonType::CHILD);
 			return;
 		}
 
 		builder.YearsAttended(s.toUInt());
+		return;
 	}
 
-	builder.YearsAttended(0);
+	builder.YearsAttended(-1);
 }
 
-void SRCreateUser::ParamMissing(PersonType type)
+void SRCreateUser::ParamMissing(const sr::PersonType&& type)
 {
 	if (this->personType == type)
 	{
@@ -265,4 +295,24 @@ void SRCreateUser::HandlePrevAttended(int state)
 		this->ui.textEdit_prevLocation->setEnabled(true);
 		this->ui.textEdit_yearsAttended->setEnabled(true);
 	}
+}
+
+bool SRCreateUser::eventFilter(QObject* object, QEvent* event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+		
+		if (keyEvent->key() == Qt::Key_Tab)
+		{
+			QWidget::focusNextChild();
+			return true;
+		}
+	}
+	else if (event->type() == QEvent::Hide)
+	{
+		this->Clear();
+	}
+
+	return false;
 }

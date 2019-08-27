@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>391</height>
+     <height>748</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -56,18 +56,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_lastName">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Last Name</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="1">
      <widget class="QTextEdit" name="textEdit_lastName">
       <property name="font">
@@ -80,7 +68,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="label_dateOfBirth">
       <property name="font">
        <font>
@@ -92,7 +80,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <widget class="QDateEdit" name="dateEdit_dateOfBirth">
       <property name="font">
        <font>
@@ -101,7 +89,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="label_homeAddress">
       <property name="font">
        <font>
@@ -113,7 +101,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="4" column="1">
      <widget class="QTextEdit" name="textEdit_homeAddress">
       <property name="font">
        <font>
@@ -125,7 +113,7 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
+    <item row="5" column="0">
      <widget class="QLabel" name="label_homePhone">
       <property name="font">
        <font>
@@ -137,7 +125,7 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="5" column="1">
      <widget class="QTextEdit" name="textEdit_homePhone">
       <property name="font">
        <font>
@@ -149,7 +137,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
+    <item row="6" column="0">
      <widget class="QLabel" name="label_cellPhone">
       <property name="font">
        <font>
@@ -161,7 +149,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="6" column="1">
      <widget class="QTextEdit" name="textEdit_cellPhone">
       <property name="font">
        <font>
@@ -173,7 +161,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
+    <item row="7" column="0">
      <widget class="QLabel" name="label_emailAddress">
       <property name="font">
        <font>
@@ -185,7 +173,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
+    <item row="7" column="1">
      <widget class="QTextEdit" name="textEdit_emailAddress">
       <property name="font">
        <font>
@@ -197,31 +185,7 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_prevLocation">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Previous Location</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="label_YearsAttended">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Years Attended</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
+    <item row="8" column="1">
      <widget class="QCheckBox" name="checkBox_prevAttended">
       <property name="font">
        <font>
@@ -233,7 +197,19 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_prevLocation">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Previous Location</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
      <widget class="QTextEdit" name="textEdit_prevLocation">
       <property name="font">
        <font>
@@ -248,7 +224,19 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="1">
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_YearsAttended">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Years Attended</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
      <widget class="QTextEdit" name="textEdit_yearsAttended">
       <property name="font">
        <font>
@@ -263,7 +251,7 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="1">
+    <item row="11" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QPushButton" name="pushButton_clear">
@@ -302,6 +290,33 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_lastName">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Last Name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_gender">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Gender</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="comboBox"/>
     </item>
    </layout>
   </widget>

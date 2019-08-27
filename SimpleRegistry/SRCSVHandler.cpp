@@ -100,10 +100,6 @@ std::unique_ptr<Person> CSVHandler::WriteRecord(std::string file)
 	std::ofstream f;
 	f.open (file);
 	std::string line;
-	
 
-	f << 
-	
-	
 	
 }

@@ -4,9 +4,11 @@
 #include <QDebug>
 #include <QDate>
 #include <QAction>
-#include <QTableWidgetItem>
 #include <QLineEdit>
 #include <QCloseEvent>
+#include <QHeaderView>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 #include "SRConsants.h"
 
 SimpleRegistry::SimpleRegistry(QWidget *parent)
@@ -14,94 +16,43 @@ SimpleRegistry::SimpleRegistry(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->parentWindow = nullptr;
-	this->childWindow = nullptr;
+	this->parentWindow = std::make_unique<SRCreateUser>();
+	this->parentWindow->SetPersonList(people);
+	this->parentWindow->SetupWindow(this);
 
-	this->ui.tableWidget->setRowCount(1);
-	this->ui.tableWidget->setColumnCount(MinimumCols);
+	this->childWindow  = std::make_unique<SRCreateUser>();
+	this->childWindow->SetPersonList(people);
+	this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
 
-	std::array<QString, MinimumCols> tableTitles;
-	tableTitles[0]	= "ID";
-	tableTitles[1]	= "First Name";
-	tableTitles[2]	= "Last Name";
-	tableTitles[3]	= "Age";
-	tableTitles[4]	= "Date Of Birth";
-	tableTitles[5]	= "Address";
-	tableTitles[6]	= "Home Phone";
-	tableTitles[7]	= "Cell Phone";
-	tableTitles[8]	= "Email Address";
-	tableTitles[9]	= "Previous Location";
-	tableTitles[10]	= "Previously Attended";
-	tableTitles[11]	= "Years Attended";
-
-	QTableWidget& tw = *this->ui.tableWidget;
-	for (size_t i = 0; i < tableTitles.size(); i++)
-	{
-		tw.setItem(0, i, new QTableWidgetItem(tableTitles[i]));
-	}
+	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget, &this->people);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
-	connect(ui.actionCreate_Child, SIGNAL(triggered()), this, SLOT(CreateChild()));
+	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
 }
 
-void SimpleRegistry::UpdateTable(const PersonType& personType)
+void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
 {
-	QTableWidget* tw = this->ui.tableWidget;
-	Person* p = this->people.at(this->people.size() - 1).get();
-	
-	int row = this->ui.tableWidget->rowCount() - 1;
-
-	tw->setItem(row, 0, new QTableWidgetItem(p->GetID()));
-	tw->setItem(row, 1, new QTableWidgetItem(p->GetFirstName()));
-	tw->setItem(row, 2, new QTableWidgetItem(p->GetLastName()));
-	tw->setItem(row, 3, new QTableWidgetItem(QString::number(p->GetAge())));
-	tw->setItem(row, 4, new QTableWidgetItem(p->GetDateOfBirth().toString()));
-
-	if (personType == PersonType::PARENT)
+	if (person == sr::PersonType::PARENT && !parentWindow->isVisible())
 	{
-		Parent* pa = static_cast<Parent*>(p);
-		tw->setItem(row, 5, new QTableWidgetItem(pa->GetHomeAddress()));
-		tw->setItem(row, 6, new QTableWidgetItem(pa->GetHomePhone()));
-		tw->setItem(row, 7, new QTableWidgetItem(pa->GetCellPhone()));
-		tw->setItem(row, 8, new QTableWidgetItem(pa->GetEmailAddress()));
-	}
-	else if (personType == PersonType::CHILD)
-	{
-		Child* c = static_cast<Child*>(p);
-		tw->setItem(row, 9, new QTableWidgetItem(c->GetPrevLocation()));
-		
-		QTableWidgetItem* q = new QTableWidgetItem();
-		Qt::CheckState checkState = c->GetPrevAttendedS();
-		q->setCheckState(checkState);
-		tw->setItem(row, 10, q);
-
-		tw->setItem(row, 11, new QTableWidgetItem(QString::number(c->GetYearsAttended())));
-	}
-}
-
-void SimpleRegistry::CreateParent()
-{
-	if (!parentWindow || !parentWindow->isVisible())
-	{
-		this->parentWindow = std::make_unique<SRCreateUser>();
-		this->parentWindow->SetPersonList(this->people);
-		this->parentWindow->SetupWindow(this);
 		this->parentWindow->show();
 	}
-}
-
-void SimpleRegistry::CreateChild()
-{
-	if (!this->childWindow || !childWindow->isVisible())
+	else if (person == sr::PersonType::CHILD && !childWindow->isVisible())
 	{
-		this->childWindow = std::make_unique<SRCreateUser>();
-		this->childWindow->SetPersonList(this->people);
-		this->childWindow->SetupWindow(this, PersonType::CHILD);
 		this->childWindow->show();
 	}
 }
 
-const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople()
+void SimpleRegistry::CreateParent() const
+{
+	MakeWindow(sr::PersonType::PARENT);
+}
+
+void SimpleRegistry::CreateChild() const
+{
+	MakeWindow(sr::PersonType::CHILD);
+}
+
+const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople() const
 {
 	return this->people;
 }
@@ -121,6 +72,75 @@ void SimpleRegistry::closeEvent(QCloseEvent* event)
 
 void SimpleRegistry::UserCreated(SRUserCreatedEvent* event)
 {
-	this->ui.tableWidget->insertRow(ui.tableWidget->rowCount());
-	UpdateTable(event->GetPersonType());
+	Person* p = people.at(people.size() - 1).get();
+	tableManager->AddPersonToTable(p);
+}
+
+void SimpleRegistry::resizeEvent(QResizeEvent* event)
+{
+	QMainWindow::resizeEvent(event);
+
+	const QSize& size = event->size();
+	this->ui.tableWidget->setGeometry(0, 0, size.width(), size.height());
+}
+
+TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people) :
+	tableWidget(tw),
+	people(people)
+{	
+	this->tableTitles
+		<< "ID"					<< "Type"				<< "First Name" 
+		<< "Last Name"			<< "Gender"				<< "Age"
+		<< "Date Of Birth"		<< "Group"				<< "Address"
+		<< "Home Phone"			<< "Cell Phone"			<< "Email Address"		
+		<< "Previously Attended"<< "Previous Location"	<< "Years Attended"		
+		<< "Medical Allergies";
+
+	qint16 numColumns = tableTitles.size();
+	this->tableWidget->setColumnCount(numColumns);
+	this->tableWidget->setRowCount(1);
+	this->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	this->tableWidget->horizontalHeader()->setStretchLastSection(true);
+
+	for (size_t i = 0; i < numColumns; i++)
+	{
+		tableWidget->setHorizontalHeaderItem(i, new QTableWidgetItem(tableTitles[i]));
+	}
+}
+
+void TableManager::AddPersonToTable(Person* p)
+{
+	this->tableWidget->insertRow(tableWidget->rowCount());
+	int row = this->tableWidget->rowCount() - 1;
+
+	tableWidget->setItem(row, 0, new QTableWidgetItem(QString::number(p->GetID())));
+	
+	tableWidget->setItem(row, 2, new QTableWidgetItem(p->GetFirstName()));
+	tableWidget->setItem(row, 3, new QTableWidgetItem(p->GetLastName()));
+	tableWidget->setItem(row, 4, new QTableWidgetItem(QString::number(p->GetAge())));
+	tableWidget->setItem(row, 5, new QTableWidgetItem(p->GetDateOfBirth().toString()));
+	tableWidget->setItem(row, 6, new QTableWidgetItem(p->GetGroupAsString()));
+
+	if (p->GetPersonType() == sr::PersonType::PARENT)
+	{
+		tableWidget->setItem(row, 1, new QTableWidgetItem("Parent"));
+
+		tableWidget->setItem(row, 7, new QTableWidgetItem(p->GetHomeAddress()));
+		tableWidget->setItem(row, 8, new QTableWidgetItem(p->GetHomePhone()));
+		tableWidget->setItem(row, 9, new QTableWidgetItem(p->GetCellPhone()));
+		tableWidget->setItem(row, 10, new QTableWidgetItem(p->GetEmailAddress()));
+	}
+	else if (p->GetPersonType() == sr::PersonType::CHILD)
+	{
+		tableWidget->setItem(row, 1, new QTableWidgetItem("Child"));
+
+		QTableWidgetItem* q = new QTableWidgetItem();
+		Qt::CheckState checkState = p->GetPrevAttendedS();
+		q->setCheckState(checkState);
+		tableWidget->setItem(row, 11, q);
+
+		tableWidget->setItem(row, 12, new QTableWidgetItem(p->GetPrevLocation()));
+
+		tableWidget->setItem(row, 13, new QTableWidgetItem(QString::number(p->GetYearsAttended())));
+	}
 }

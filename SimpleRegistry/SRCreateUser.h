@@ -4,31 +4,26 @@
 #include <QWidget>
 #include "ui_SRCreateUser.h"
 #include "SRConsants.h"
-#include <QString>
-#include <QEvent>
+#include "SRPerson.h"
 #include <sstream>
 #include <string>
 #include <memory>
-#include <QCheckBox>
-#include "SRPerson.h"
 
 class PersonBuilder;
 class SimpleRegistry;
-
-enum class PersonType
-{
-	PARENT, CHILD, UNDEFINED
-};
+class SRUserCreatedEventFilter;
+class QString;
+class QEvent;
+class QCheckBox;
 
 class SRCreateUser : public QWidget
 {
 	Q_OBJECT
-
 public:
 	SRCreateUser(QWidget *parent = Q_NULLPTR);
 	~SRCreateUser();
 
-	void SetupWindow(SimpleRegistry* mainWindow, PersonType type = PersonType::PARENT);
+	void SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type = sr::PersonType::PARENT);
 
 	inline void SetPersonList(std::vector<std::unique_ptr<Person>>& list) { this->personList = &list; }
 
@@ -38,12 +33,17 @@ public slots:
 	void Clear();
 	void HandlePrevAttended(int state);
 
+protected:
+	bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
 	Ui::SRCreateUser ui;
 
 	SimpleRegistry* mainWindow;
 
-	PersonType personType;
+	sr::PersonType personType;
+
+	static qint16 idAssign;
 
 	const unsigned short int WindowWidth	= 465;
 	const unsigned short int WindowHeight	= 400;
@@ -53,7 +53,7 @@ private:
 	
 	std::vector<std::unique_ptr<Person>>* personList;
 	bool paramMissing;
-	
+
 	void MakeFirstName		(PersonBuilder& builder);
 	void MakeLastName		(PersonBuilder& builder);
 	void MakeDateOfBirth	(PersonBuilder& builder);
@@ -67,7 +67,7 @@ private:
 	void MakePrevLocation	(PersonBuilder& builder);
 	void MakeYearsAttended	(PersonBuilder& builder);
 
-	void ParamMissing(PersonType type);
+	void ParamMissing(const sr::PersonType&& type);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
@@ -75,14 +75,14 @@ const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
 class SRUserCreatedEvent : public QEvent
 {
 public:
-	SRUserCreatedEvent(const PersonType& personType) :
+	SRUserCreatedEvent(const sr::PersonType& personType) :
 		QEvent(USER_CREATED_EVENT),
 		personType(personType) {}
 
-	inline const PersonType GetPersonType() const { return this->personType; }
+	inline const sr::PersonType& GetPersonType() const { return this->personType; }
 
 private:
-	PersonType personType;
+	sr::PersonType personType;
 };
 
 #endif
