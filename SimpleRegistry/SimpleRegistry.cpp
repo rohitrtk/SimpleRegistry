@@ -18,14 +18,12 @@ SimpleRegistry::SimpleRegistry(QWidget* parent)
 	ui.setupUi(this);
 
 	this->parentWindow = std::make_unique<SRCreateUser>();
-	this->parentWindow->SetPersonList(&people);
 	this->parentWindow->SetupWindow(this);
 
 	this->childWindow  = std::make_unique<SRCreateUser>();
-	this->childWindow->SetPersonList(&people);
 	this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
 
-	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget, this->people);
+	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
@@ -34,11 +32,6 @@ SimpleRegistry::SimpleRegistry(QWidget* parent)
 
 SimpleRegistry::~SimpleRegistry()
 {
-	for (const auto& c : this->people)
-	{
-		delete c;
-	}
-	this->people.clear();
 }
 
 void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
@@ -66,26 +59,22 @@ void SimpleRegistry::CreateChild() const
 void SimpleRegistry::Save()
 {
 	CSVHandler handler("test.csv");
-	handler.WriteRecord(this->people);
+	//handler.WriteRecord(this->people);
 }
 
 void SimpleRegistry::customEvent(QEvent* event)
 {
 	if (event->type() == USER_CREATED_EVENT)
 	{
-		UserCreated(static_cast<SRUserCreatedEvent*>(event));
+		SRUserCreatedEvent* e = static_cast<SRUserCreatedEvent*>(event);
+		
+		tableManager->AddPersonToTable(e->GetPerson());
 	}
 }
 
 void SimpleRegistry::closeEvent(QCloseEvent* event)
 {
 	event->accept();
-}
-
-void SimpleRegistry::UserCreated(SRUserCreatedEvent* event)
-{
-	Person* p = people.at(people.size() - 1);
-	tableManager->AddPersonToTable(p);
 }
 
 void SimpleRegistry::resizeEvent(QResizeEvent* event)
@@ -96,9 +85,8 @@ void SimpleRegistry::resizeEvent(QResizeEvent* event)
 	this->ui.tableWidget->setGeometry(0, 0, size.width(), size.height());
 }
 
-TableManager::TableManager(QTableWidget* tw, std::vector<Person*>& people) :
-	tableWidget(tw),
-	people(people)
+TableManager::TableManager(QTableWidget* tw) :
+	tableWidget(tw)
 {	
 	this->tableTitles
 		<< "ID"					<< "Type"				<< "First Name"
@@ -119,41 +107,41 @@ TableManager::TableManager(QTableWidget* tw, std::vector<Person*>& people) :
 	}
 }
 
-void TableManager::AddPersonToTable(Person* p)
+void TableManager::AddPersonToTable(const Person& p)
 {
 	this->tableWidget->insertRow(tableWidget->rowCount());
 	int row = this->tableWidget->rowCount() - 1;
 
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ID), new QTableWidgetItem(QString::number(p->GetID())));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ID), new QTableWidgetItem(QString::number(p.GetID())));
 	
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::FIRST_NAME),	new QTableWidgetItem(p->GetFirstName()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::LAST_NAME),		new QTableWidgetItem(p->GetLastName()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GENDER),		new QTableWidgetItem(p->GetGender()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::AGE),			new QTableWidgetItem(QString::number(p->GetAge())));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::DOB),			new QTableWidgetItem(p->GetDateOfBirth().toString()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GROUP),			new QTableWidgetItem(p->GetGroupAsString()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ALLERGIES),		new QTableWidgetItem(p->GetAllergies()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::FIRST_NAME),	new QTableWidgetItem(p.GetFirstName()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::LAST_NAME),		new QTableWidgetItem(p.GetLastName()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GENDER),		new QTableWidgetItem(p.GetGender()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::AGE),			new QTableWidgetItem(QString::number(p.GetAge())));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::DOB),			new QTableWidgetItem(p.GetDateOfBirth().toString()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GROUP),			new QTableWidgetItem(p.GetGroupAsString()));
+	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ALLERGIES),		new QTableWidgetItem(p.GetAllergies()));
 
-	if (p->GetPersonType() == sr::PersonType::PARENT)
+	if (p.GetPersonType() == sr::PersonType::PARENT)
 	{
 		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),			new QTableWidgetItem("Parent"));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ADDRESS),		new QTableWidgetItem(p->GetHomeAddress()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::HOME_PHONE),	new QTableWidgetItem(p->GetHomePhone()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CELL_PHONE),	new QTableWidgetItem(p->GetCellPhone()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::EMAIL_ADDRESS),	new QTableWidgetItem(p->GetEmailAddress()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CHILDREN),		new QTableWidgetItem(p->GetChildren()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ADDRESS),		new QTableWidgetItem(p.GetHomeAddress()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::HOME_PHONE),	new QTableWidgetItem(p.GetHomePhone()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CELL_PHONE),	new QTableWidgetItem(p.GetCellPhone()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::EMAIL_ADDRESS),	new QTableWidgetItem(p.GetEmailAddress()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CHILDREN),		new QTableWidgetItem(p.GetChildren()));
 	}
-	else if (p->GetPersonType() == sr::PersonType::CHILD)
+	else if (p.GetPersonType() == sr::PersonType::CHILD)
 	{
 		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),		new QTableWidgetItem("Child"));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PARENTS),	new QTableWidgetItem(p->GetParents()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PARENTS),	new QTableWidgetItem(p.GetParents()));
 
 		QTableWidgetItem* q = new QTableWidgetItem();
-		Qt::CheckState checkState = p->GetPrevAttendedS();
+		Qt::CheckState checkState = p.GetPrevAttendedS();
 		q->setCheckState(checkState);
 		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_ATTENDED), q);
 
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_LOCATION),		new QTableWidgetItem(p->GetPrevLocation()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED),	new QTableWidgetItem(QString::number(p->GetYearsAttended())));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_LOCATION),		new QTableWidgetItem(p.GetPrevLocation()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED),	new QTableWidgetItem(QString::number(p.GetYearsAttended())));
 	}
 }

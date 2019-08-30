@@ -83,11 +83,6 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 
 void SRCreateUser::Create()
 {
-	if (!this->personList)
-	{
-		throw ErrorCreateParent;
-	}
-
 	this->paramMissing = false;
 
 	PersonBuilder builder;
@@ -123,15 +118,15 @@ void SRCreateUser::Create()
 
 	if (personType == sr::PersonType::PARENT)
 	{
-		this->personList->push_back(builder.Build<Parent>());
+		this->person = builder.Build<Parent>();
 	}
 	else if(personType == sr::PersonType::CHILD)
 	{
-		this->personList->push_back(builder.Build<Child>());
+		this->person = builder.Build<Child>();
 	}
 
 	SRCreateUser::idAssign++;
-	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(this->personType));
+	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(*this->person));
 }
 
 void SRCreateUser::Cancel()

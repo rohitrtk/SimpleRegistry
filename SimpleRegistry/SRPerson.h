@@ -23,9 +23,9 @@ public:
 	~PersonBuilder() {}
 
 	template<typename T>
-	T* Build()
+	std::unique_ptr<T> Build()
 	{
-		return new T(this);
+		return std::make_unique<T>(this);
 	}
 
 	PersonBuilder* ID(qint16 id);

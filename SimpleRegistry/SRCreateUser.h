@@ -25,8 +25,6 @@ public:
 
 	void SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type = sr::PersonType::PARENT);
 
-	inline void SetPersonList(std::vector<Person*>* list) { this->personList = list; }
-
 public slots:
 	void Create();
 	void Cancel();
@@ -51,7 +49,7 @@ private:
 	const QString WindowTitleParent = "Create New Parent";
 	const QString WindowTitleChild  = "Create New Child";
 	
-	std::vector<Person*>* personList;
+	std::unique_ptr<Person> person;
 	bool paramMissing;
 
 	void MakeFirstName		(PersonBuilder& builder);
@@ -81,14 +79,14 @@ const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);
 class SRUserCreatedEvent : public QEvent
 {
 public:
-	SRUserCreatedEvent(const sr::PersonType& personType) :
+	SRUserCreatedEvent(const Person& person) :
 		QEvent(USER_CREATED_EVENT),
-		personType(personType) {}
+		person(person) {}
 
-	inline const sr::PersonType& GetPersonType() const { return this->personType; }
+	inline const Person& GetPerson() const { return this->person; }
 
 private:
-	sr::PersonType personType;
+	const Person& person;
 };
 
 #endif
