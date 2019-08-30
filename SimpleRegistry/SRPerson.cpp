@@ -184,3 +184,77 @@ PersonBuilder* PersonBuilder::Children(const QString& children)
 	this->children = std::make_unique<QString>(children);
 	return this;
 }
+
+std::ostream& operator << (std::ostream& stream, const Person& person)
+{
+	stream
+		<< *person.id << ", " << person.firstName->toStdString()				<< ", "
+		<< person.lastName->toStdString() << ", " << *person.age << ", "
+		<< person.dateOfBirth->toString().toStdString()	<< ", "
+		<< person.lastName->toStdString() << ", " 
+		<< ((*person.personType == sr::PersonType::CHILD) ? "Child" : "Parent") << ", "
+		<< person.gender->toStdString() << ", ";
+	
+	if (person.homeAddress)
+	{
+		stream << person.homeAddress->toStdString();
+	}
+	stream << ", ";
+
+	if (person.homePhone)
+	{
+		stream << person.homePhone->toStdString();
+	}
+	stream << ", ";
+	
+	if (person.cellPhone)
+	{
+		stream << person.cellPhone->toStdString();
+	}
+	stream << ", ";
+
+	if (person.emailAddress)
+	{
+		stream << person.emailAddress->toStdString();
+	}
+	stream << ", ";
+
+	if (person.prevLocation)
+	{
+		stream << person.prevLocation->toStdString();
+	}
+	stream << ", ";
+
+	if (person.prevAttended)
+	{
+		stream << person.GetPrevAttendedS();
+	}
+	stream << ", ";
+
+	if (person.yearsAttended)
+	{
+		stream << *person.yearsAttended;
+	}
+	stream << ", ";
+
+	if (person.allergies)
+	{
+		stream << person.allergies->toStdString();
+	}
+	stream << ", ";
+
+	stream << person.GetGroupAsString().toStdString() << ", ";
+
+	if (person.parents)
+	{
+		stream << person.parents->toStdString();
+	}
+	stream << ", ";
+		
+	if (person.children)
+	{
+		stream << person.children->toStdString();
+	}
+
+	return stream;
+}

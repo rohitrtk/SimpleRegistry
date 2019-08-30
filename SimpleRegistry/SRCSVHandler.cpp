@@ -122,15 +122,15 @@ void CSVHandler::WriteRecord(Person* p)
 	
 }
 
-void CSVHandler::WriteRecord(std::vector<Person*> people)
+void CSVHandler::WriteRecord(std::vector<Person*>& people)
 {
 	std::ofstream f;
 	f.open(this->filePath);
 
-	//for (const auto& person : *people)
-	//{
-	//	f << person;
-	//}
+	for (const auto& person : people)
+	{
+		f << *person << std::endl;
+	}
 
 	f.close();
 }

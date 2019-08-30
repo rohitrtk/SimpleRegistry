@@ -89,10 +89,10 @@ public:
 	inline const sr::PersonType&	GetPersonType()		const { return *this->personType; }
 	inline const QString&			GetGender()			const { return *this->gender; }
 
-	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
+	inline const QString&			GetHomeAddress()	const { return *this->homeAddress; }
 	inline const QString&			GetHomePhone()		const { return *this->homePhone; }
 	inline const QString&			GetCellPhone()		const { return *this->cellPhone; }
-	inline const QString&			GetHomeAddress()	const { return *this->homeAddress; }
+	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
 
 	inline const QString&			GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool&				GetPrevAttended()	const { return *this->prevAttended; }
@@ -106,6 +106,8 @@ public:
 	inline const QString&			GetChildren()		const { return *this->children; }
 
 	QString							GetGroupAsString()	const;
+
+	friend std::ostream& operator << (std::ostream& stream, const Person& person);
 
 protected:
 	std::unique_ptr<qint16>			id;

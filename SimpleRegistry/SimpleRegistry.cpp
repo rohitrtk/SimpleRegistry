@@ -63,10 +63,10 @@ void SimpleRegistry::CreateChild() const
 	MakeWindow(sr::PersonType::CHILD);
 }
 
-void SimpleRegistry::Save() const 
+void SimpleRegistry::Save()
 {
-	CSVHandler h("test.csv");
-	//h.WriteRecord(&this->people);
+	CSVHandler handler("test.csv");
+	handler.WriteRecord(this->people);
 }
 
 void SimpleRegistry::customEvent(QEvent* event)

@@ -45,7 +45,7 @@ public:
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;
-	void Save()			const;
+	void Save();
 
 protected:
 	void customEvent(QEvent* event) override;

@@ -19,7 +19,7 @@ public:
 	std::vector<std::unique_ptr<Person>> ReadRecords(const std::string&);
 	void WriteRecord(const std::string&, std::vector<std::unique_ptr<Person>>);
 
-	void WriteRecord(std::vector<Person*> people);
+	void WriteRecord(std::vector<Person*>& people);
 
 private:
 	std::string filePath;
