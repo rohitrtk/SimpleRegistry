@@ -30,22 +30,25 @@ public:
 
 	PersonBuilder* ID(qint16 id);
 
-	PersonBuilder* FirstName(QString firstName);
-	PersonBuilder* LastName(QString lastName);
-	PersonBuilder* DateOfBirth(QDate dateOfBirth);
-	PersonBuilder* Gender(QString gender);
+	PersonBuilder* FirstName	(const QString& firstName);
+	PersonBuilder* LastName		(const QString& lastName);
+	PersonBuilder* DateOfBirth	(const QDate& dateOfBirth);
+	PersonBuilder* Gender		(const QString& gender);
 
-	PersonBuilder* HomeAddress(QString homeAddress);
-	PersonBuilder* EmailAddress(QString emailAddress);
-	PersonBuilder* HomePhone(QString homePhone);
-	PersonBuilder* CellPhone(QString cellPhone);
+	PersonBuilder* HomeAddress	(const QString& homeAddress);
+	PersonBuilder* EmailAddress	(const QString& emailAddress);
+	PersonBuilder* HomePhone	(const QString& homePhone);
+	PersonBuilder* CellPhone	(const QString& cellPhone);
 
-	PersonBuilder* PrevAttended(bool prevAttended);
-	PersonBuilder* YearsAttended(qint16 yearsAttended);
-	PersonBuilder* PrevLocation(QString prevLocation);
+	PersonBuilder* PrevAttended	(bool prevAttended);
+	PersonBuilder* YearsAttended(const qint16& yearsAttended);
+	PersonBuilder* PrevLocation	(const QString& prevLocation);
 
-	PersonBuilder* Allergies(QString allergies);
-	PersonBuilder* Group(sr::Group group);
+	PersonBuilder* Allergies	(const QString& allergies);
+	PersonBuilder* Group		(const sr::Group&& group);
+
+	PersonBuilder* Parents		(const QString& parents);
+	PersonBuilder* Children		(const QString& children);
 
 private:
 	std::unique_ptr<qint16>	id;
@@ -66,6 +69,9 @@ private:
 	std::unique_ptr<qint16>		yearsAttended;
 	std::unique_ptr<QString>	allergies;
 	std::unique_ptr<sr::Group>	group;
+
+	std::unique_ptr<QString>	parents;
+	std::unique_ptr<QString>	children;
 };
 
 class Person
@@ -96,6 +102,9 @@ public:
 
 	inline const sr::Group&			GetGroup()			const { return *this->group; }
 	
+	inline const QString&			GetParents()		const { return *this->parents; }
+	inline const QString&			GetChildren()		const { return *this->children; }
+
 	QString							GetGroupAsString()	const;
 
 protected:
@@ -114,6 +123,9 @@ protected:
 	std::unique_ptr<bool>			prevAttended;
 	std::unique_ptr<qint16>			yearsAttended;
 	std::unique_ptr<QString>		allergies;
+
+	std::unique_ptr<QString>		parents;
+	std::unique_ptr<QString>		children;
 
 	std::unique_ptr<qint16>			age;
 	std::unique_ptr<sr::Group>		group;

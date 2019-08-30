@@ -30,7 +30,10 @@ public:
     QFormLayout *formLayout;
     QLabel *label_firstName;
     QTextEdit *textEdit_firstName;
+    QLabel *label_lastName;
     QTextEdit *textEdit_lastName;
+    QLabel *label_gender;
+    QComboBox *comboBox_gender;
     QLabel *label_dateOfBirth;
     QDateEdit *dateEdit_dateOfBirth;
     QLabel *label_homeAddress;
@@ -50,15 +53,16 @@ public:
     QPushButton *pushButton_clear;
     QPushButton *pushButton_cancel;
     QPushButton *pushButton_create;
-    QLabel *label_lastName;
-    QLabel *label_gender;
-    QComboBox *comboBox_gender;
+    QTextEdit *textEdit_allergies;
+    QLabel *label_allergies;
+    QTextEdit *textEdit_kin;
+    QLabel *label_kin;
 
     void setupUi(QWidget *SRCreateUser)
     {
         if (SRCreateUser->objectName().isEmpty())
             SRCreateUser->setObjectName(QString::fromUtf8("SRCreateUser"));
-        SRCreateUser->resize(465, 400);
+        SRCreateUser->resize(500, 500);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -66,7 +70,7 @@ public:
         SRCreateUser->setSizePolicy(sizePolicy);
         formLayoutWidget = new QWidget(SRCreateUser);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(0, 0, 461, 391));
+        formLayoutWidget->setGeometry(QRect(0, 0, 491, 491));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -88,12 +92,29 @@ public:
 
         formLayout->setWidget(0, QFormLayout::FieldRole, textEdit_firstName);
 
+        label_lastName = new QLabel(formLayoutWidget);
+        label_lastName->setObjectName(QString::fromUtf8("label_lastName"));
+        label_lastName->setFont(font);
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, label_lastName);
+
         textEdit_lastName = new QTextEdit(formLayoutWidget);
         textEdit_lastName->setObjectName(QString::fromUtf8("textEdit_lastName"));
         textEdit_lastName->setFont(font);
         textEdit_lastName->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         formLayout->setWidget(1, QFormLayout::FieldRole, textEdit_lastName);
+
+        label_gender = new QLabel(formLayoutWidget);
+        label_gender->setObjectName(QString::fromUtf8("label_gender"));
+        label_gender->setFont(font);
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, label_gender);
+
+        comboBox_gender = new QComboBox(formLayoutWidget);
+        comboBox_gender->setObjectName(QString::fromUtf8("comboBox_gender"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, comboBox_gender);
 
         label_dateOfBirth = new QLabel(formLayoutWidget);
         label_dateOfBirth->setObjectName(QString::fromUtf8("label_dateOfBirth"));
@@ -163,13 +184,13 @@ public:
         checkBox_prevAttended->setObjectName(QString::fromUtf8("checkBox_prevAttended"));
         checkBox_prevAttended->setFont(font);
 
-        formLayout->setWidget(8, QFormLayout::FieldRole, checkBox_prevAttended);
+        formLayout->setWidget(9, QFormLayout::FieldRole, checkBox_prevAttended);
 
         label_prevLocation = new QLabel(formLayoutWidget);
         label_prevLocation->setObjectName(QString::fromUtf8("label_prevLocation"));
         label_prevLocation->setFont(font);
 
-        formLayout->setWidget(9, QFormLayout::LabelRole, label_prevLocation);
+        formLayout->setWidget(10, QFormLayout::LabelRole, label_prevLocation);
 
         textEdit_prevLocation = new QTextEdit(formLayoutWidget);
         textEdit_prevLocation->setObjectName(QString::fromUtf8("textEdit_prevLocation"));
@@ -177,13 +198,13 @@ public:
         textEdit_prevLocation->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         textEdit_prevLocation->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        formLayout->setWidget(9, QFormLayout::FieldRole, textEdit_prevLocation);
+        formLayout->setWidget(10, QFormLayout::FieldRole, textEdit_prevLocation);
 
         label_YearsAttended = new QLabel(formLayoutWidget);
         label_YearsAttended->setObjectName(QString::fromUtf8("label_YearsAttended"));
         label_YearsAttended->setFont(font);
 
-        formLayout->setWidget(10, QFormLayout::LabelRole, label_YearsAttended);
+        formLayout->setWidget(11, QFormLayout::LabelRole, label_YearsAttended);
 
         textEdit_yearsAttended = new QTextEdit(formLayoutWidget);
         textEdit_yearsAttended->setObjectName(QString::fromUtf8("textEdit_yearsAttended"));
@@ -191,7 +212,7 @@ public:
         textEdit_yearsAttended->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         textEdit_yearsAttended->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        formLayout->setWidget(10, QFormLayout::FieldRole, textEdit_yearsAttended);
+        formLayout->setWidget(11, QFormLayout::FieldRole, textEdit_yearsAttended);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -215,24 +236,34 @@ public:
         horizontalLayout_2->addWidget(pushButton_create);
 
 
-        formLayout->setLayout(11, QFormLayout::FieldRole, horizontalLayout_2);
+        formLayout->setLayout(13, QFormLayout::FieldRole, horizontalLayout_2);
 
-        label_lastName = new QLabel(formLayoutWidget);
-        label_lastName->setObjectName(QString::fromUtf8("label_lastName"));
-        label_lastName->setFont(font);
+        textEdit_allergies = new QTextEdit(formLayoutWidget);
+        textEdit_allergies->setObjectName(QString::fromUtf8("textEdit_allergies"));
+        textEdit_allergies->setFont(font);
+        textEdit_allergies->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        textEdit_allergies->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_lastName);
+        formLayout->setWidget(12, QFormLayout::FieldRole, textEdit_allergies);
 
-        label_gender = new QLabel(formLayoutWidget);
-        label_gender->setObjectName(QString::fromUtf8("label_gender"));
-        label_gender->setFont(font);
+        label_allergies = new QLabel(formLayoutWidget);
+        label_allergies->setObjectName(QString::fromUtf8("label_allergies"));
+        label_allergies->setFont(font);
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, label_gender);
+        formLayout->setWidget(12, QFormLayout::LabelRole, label_allergies);
 
-        comboBox_gender = new QComboBox(formLayoutWidget);
-        comboBox_gender->setObjectName(QString::fromUtf8("comboBox_gender"));
+        textEdit_kin = new QTextEdit(formLayoutWidget);
+        textEdit_kin->setObjectName(QString::fromUtf8("textEdit_kin"));
+        textEdit_kin->setFont(font);
+        textEdit_kin->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, comboBox_gender);
+        formLayout->setWidget(8, QFormLayout::FieldRole, textEdit_kin);
+
+        label_kin = new QLabel(formLayoutWidget);
+        label_kin->setObjectName(QString::fromUtf8("label_kin"));
+        label_kin->setFont(font);
+
+        formLayout->setWidget(8, QFormLayout::LabelRole, label_kin);
 
 
         retranslateUi(SRCreateUser);
@@ -244,6 +275,8 @@ public:
     {
         SRCreateUser->setWindowTitle(QCoreApplication::translate("SRCreateUser", "Create New User", nullptr));
         label_firstName->setText(QCoreApplication::translate("SRCreateUser", "First Name", nullptr));
+        label_lastName->setText(QCoreApplication::translate("SRCreateUser", "Last Name", nullptr));
+        label_gender->setText(QCoreApplication::translate("SRCreateUser", "Gender", nullptr));
         label_dateOfBirth->setText(QCoreApplication::translate("SRCreateUser", "Date Of Birth", nullptr));
         label_homeAddress->setText(QCoreApplication::translate("SRCreateUser", "Home Address", nullptr));
         label_homePhone->setText(QCoreApplication::translate("SRCreateUser", "Home Phone", nullptr));
@@ -255,8 +288,8 @@ public:
         pushButton_clear->setText(QCoreApplication::translate("SRCreateUser", "Clear", nullptr));
         pushButton_cancel->setText(QCoreApplication::translate("SRCreateUser", "Cancel", nullptr));
         pushButton_create->setText(QCoreApplication::translate("SRCreateUser", "Create", nullptr));
-        label_lastName->setText(QCoreApplication::translate("SRCreateUser", "Last Name", nullptr));
-        label_gender->setText(QCoreApplication::translate("SRCreateUser", "Gender", nullptr));
+        label_allergies->setText(QCoreApplication::translate("SRCreateUser", "Allergies", nullptr));
+        label_kin->setText(QCoreApplication::translate("SRCreateUser", "Parents/Guardians", nullptr));
     } // retranslateUi
 
 };

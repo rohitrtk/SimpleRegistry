@@ -9,6 +9,16 @@
 #include <vector>
 #include <array>
 
+enum class TableTitleIndex
+{
+	ID,				TYPE,			FIRST_NAME,
+	LAST_NAME,		GENDER,			AGE,
+	DOB,			GROUP,			ADDRESS,
+	HOME_PHONE,		CELL_PHONE,		EMAIL_ADDRESS,
+	PREV_ATTENDED,	PREV_LOCATION,	YEARS_ATTENDED,
+	PARENTS,		CHILDREN,		ALLERGIES
+};
+
 class TableManager
 {
 public:

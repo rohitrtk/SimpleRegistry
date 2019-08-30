@@ -45,8 +45,8 @@ private:
 
 	static qint16 idAssign;
 
-	const unsigned short int WindowWidth	= 465;
-	const unsigned short int WindowHeight	= 400;
+	const unsigned short int WindowWidth	= 500;
+	const unsigned short int WindowHeight	= 500;
 
 	const QString WindowTitleParent = "Create New Parent";
 	const QString WindowTitleChild  = "Create New Child";
@@ -67,6 +67,11 @@ private:
 	void MakePrevAttended	(PersonBuilder& builder);
 	void MakePrevLocation	(PersonBuilder& builder);
 	void MakeYearsAttended	(PersonBuilder& builder);
+
+	void MakeAllergies		(PersonBuilder& builder);
+
+	void MakeParents		(PersonBuilder& builder);
+	void MakeChildren		(PersonBuilder& builder);
 
 	void ParamMissing(const sr::PersonType&& type);
 };

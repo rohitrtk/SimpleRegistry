@@ -33,6 +33,7 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 	this->ui.textEdit_prevLocation->	installEventFilter(this);
 	this->ui.textEdit_yearsAttended->	installEventFilter(this);
 	this->ui.comboBox_gender->			installEventFilter(this);
+	this->ui.textEdit_allergies->		installEventFilter(this);
 	
 	this->ui.comboBox_gender->addItem("Male");
 	this->ui.comboBox_gender->addItem("Female");
@@ -46,16 +47,6 @@ SRCreateUser::SRCreateUser(QWidget *parent)
 
 	this->paramMissing = false;
 	this->personType = sr::PersonType::UNDEFINED;
-	
-	QWidget::setTabOrder(ui.textEdit_firstName,		ui.textEdit_lastName);
-	QWidget::setTabOrder(ui.textEdit_lastName,		ui.dateEdit_dateOfBirth);
-	QWidget::setTabOrder(ui.dateEdit_dateOfBirth,	ui.textEdit_homeAddress);
-	QWidget::setTabOrder(ui.textEdit_homeAddress,	ui.textEdit_homePhone);
-	QWidget::setTabOrder(ui.textEdit_homePhone,		ui.textEdit_cellPhone);
-	QWidget::setTabOrder(ui.textEdit_cellPhone,		ui.textEdit_emailAddress);
-	QWidget::setTabOrder(ui.textEdit_emailAddress,	ui.checkBox_prevAttended);
-	QWidget::setTabOrder(ui.checkBox_prevAttended,	ui.textEdit_prevLocation);
-	QWidget::setTabOrder(ui.textEdit_prevLocation,	ui.textEdit_yearsAttended);
 }
 
 SRCreateUser::~SRCreateUser()
@@ -78,6 +69,7 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 		this->ui.label_homePhone->setText(ui.label_homePhone->text() + "*");
 		this->ui.label_cellPhone->setText(ui.label_cellPhone->text() + "*");
 		this->ui.label_emailAddress->setText(ui.label_emailAddress->text() + "*");
+		this->ui.label_kin->setText("Children");
 	}
 	else if (type == sr::PersonType::CHILD)
 	{
@@ -85,6 +77,7 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 		this->ui.checkBox_prevAttended->setText(ui.checkBox_prevAttended->text() + "*");
 		this->ui.label_prevLocation->setText(ui.label_prevLocation->text() + "*");
 		this->ui.label_YearsAttended->setText(ui.label_YearsAttended->text() + "*");
+		this->ui.label_kin->setText("Parent/Guardian(s)");
 	}
 }
 
@@ -111,6 +104,10 @@ void SRCreateUser::Create()
 	MakePrevAttended(builder);
 	MakePrevLocation(builder);
 	MakeYearsAttended(builder);
+	MakeAllergies(builder);
+
+	if (personType == sr::PersonType::PARENT) MakeChildren(builder);
+	else if (personType == sr::PersonType::CHILD) MakeParents(builder);
 
 	if (this->paramMissing)
 	{
@@ -177,7 +174,7 @@ void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 
 void SRCreateUser::MakeLastName(PersonBuilder& builder)
 {
-	QString lastName = ui.textEdit_lastName->toPlainText().trimmed();
+	QString& lastName = ui.textEdit_lastName->toPlainText().trimmed();
 	if (!lastName.isEmpty())
 	{
 		builder.LastName(std::move(lastName));
@@ -200,7 +197,7 @@ void SRCreateUser::MakeGender(PersonBuilder& builder)
 
 void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 {
-	QString s = ui.textEdit_homeAddress->toPlainText().trimmed();
+	QString& s = ui.textEdit_homeAddress->toPlainText().trimmed();
 	
 	if (s.isEmpty())
 	{
@@ -213,7 +210,7 @@ void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 
 void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 {
-	QString s = ui.textEdit_homePhone->toPlainText().trimmed();
+	QString& s = ui.textEdit_homePhone->toPlainText().trimmed();
 
 	if (s.isEmpty())
 	{
@@ -226,7 +223,7 @@ void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 
 void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 {
-	QString s = ui.textEdit_cellPhone->toPlainText().trimmed();
+	QString& s = ui.textEdit_cellPhone->toPlainText().trimmed();
 
 	if (s.isEmpty())
 	{
@@ -239,7 +236,7 @@ void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 
 void SRCreateUser::MakeEmailAddress(PersonBuilder& builder)
 {
-	QString email = ui.textEdit_emailAddress->toPlainText().trimmed();
+	QString& email = ui.textEdit_emailAddress->toPlainText().trimmed();
 	
 	if (email.isEmpty())
 	{
@@ -262,7 +259,7 @@ void SRCreateUser::MakePrevLocation(PersonBuilder& builder)
 {
 	if (ui.textEdit_prevLocation->isEnabled())
 	{
-		QString s = ui.textEdit_prevLocation->toPlainText().trimmed();
+		QString& s = ui.textEdit_prevLocation->toPlainText().trimmed();
 
 		if (s.isEmpty())
 		{
@@ -280,7 +277,7 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 {
 	if (ui.textEdit_yearsAttended->isEnabled())
 	{
-		QString s = ui.textEdit_yearsAttended->toPlainText().trimmed();
+		QString& s = ui.textEdit_yearsAttended->toPlainText().trimmed();
 
 		if (s.isEmpty())
 		{
@@ -293,6 +290,27 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 	}
 
 	builder.YearsAttended(-1);
+}
+
+void SRCreateUser::MakeAllergies(PersonBuilder& builder)
+{
+	QString& s = ui.textEdit_allergies->toPlainText().trimmed();
+	
+	builder.Allergies(s);
+}
+
+void SRCreateUser::MakeParents(PersonBuilder& builder)
+{
+	QString& s = ui.textEdit_kin->toPlainText().trimmed();
+
+	builder.Parents(s);
+}
+
+void SRCreateUser::MakeChildren(PersonBuilder& builder)
+{
+	QString& s = ui.textEdit_kin->toPlainText().trimmed();
+
+	builder.Children(s);
 }
 
 void SRCreateUser::ParamMissing(const sr::PersonType&& type)

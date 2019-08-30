@@ -2,6 +2,7 @@
 #include <sstream>
 #include <QString>
 #include <QDate>
+#include <QDebug>
 
 Person::Person(PersonBuilder* builder) :
 	id				(std::move(builder->id)),
@@ -16,7 +17,9 @@ Person::Person(PersonBuilder* builder) :
 	prevLocation	(std::move(builder->prevLocation)),
 	prevAttended	(std::move(builder->prevAttended)),
 	yearsAttended	(std::move(builder->yearsAttended)),
-	allergies		(std::move(builder->allergies))
+	allergies		(std::move(builder->allergies)),
+	parents			(std::move(builder->parents)),
+	children		(std::move(builder->children))
 {
 	if (!id)			throw ErrorBuilderID;
 	if (!firstName)		throw ErrorBuilderFirstName;
@@ -93,49 +96,49 @@ PersonBuilder* PersonBuilder::ID(qint16 id)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::FirstName(QString firstName)
+PersonBuilder* PersonBuilder::FirstName(const QString& firstName)
 {
 	this->firstName = std::make_unique<QString>(firstName);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::LastName(QString lastName)
+PersonBuilder* PersonBuilder::LastName(const QString& lastName)
 {
 	this->lastName = std::make_unique<QString>(lastName);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::DateOfBirth(QDate dateOfBirth)
+PersonBuilder* PersonBuilder::DateOfBirth(const QDate& dateOfBirth)
 {
 	this->dateOfBirth = std::make_unique<QDate>(dateOfBirth);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Gender(QString gender)
+PersonBuilder* PersonBuilder::Gender(const QString& gender)
 {
 	this->gender = std::make_unique<QString>(gender);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::HomeAddress(QString homeAddress)
+PersonBuilder* PersonBuilder::HomeAddress(const QString& homeAddress)
 {
 	this->homeAddress = std::make_unique<QString>(homeAddress);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::EmailAddress(QString emailAddress)
+PersonBuilder* PersonBuilder::EmailAddress(const QString& emailAddress)
 {
 	this->emailAddress = std::make_unique<QString>(emailAddress);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::HomePhone(QString homePhone)
+PersonBuilder* PersonBuilder::HomePhone(const QString& homePhone)
 {
 	this->homePhone = std::make_unique<QString>(homePhone);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::CellPhone(QString cellPhone)
+PersonBuilder* PersonBuilder::CellPhone(const QString& cellPhone)
 {
 	this->cellPhone = std::make_unique<QString>(cellPhone);
 	return this;
@@ -147,26 +150,38 @@ PersonBuilder* PersonBuilder::PrevAttended(bool prevAttended)
 	return this;
 }
 
-PersonBuilder* PersonBuilder::YearsAttended(qint16 yearsAttended)
+PersonBuilder* PersonBuilder::YearsAttended(const qint16& yearsAttended)
 {
 	this->yearsAttended = std::make_unique<qint16>(yearsAttended);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Allergies(QString allergies)
+PersonBuilder* PersonBuilder::Allergies(const QString& allergies)
 {
 	this->allergies = std::make_unique<QString>(allergies);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::PrevLocation(QString prevLocation)
+PersonBuilder* PersonBuilder::PrevLocation(const QString& prevLocation)
 {
 	this->prevLocation = std::make_unique<QString>(prevLocation);
 	return this;
 }
 
-PersonBuilder* PersonBuilder::Group(sr::Group group)
+PersonBuilder* PersonBuilder::Group(const sr::Group&& group)
 {
 	this->group = std::make_unique<sr::Group>(group);
+	return this;
+}
+
+PersonBuilder* PersonBuilder::Parents(const QString& parents)
+{
+	this->parents = std::make_unique<QString>(parents);
+	return this;
+}
+
+PersonBuilder* PersonBuilder::Children(const QString& children)
+{
+	this->children = std::make_unique<QString>(children);
 	return this;
 }

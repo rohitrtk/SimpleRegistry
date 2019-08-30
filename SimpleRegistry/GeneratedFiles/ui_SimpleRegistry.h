@@ -54,7 +54,7 @@ public:
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
         tableWidget->setGeometry(QRect(0, 0, 1279, 719));
         tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
         tableWidget->setRowCount(0);
         tableWidget->setColumnCount(0);

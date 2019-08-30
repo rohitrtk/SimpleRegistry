@@ -81,7 +81,7 @@ std::vector<std::unique_ptr<Person>> CSVHandler::ReadRecords(const std::string& 
 
 			
 		}while(altf == true);
-		pb.Allergies(allergies);
+		//pb.Allergies(allergies);
 		
 		getline(f, line, ','); //Group
 		if(line == "A")
