@@ -22,14 +22,14 @@ enum class TableTitleIndex
 class TableManager
 {
 public:
-	TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people);
+	TableManager(QTableWidget* tw, std::vector<Person*>& people);
 	~TableManager() {}
 
 	void AddPersonToTable(Person* person);
 
 private:
 	QTableWidget* tableWidget;
-	std::vector<std::unique_ptr<Person>>* people;
+	std::vector<Person*>& people;
 
 	QStringList tableTitles;
 };
@@ -39,24 +39,23 @@ class SimpleRegistry : public QMainWindow
 	Q_OBJECT
 
 public:
-	SimpleRegistry(QWidget *parent = Q_NULLPTR);
-
-	const std::vector<std::unique_ptr<Person>>& GetPeople() const;
+	SimpleRegistry(QWidget* parent = Q_NULLPTR);
+	~SimpleRegistry();
 
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;
-	//void SavePerson() const;
+	void Save()			const;
 
 protected:
-	void customEvent(QEvent *event) override;
+	void customEvent(QEvent* event) override;
 	void closeEvent (QCloseEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;
 
-	std::vector<std::unique_ptr<Person>> people;
+	std::vector<Person*> people;
 
 	std::unique_ptr<SRCreateUser> parentWindow;
 	std::unique_ptr<SRCreateUser> childWindow;

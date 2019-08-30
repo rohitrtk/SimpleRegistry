@@ -25,7 +25,7 @@ public:
 
 	void SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type = sr::PersonType::PARENT);
 
-	inline void SetPersonList(std::vector<std::unique_ptr<Person>>& list) { this->personList = &list; }
+	inline void SetPersonList(std::vector<Person*>* list) { this->personList = list; }
 
 public slots:
 	void Create();
@@ -51,7 +51,7 @@ private:
 	const QString WindowTitleParent = "Create New Parent";
 	const QString WindowTitleChild  = "Create New Child";
 	
-	std::vector<std::unique_ptr<Person>>* personList;
+	std::vector<Person*>* personList;
 	bool paramMissing;
 
 	void MakeFirstName		(PersonBuilder& builder);

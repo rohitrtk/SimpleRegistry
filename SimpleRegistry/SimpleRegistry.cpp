@@ -12,23 +12,33 @@
 #include "SRConsants.h"
 #include "SRCSVHandler.h"
 
-SimpleRegistry::SimpleRegistry(QWidget *parent)
+SimpleRegistry::SimpleRegistry(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 
 	this->parentWindow = std::make_unique<SRCreateUser>();
-	this->parentWindow->SetPersonList(people);
+	this->parentWindow->SetPersonList(&people);
 	this->parentWindow->SetupWindow(this);
 
 	this->childWindow  = std::make_unique<SRCreateUser>();
-	this->childWindow->SetPersonList(people);
+	this->childWindow->SetPersonList(&people);
 	this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
 
-	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget, &this->people);
+	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget, this->people);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
+	connect(ui.actionSave,			SIGNAL(triggered()), this, SLOT(Save()));
+}
+
+SimpleRegistry::~SimpleRegistry()
+{
+	for (const auto& c : this->people)
+	{
+		delete c;
+	}
+	this->people.clear();
 }
 
 void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
@@ -53,9 +63,10 @@ void SimpleRegistry::CreateChild() const
 	MakeWindow(sr::PersonType::CHILD);
 }
 
-const std::vector<std::unique_ptr<Person>>& SimpleRegistry::GetPeople() const
+void SimpleRegistry::Save() const 
 {
-	return this->people;
+	CSVHandler h("test.csv");
+	//h.WriteRecord(&this->people);
 }
 
 void SimpleRegistry::customEvent(QEvent* event)
@@ -73,7 +84,7 @@ void SimpleRegistry::closeEvent(QCloseEvent* event)
 
 void SimpleRegistry::UserCreated(SRUserCreatedEvent* event)
 {
-	Person* p = people.at(people.size() - 1).get();
+	Person* p = people.at(people.size() - 1);
 	tableManager->AddPersonToTable(p);
 }
 
@@ -85,7 +96,7 @@ void SimpleRegistry::resizeEvent(QResizeEvent* event)
 	this->ui.tableWidget->setGeometry(0, 0, size.width(), size.height());
 }
 
-TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>>* people) :
+TableManager::TableManager(QTableWidget* tw, std::vector<Person*>& people) :
 	tableWidget(tw),
 	people(people)
 {	
@@ -99,7 +110,6 @@ TableManager::TableManager(QTableWidget* tw, std::vector<std::unique_ptr<Person>
 
 	qint16 numColumns = tableTitles.size();
 	this->tableWidget->setColumnCount(numColumns);
-	this->tableWidget->setRowCount(1);
 	this->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->tableWidget->horizontalHeader()->setStretchLastSection(true);
 

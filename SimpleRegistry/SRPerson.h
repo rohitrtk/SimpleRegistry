@@ -23,9 +23,9 @@ public:
 	~PersonBuilder() {}
 
 	template<typename T>
-	std::unique_ptr<T> Build()
+	T* Build()
 	{
-		return std::make_unique<T>(this);
+		return new T(this);
 	}
 
 	PersonBuilder* ID(qint16 id);
@@ -148,12 +148,6 @@ class Child : public Person
 public:
 	Child() = delete;
 	Child(PersonBuilder* builder);
-	
-	inline const sr::Group& GetGroup()			const { return *this->group; }
-
-private:
-
-	std::unique_ptr<sr::Group> group;
 };
 
 #endif

@@ -86,7 +86,6 @@ Child::Child(PersonBuilder* builder) : Person(builder)
 	if (!prevAttended)	throw ErrorBuilderPrevAttended;
 	if (!yearsAttended) throw ErrorBuilderYearsAttended;
 
-	this->group = std::move(builder->group);
 	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::CHILD);
 }
 

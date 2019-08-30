@@ -1,10 +1,18 @@
 #include "SRCSVHandler.h"
 
+CSVHandler::CSVHandler(const std::string& path) :
+	filePath(path)
+{
+}
+
+CSVHandler::~CSVHandler() 
+{
+}
+
 void CSVHandler::CreateFile(const std::string& file)
 {
 	std::ofstream f (file, std::ios::out);
 }
-
 
 std::vector<std::unique_ptr<Person>> CSVHandler::ReadRecords(const std::string& file)
 {
@@ -102,13 +110,30 @@ std::vector<std::unique_ptr<Person>> CSVHandler::ReadRecords(const std::string& 
 		else if (line == "PRE")
 		pb.Group(sr::Group::PRE);
 
-		persons.push_back(pb.Build<Parent>());
+		//persons.push_back(pb.Build<Parent>());
 	}
 	
 
 	return persons;
 }
 
+void CSVHandler::WriteRecord(Person* p)
+{
+	
+}
+
+void CSVHandler::WriteRecord(std::vector<Person*> people)
+{
+	std::ofstream f;
+	f.open(this->filePath);
+
+	//for (const auto& person : *people)
+	//{
+	//	f << person;
+	//}
+
+	f.close();
+}
 
 void CSVHandler::WriteRecord(const std::string& file, std::vector<std::unique_ptr<Person>> persons)
 {
@@ -205,6 +230,4 @@ void CSVHandler::WriteRecord(const std::string& file, std::vector<std::unique_pt
 
 
 	}
-
-		
 }
