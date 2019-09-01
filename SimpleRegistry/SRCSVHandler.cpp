@@ -117,8 +117,9 @@ std::vector<std::unique_ptr<Person>> CSVHandler::ReadRecords(const std::string& 
 	return persons;
 }
 
-void CSVHandler::WriteRecord(Person* p)
-{	
+void CSVHandler::WriteRecord(std::ofstream& stream, const Person& p)
+{
+	stream << p << std::endl;
 }
 
 void CSVHandler::WriteRecord(std::vector<Person*>& people)

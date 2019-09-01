@@ -19,11 +19,10 @@ public:
 	std::vector<std::unique_ptr<Person>> ReadRecords(const std::string&);
 
 	void WriteRecord(std::vector<Person*>& people);
+	void WriteRecord(std::ofstream& stream, const Person& p);
 
 private:
 	std::string filePath;
-
-	void WriteRecord(Person* p);
 };
 
 #endif

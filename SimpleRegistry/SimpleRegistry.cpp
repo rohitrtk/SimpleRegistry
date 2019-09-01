@@ -9,6 +9,7 @@
 #include <QHeaderView>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <fstream>
 #include "SRConsants.h"
 #include "SRCSVHandler.h"
 
@@ -58,7 +59,18 @@ void SimpleRegistry::CreateChild() const
 
 void SimpleRegistry::Save()
 {
-	CSVHandler handler("test.csv");
+	const QTableWidget& tw = this->tableManager->GetTableWidget();
+	std::ofstream f;
+
+	f.open("test.csv");
+	for (int i = 0; i < tw.rowCount(); i++)
+	{
+		for (int j = 0; j < tw.columnCount(); j++)
+		{
+			qInfo() << tw.itemAt(j, i)->data(0);
+		}
+	}
+	f.close();
 	//handler.WriteRecord(this->people);
 }
 
@@ -114,6 +126,8 @@ void TableManager::AddPersonToTable(const Person& p)
 
 	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ID), new QTableWidgetItem(QString::number(p.GetID())));
 	
+	QTableWidgetItem* q;
+
 	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::FIRST_NAME),	new QTableWidgetItem(p.GetFirstName()));
 	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::LAST_NAME),		new QTableWidgetItem(p.GetLastName()));
 	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GENDER),		new QTableWidgetItem(p.GetGender()));
@@ -133,15 +147,11 @@ void TableManager::AddPersonToTable(const Person& p)
 	}
 	else if (p.GetPersonType() == sr::PersonType::CHILD)
 	{
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),		new QTableWidgetItem("Child"));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PARENTS),	new QTableWidgetItem(p.GetParents()));
-
-		QTableWidgetItem* q = new QTableWidgetItem();
-		Qt::CheckState checkState = p.GetPrevAttendedS();
-		q->setCheckState(checkState);
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_ATTENDED), q);
-
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),				new QTableWidgetItem("Child"));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PARENTS),			new QTableWidgetItem(p.GetParents()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_ATTENDED),		new QTableWidgetItem(p.GetPrevAttendedS()));
 		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_LOCATION),		new QTableWidgetItem(p.GetPrevLocation()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED),	new QTableWidgetItem(QString::number(p.GetYearsAttended())));
+		q = new QTableWidgetItem(QString::number(p.GetYearsAttended()));
+		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED), q);
 	}
 }

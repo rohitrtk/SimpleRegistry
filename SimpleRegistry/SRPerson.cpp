@@ -227,7 +227,7 @@ std::ostream& operator << (std::ostream& stream, const Person& person)
 
 	if (person.prevAttended)
 	{
-		stream << person.GetPrevAttendedS();
+		stream << person.GetPrevAttendedS().toStdString();
 	}
 	stream << ", ";
 

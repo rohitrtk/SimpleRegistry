@@ -96,7 +96,7 @@ public:
 
 	inline const QString&			GetPrevLocation()	const { return *this->prevLocation; }
 	inline const bool&				GetPrevAttended()	const { return *this->prevAttended; }
-	inline Qt::CheckState			GetPrevAttendedS()	const { return (*this->prevAttended) ? Qt::Checked : Qt::Unchecked; }
+	inline QString					GetPrevAttendedS()	const { return (*this->prevAttended) ? "Yes" : "No"; }
 	inline const qint16&			GetYearsAttended()	const { return *this->yearsAttended; }
 	inline const QString&			GetAllergies()		const { return *this->allergies; }
 

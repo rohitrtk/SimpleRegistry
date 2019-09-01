@@ -27,6 +27,9 @@ public:
 
 	void AddPersonToTable(const Person& person);
 
+	inline const QTableWidget&	GetTableWidget() const { return *this->tableWidget; }
+	inline const QStringList&	GetTableTitles() const { return this->tableTitles; }
+
 private:
 	QTableWidget* tableWidget;
 	QStringList tableTitles;
