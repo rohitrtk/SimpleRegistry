@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <array>
+#include <QSqlDatabase>
 
 enum class TableTitleIndex
 {
@@ -40,7 +41,7 @@ class SimpleRegistry : public QMainWindow
 	Q_OBJECT
 
 public:
-	SimpleRegistry(QWidget* parent = Q_NULLPTR);
+	SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent = Q_NULLPTR);
 	~SimpleRegistry();
 
 public slots:
@@ -55,6 +56,8 @@ protected:
 
 private:
 	Ui::SimpleRegistryClass ui;
+
+	std::unique_ptr<QSqlDatabase> dataBase;
 
 	std::unique_ptr<SRCreateUser> parentWindow;
 	std::unique_ptr<SRCreateUser> childWindow;
