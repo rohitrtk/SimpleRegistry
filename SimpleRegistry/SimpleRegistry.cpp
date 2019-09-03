@@ -12,6 +12,8 @@
 #include <fstream>
 #include "SRConsants.h"
 #include "SRCSVHandler.h"
+#include <QtSql>
+#include <QSqlDatabase>
 
 SimpleRegistry::SimpleRegistry(QWidget* parent)
 	: QMainWindow(parent)
@@ -29,6 +31,21 @@ SimpleRegistry::SimpleRegistry(QWidget* parent)
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
 	connect(ui.actionSave,			SIGNAL(triggered()), this, SLOT(Save()));
+
+	QSqlDatabase dataBase = QSqlDatabase::addDatabase("QMYSQL");
+	dataBase.setHostName("localhost");
+	dataBase.setUserName("root");
+	dataBase.setPassword("");
+	dataBase.setDatabaseName("test");
+
+	if (dataBase.open())
+	{
+		qInfo() << "Connected!";
+	}
+	else
+	{
+		qInfo() << "Connection failed!";
+	}
 }
 
 SimpleRegistry::~SimpleRegistry()

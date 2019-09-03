@@ -157,7 +157,7 @@ void SRCreateUser::Clear()
 
 void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 {
-	QString& firstName = ui.textEdit_firstName->toPlainText().trimmed();
+	QString firstName = ui.textEdit_firstName->toPlainText().trimmed();
 	if (!firstName.isEmpty())
 	{
 		builder.FirstName(std::move(firstName));
@@ -169,7 +169,7 @@ void SRCreateUser::MakeFirstName(PersonBuilder& builder)
 
 void SRCreateUser::MakeLastName(PersonBuilder& builder)
 {
-	QString& lastName = ui.textEdit_lastName->toPlainText().trimmed();
+	QString lastName = ui.textEdit_lastName->toPlainText().trimmed();
 	if (!lastName.isEmpty())
 	{
 		builder.LastName(std::move(lastName));
@@ -186,13 +186,13 @@ void SRCreateUser::MakeDateOfBirth(PersonBuilder& builder)
 
 void SRCreateUser::MakeGender(PersonBuilder& builder)
 {
-	QString& gender = ui.comboBox_gender->currentText();
+	QString gender = ui.comboBox_gender->currentText();
 	builder.Gender(gender);
 }
 
 void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_homeAddress->toPlainText().trimmed();
+	QString s = ui.textEdit_homeAddress->toPlainText().trimmed();
 	
 	if (s.isEmpty())
 	{
@@ -205,7 +205,7 @@ void SRCreateUser::MakeHomeAddress(PersonBuilder& builder)
 
 void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_homePhone->toPlainText().trimmed();
+	QString s = ui.textEdit_homePhone->toPlainText().trimmed();
 
 	if (s.isEmpty())
 	{
@@ -218,7 +218,7 @@ void SRCreateUser::MakeHomePhone(PersonBuilder& builder)
 
 void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_cellPhone->toPlainText().trimmed();
+	QString s = ui.textEdit_cellPhone->toPlainText().trimmed();
 
 	if (s.isEmpty())
 	{
@@ -231,7 +231,7 @@ void SRCreateUser::MakeCellPhone(PersonBuilder& builder)
 
 void SRCreateUser::MakeEmailAddress(PersonBuilder& builder)
 {
-	QString& email = ui.textEdit_emailAddress->toPlainText().trimmed();
+	QString email = ui.textEdit_emailAddress->toPlainText().trimmed();
 	
 	if (email.isEmpty())
 	{
@@ -254,7 +254,7 @@ void SRCreateUser::MakePrevLocation(PersonBuilder& builder)
 {
 	if (ui.textEdit_prevLocation->isEnabled())
 	{
-		QString& s = ui.textEdit_prevLocation->toPlainText().trimmed();
+		QString s = ui.textEdit_prevLocation->toPlainText().trimmed();
 
 		if (s.isEmpty())
 		{
@@ -272,7 +272,7 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 {
 	if (ui.textEdit_yearsAttended->isEnabled())
 	{
-		QString& s = ui.textEdit_yearsAttended->toPlainText().trimmed();
+		QString s = ui.textEdit_yearsAttended->toPlainText().trimmed();
 
 		if (s.isEmpty())
 		{
@@ -289,21 +289,21 @@ void SRCreateUser::MakeYearsAttended(PersonBuilder& builder)
 
 void SRCreateUser::MakeAllergies(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_allergies->toPlainText().trimmed();
+	QString s = ui.textEdit_allergies->toPlainText().trimmed();
 	
 	builder.Allergies(s);
 }
 
 void SRCreateUser::MakeParents(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_kin->toPlainText().trimmed();
+	QString s = ui.textEdit_kin->toPlainText().trimmed();
 
 	builder.Parents(s);
 }
 
 void SRCreateUser::MakeChildren(PersonBuilder& builder)
 {
-	QString& s = ui.textEdit_kin->toPlainText().trimmed();
+	QString s = ui.textEdit_kin->toPlainText().trimmed();
 
 	builder.Children(s);
 }

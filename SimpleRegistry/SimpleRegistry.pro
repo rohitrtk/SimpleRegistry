@@ -5,7 +5,7 @@
 TEMPLATE = app
 TARGET = SimpleRegistry
 DESTDIR = ../x64/Debug
-QT += core gui widgets
+QT += core gui widgets sql
 CONFIG += debug console
 DEFINES += _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_WIDGETS_LIB
 INCLUDEPATH += ./GeneratedFiles \
