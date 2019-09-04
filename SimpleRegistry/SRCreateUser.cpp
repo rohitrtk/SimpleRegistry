@@ -14,45 +14,7 @@
 #include <QEvent>
 #include <QString>
 
-qint16 SRCreateUser::idAssign = 1;
-
-SRCreateUser::SRCreateUser(QWidget *parent)
-	: QWidget(parent)
-{
-	ui.setupUi(this);
-
-	this->ui.textEdit_firstName->		installEventFilter(this);
-	this->ui.textEdit_lastName->		installEventFilter(this);
-	this->ui.dateEdit_dateOfBirth->		installEventFilter(this);
-	this->ui.checkBox_prevAttended->	installEventFilter(this);
-	this->ui.textEdit_homeAddress->		installEventFilter(this);
-	this->ui.textEdit_homePhone->		installEventFilter(this);
-	this->ui.textEdit_cellPhone->		installEventFilter(this);
-	this->ui.textEdit_emailAddress->	installEventFilter(this);
-	this->ui.checkBox_prevAttended->	installEventFilter(this);
-	this->ui.textEdit_prevLocation->	installEventFilter(this);
-	this->ui.textEdit_yearsAttended->	installEventFilter(this);
-	this->ui.comboBox_gender->			installEventFilter(this);
-	this->ui.textEdit_allergies->		installEventFilter(this);
-	
-	this->ui.comboBox_gender->addItem("Male");
-	this->ui.comboBox_gender->addItem("Female");
-
-	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
-	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
-	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
-	connect(ui.checkBox_prevAttended, SIGNAL(stateChanged(int)), this, SLOT(HandlePrevAttended(int)));
-
-	this->resize(WindowWidth, WindowHeight);
-
-	this->paramMissing = false;
-	this->personType = sr::PersonType::UNDEFINED;
-}
-
-SRCreateUser::~SRCreateUser()
-{
-}
-
+/*
 void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 {
 	this->mainWindow = mainWindow;
@@ -64,7 +26,6 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 
 	if (type == sr::PersonType::PARENT)
 	{
-		this->setWindowTitle(WindowTitleParent);
 		this->ui.label_homeAddress->setText(ui.label_homeAddress->text() + "*");
 		this->ui.label_homePhone->setText(ui.label_homePhone->text() + "*");
 		this->ui.label_cellPhone->setText(ui.label_cellPhone->text() + "*");
@@ -73,7 +34,6 @@ void SRCreateUser::SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type)
 	}
 	else if (type == sr::PersonType::CHILD)
 	{
-		this->setWindowTitle(WindowTitleChild);
 		this->ui.checkBox_prevAttended->setText(ui.checkBox_prevAttended->text() + "*");
 		this->ui.label_prevLocation->setText(ui.label_prevLocation->text() + "*");
 		this->ui.label_YearsAttended->setText(ui.label_YearsAttended->text() + "*");
@@ -87,7 +47,6 @@ void SRCreateUser::Create()
 
 	PersonBuilder builder;
 
-	builder.ID(idAssign);
 	MakeFirstName(builder);
 	MakeLastName(builder);
 	MakeDateOfBirth(builder);
@@ -308,7 +267,7 @@ void SRCreateUser::MakeChildren(PersonBuilder& builder)
 	builder.Children(s);
 }
 
-void SRCreateUser::ParamMissing(const sr::PersonType&& type)
+void SRCreateUser::ParamMissing()
 {
 	if (this->personType == type)
 	{
@@ -349,3 +308,4 @@ bool SRCreateUser::eventFilter(QObject* object, QEvent* event)
 
 	return false;
 }
+*/

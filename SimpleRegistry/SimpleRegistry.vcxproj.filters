@@ -65,6 +65,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SRCreateParent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRCreateChild.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SRCSVHandler.h">
@@ -73,9 +79,6 @@
     <ClInclude Include="SRConsants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="SRCreateUser.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="SRLogin.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -85,6 +88,9 @@
     <QtMoc Include="SimpleRegistry.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="SRCreateUser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\moc_SRCreateUser.cpp">
@@ -99,7 +105,6 @@
     <CustomBuild Include="GeneratedFiles\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
     <ClInclude Include="GeneratedFiles\ui_SRCreateUser.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -120,10 +125,24 @@
     <QtUic Include="SimpleRegistry.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="SRCreateParent.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SRCreateChild.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleRegistry.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SRCreateParent.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SRCreateChild.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

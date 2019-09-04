@@ -1,17 +1,16 @@
 /********************************************************************************
-** Form generated from reading UI file 'SRCreateChild.ui'
+** Form generated from reading UI file 'SRCreateParent.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.13.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_SRCREATECHILD_H
-#define UI_SRCREATECHILD_H
+#ifndef UI_SRCREATEPARENT_H
+#define UI_SRCREATEPARENT_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFormLayout>
@@ -19,13 +18,11 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
-class Ui_SRCreateChild
+class Ui_SRCreateParent
 {
 public:
     QWidget *formLayoutWidget;
@@ -48,30 +45,23 @@ public:
     QLineEdit *lineEdit_emailAddress;
     QLabel *label_kin;
     QLineEdit *lineEdit_parentGuardians;
-    QCheckBox *checkBox_prevAttended;
-    QLabel *label_prevLocation;
-    QLineEdit *lineEdit_prevLocation;
     QLabel *label_allergies;
     QLineEdit *lineEdit_allergies;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_clear;
     QPushButton *pushButton_cancel;
     QPushButton *pushButton_create;
-    QLabel *label_yearsAttended;
-    QHBoxLayout *horizontalLayout;
-    QSpinBox *spinBox_yearsAttended;
-    QSpacerItem *horizontalSpacer;
     QLineEdit *lineEdit_interests;
     QLabel *label_interests;
 
-    void setupUi(QWidget *SRCreateChild)
+    void setupUi(QWidget *SRCreateParent)
     {
-        if (SRCreateChild->objectName().isEmpty())
-            SRCreateChild->setObjectName(QString::fromUtf8("SRCreateChild"));
-        SRCreateChild->resize(500, 500);
-        formLayoutWidget = new QWidget(SRCreateChild);
+        if (SRCreateParent->objectName().isEmpty())
+            SRCreateParent->setObjectName(QString::fromUtf8("SRCreateParent"));
+        SRCreateParent->resize(500, 500);
+        formLayoutWidget = new QWidget(SRCreateParent);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 10, 481, 481));
+        formLayoutWidget->setGeometry(QRect(10, 10, 481, 484));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -188,35 +178,17 @@ public:
 
         formLayout->setWidget(8, QFormLayout::FieldRole, lineEdit_parentGuardians);
 
-        checkBox_prevAttended = new QCheckBox(formLayoutWidget);
-        checkBox_prevAttended->setObjectName(QString::fromUtf8("checkBox_prevAttended"));
-        checkBox_prevAttended->setFont(font);
-
-        formLayout->setWidget(9, QFormLayout::FieldRole, checkBox_prevAttended);
-
-        label_prevLocation = new QLabel(formLayoutWidget);
-        label_prevLocation->setObjectName(QString::fromUtf8("label_prevLocation"));
-        label_prevLocation->setFont(font);
-
-        formLayout->setWidget(11, QFormLayout::LabelRole, label_prevLocation);
-
-        lineEdit_prevLocation = new QLineEdit(formLayoutWidget);
-        lineEdit_prevLocation->setObjectName(QString::fromUtf8("lineEdit_prevLocation"));
-        lineEdit_prevLocation->setFont(font);
-
-        formLayout->setWidget(11, QFormLayout::FieldRole, lineEdit_prevLocation);
-
         label_allergies = new QLabel(formLayoutWidget);
         label_allergies->setObjectName(QString::fromUtf8("label_allergies"));
         label_allergies->setFont(font);
 
-        formLayout->setWidget(12, QFormLayout::LabelRole, label_allergies);
+        formLayout->setWidget(9, QFormLayout::LabelRole, label_allergies);
 
         lineEdit_allergies = new QLineEdit(formLayoutWidget);
         lineEdit_allergies->setObjectName(QString::fromUtf8("lineEdit_allergies"));
         lineEdit_allergies->setFont(font);
 
-        formLayout->setWidget(12, QFormLayout::FieldRole, lineEdit_allergies);
+        formLayout->setWidget(9, QFormLayout::FieldRole, lineEdit_allergies);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -240,77 +212,52 @@ public:
         horizontalLayout_2->addWidget(pushButton_create);
 
 
-        formLayout->setLayout(14, QFormLayout::FieldRole, horizontalLayout_2);
-
-        label_yearsAttended = new QLabel(formLayoutWidget);
-        label_yearsAttended->setObjectName(QString::fromUtf8("label_yearsAttended"));
-        label_yearsAttended->setFont(font);
-
-        formLayout->setWidget(10, QFormLayout::LabelRole, label_yearsAttended);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        spinBox_yearsAttended = new QSpinBox(formLayoutWidget);
-        spinBox_yearsAttended->setObjectName(QString::fromUtf8("spinBox_yearsAttended"));
-        spinBox_yearsAttended->setFont(font);
-
-        horizontalLayout->addWidget(spinBox_yearsAttended);
-
-        horizontalSpacer = new QSpacerItem(200, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-
-        formLayout->setLayout(10, QFormLayout::FieldRole, horizontalLayout);
+        formLayout->setLayout(11, QFormLayout::FieldRole, horizontalLayout_2);
 
         lineEdit_interests = new QLineEdit(formLayoutWidget);
         lineEdit_interests->setObjectName(QString::fromUtf8("lineEdit_interests"));
         lineEdit_interests->setFont(font);
 
-        formLayout->setWidget(13, QFormLayout::FieldRole, lineEdit_interests);
+        formLayout->setWidget(10, QFormLayout::FieldRole, lineEdit_interests);
 
         label_interests = new QLabel(formLayoutWidget);
         label_interests->setObjectName(QString::fromUtf8("label_interests"));
         label_interests->setFont(font);
 
-        formLayout->setWidget(13, QFormLayout::LabelRole, label_interests);
+        formLayout->setWidget(10, QFormLayout::LabelRole, label_interests);
 
 
-        retranslateUi(SRCreateChild);
+        retranslateUi(SRCreateParent);
 
-        QMetaObject::connectSlotsByName(SRCreateChild);
+        QMetaObject::connectSlotsByName(SRCreateParent);
     } // setupUi
 
-    void retranslateUi(QWidget *SRCreateChild)
+    void retranslateUi(QWidget *SRCreateParent)
     {
-        SRCreateChild->setWindowTitle(QCoreApplication::translate("SRCreateChild", "SRCreateChild", nullptr));
-        label_firstName->setText(QCoreApplication::translate("SRCreateChild", "First Name", nullptr));
-        label_lastName->setText(QCoreApplication::translate("SRCreateChild", "Last Name", nullptr));
-        label_gender->setText(QCoreApplication::translate("SRCreateChild", "Gender", nullptr));
-        label_dateOfBirth->setText(QCoreApplication::translate("SRCreateChild", "Date Of Birth", nullptr));
-        dateEdit_dateOfBirth->setDisplayFormat(QCoreApplication::translate("SRCreateChild", "M/d/yyyy", nullptr));
-        label_homeAddress->setText(QCoreApplication::translate("SRCreateChild", "Home Address", nullptr));
-        label_homePhone->setText(QCoreApplication::translate("SRCreateChild", "Home Phone", nullptr));
-        label_cellPhone->setText(QCoreApplication::translate("SRCreateChild", "Cell Phone", nullptr));
-        label_emailAddress->setText(QCoreApplication::translate("SRCreateChild", "Email Address", nullptr));
-        label_kin->setText(QCoreApplication::translate("SRCreateChild", "Parents/Guardians", nullptr));
-        checkBox_prevAttended->setText(QCoreApplication::translate("SRCreateChild", "Previously Attended?", nullptr));
-        label_prevLocation->setText(QCoreApplication::translate("SRCreateChild", "Previous Location", nullptr));
-        label_allergies->setText(QCoreApplication::translate("SRCreateChild", "Allergies", nullptr));
-        pushButton_clear->setText(QCoreApplication::translate("SRCreateChild", "Clear", nullptr));
-        pushButton_cancel->setText(QCoreApplication::translate("SRCreateChild", "Cancel", nullptr));
-        pushButton_create->setText(QCoreApplication::translate("SRCreateChild", "Create", nullptr));
-        label_yearsAttended->setText(QCoreApplication::translate("SRCreateChild", "Years Attended", nullptr));
-        label_interests->setText(QCoreApplication::translate("SRCreateChild", "Interests", nullptr));
+        SRCreateParent->setWindowTitle(QCoreApplication::translate("SRCreateParent", "SRCreateParent", nullptr));
+        label_firstName->setText(QCoreApplication::translate("SRCreateParent", "First Name", nullptr));
+        label_lastName->setText(QCoreApplication::translate("SRCreateParent", "Last Name", nullptr));
+        label_gender->setText(QCoreApplication::translate("SRCreateParent", "Gender", nullptr));
+        label_dateOfBirth->setText(QCoreApplication::translate("SRCreateParent", "Date Of Birth", nullptr));
+        dateEdit_dateOfBirth->setDisplayFormat(QCoreApplication::translate("SRCreateParent", "M/d/yyyy", nullptr));
+        label_homeAddress->setText(QCoreApplication::translate("SRCreateParent", "Home Address", nullptr));
+        label_homePhone->setText(QCoreApplication::translate("SRCreateParent", "Home Phone", nullptr));
+        label_cellPhone->setText(QCoreApplication::translate("SRCreateParent", "Cell Phone", nullptr));
+        label_emailAddress->setText(QCoreApplication::translate("SRCreateParent", "Email Address", nullptr));
+        label_kin->setText(QCoreApplication::translate("SRCreateParent", "Children", nullptr));
+        label_allergies->setText(QCoreApplication::translate("SRCreateParent", "Allergies", nullptr));
+        pushButton_clear->setText(QCoreApplication::translate("SRCreateParent", "Clear", nullptr));
+        pushButton_cancel->setText(QCoreApplication::translate("SRCreateParent", "Cancel", nullptr));
+        pushButton_create->setText(QCoreApplication::translate("SRCreateParent", "Create", nullptr));
+        label_interests->setText(QCoreApplication::translate("SRCreateParent", "Interests", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class SRCreateChild: public Ui_SRCreateChild {};
+    class SRCreateParent: public Ui_SRCreateParent {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_SRCREATECHILD_H
+#endif // UI_SRCREATEPARENT_H

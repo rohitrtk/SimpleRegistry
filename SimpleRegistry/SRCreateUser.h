@@ -9,69 +9,32 @@
 #include <string>
 #include <memory>
 
-class PersonBuilder;
 class SimpleRegistry;
 class SRUserCreatedEventFilter;
 class QString;
 class QEvent;
 class QCheckBox;
 
-class SRCreateUser : public QWidget
+class SRCreateUser
 {
-	Q_OBJECT
 public:
-	SRCreateUser(QWidget *parent = Q_NULLPTR);
-	~SRCreateUser();
-
-	void SetupWindow(SimpleRegistry* mainWindow, sr::PersonType type = sr::PersonType::PARENT);
+	SRCreateUser() {}
+	SRCreateUser(SimpleRegistry* mainWindow) : 
+		mainWindow(mainWindow), personType(sr::PersonType::UNDEFINED), paramMissing(false) {};
+	~SRCreateUser() {};
 
 public slots:
-	void Create();
-	void Cancel();
-	void Clear();
-	void HandlePrevAttended(int state);
+	virtual void Create() = 0;
+	virtual void Cancel() = 0;
+	virtual void Clear()  = 0;
 
 protected:
-	bool eventFilter(QObject *watched, QEvent *event) override;
-
-private:
-	Ui::SRCreateUser ui;
 
 	SimpleRegistry* mainWindow;
 
 	sr::PersonType personType;
-
-	static qint16 idAssign;
-
-	const unsigned short int WindowWidth	= 500;
-	const unsigned short int WindowHeight	= 500;
-
-	const QString WindowTitleParent = "Create New Parent";
-	const QString WindowTitleChild  = "Create New Child";
 	
-	std::unique_ptr<Person> person;
 	bool paramMissing;
-
-	void MakeFirstName		(PersonBuilder& builder);
-	void MakeLastName		(PersonBuilder& builder);
-	void MakeDateOfBirth	(PersonBuilder& builder);
-	void MakeGender			(PersonBuilder& builder);
-
-	void MakeHomeAddress	(PersonBuilder& builder);
-	void MakeHomePhone		(PersonBuilder& builder);
-	void MakeCellPhone		(PersonBuilder& builder);
-	void MakeEmailAddress	(PersonBuilder& builder);
-	
-	void MakePrevAttended	(PersonBuilder& builder);
-	void MakePrevLocation	(PersonBuilder& builder);
-	void MakeYearsAttended	(PersonBuilder& builder);
-
-	void MakeAllergies		(PersonBuilder& builder);
-
-	void MakeParents		(PersonBuilder& builder);
-	void MakeChildren		(PersonBuilder& builder);
-
-	void ParamMissing(const sr::PersonType&& type);
 };
 
 const QEvent::Type USER_CREATED_EVENT = static_cast<QEvent::Type>(4747);

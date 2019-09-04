@@ -9,6 +9,8 @@
 #include <vector>
 #include <array>
 #include <QSqlDatabase>
+#include "SRCreateParent.h"
+#include "SRCreateChild.h"
 
 enum class TableTitleIndex
 {
@@ -41,6 +43,7 @@ class SimpleRegistry : public QMainWindow
 	Q_OBJECT
 
 public:
+	SimpleRegistry();
 	SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent = Q_NULLPTR);
 	~SimpleRegistry();
 
@@ -59,8 +62,8 @@ private:
 
 	std::unique_ptr<QSqlDatabase> dataBase;
 
-	std::unique_ptr<SRCreateUser> parentWindow;
-	std::unique_ptr<SRCreateUser> childWindow;
+	//std::unique_ptr<SRCreateParent> parentWindow;
+	//std::unique_ptr<SRCreateChild> childWindow;
 
 	std::unique_ptr<TableManager> tableManager;
 

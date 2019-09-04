@@ -10,10 +10,11 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <fstream>
-#include "SRConsants.h"
-#include "SRCSVHandler.h"
 #include <QtSql>
 #include <QSqlDatabase>
+#include "SRConsants.h"
+#include "SRCSVHandler.h"
+#include "SRCreateUser.h"
 
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
 	: QMainWindow(parent),
@@ -21,12 +22,8 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 {
 	ui.setupUi(this);
 
-	this->parentWindow = std::make_unique<SRCreateUser>();
-	this->parentWindow->SetupWindow(this);
-
-	this->childWindow  = std::make_unique<SRCreateUser>();
-	this->childWindow->SetupWindow(this, sr::PersonType::CHILD);
-
+	//this->parentWindow = std::make_unique<SRCreateParent>();
+//	this->childWindow  = std::make_unique<SRCreateChild>();
 	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
@@ -40,6 +37,7 @@ SimpleRegistry::~SimpleRegistry()
 
 void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
 {
+	/*
 	if (person == sr::PersonType::PARENT && !parentWindow->isVisible())
 	{
 		this->parentWindow->show();
@@ -47,7 +45,7 @@ void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
 	else if (person == sr::PersonType::CHILD && !childWindow->isVisible())
 	{
 		this->childWindow->show();
-	}
+	}*/
 }
 
 void SimpleRegistry::CreateParent() const

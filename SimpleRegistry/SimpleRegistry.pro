@@ -5,14 +5,22 @@
 TEMPLATE = app
 TARGET = SimpleRegistry
 DESTDIR = ../x64/Debug
-QT += core gui widgets sql
 CONFIG += debug console
-DEFINES += _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_WIDGETS_LIB
-INCLUDEPATH += ./GeneratedFiles \
+DEFINES += _CONSOLE _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_WIDGETS_LIB QT_WIDGETS_LIB QT_SQL_LIB
+INCLUDEPATH += ./GeneratedFiles/$(ConfigurationName) \
+    ./GeneratedFiles \
     . \
-    ./GeneratedFiles/$(ConfigurationName)
+    ./GeneratedFiles \
+    ./GeneratedFiles/$(ConfigurationName) \
+    ./../../../../QT/5.13.0/MSVC2017_64/include \
+    ./../../../../QT/5.13.0/MSVC2017_64/include/QtWidgets \
+    ./../../../../QT/5.13.0/MSVC2017_64/include/QtGui \
+    ./../../../../QT/5.13.0/MSVC2017_64/include/QtANGLE \
+    ./../../../../QT/5.13.0/MSVC2017_64/include/QtSql \
+    ./../../../../QT/5.13.0/MSVC2017_64/include/QtCore \
+    ./../../../../QT/5.13.0/MSVC2017_64/mkspecs/win32-msvc
 DEPENDPATH += .
-MOC_DIR += ./GeneratedFiles/$(ConfigurationName)
+MOC_DIR += ./GeneratedFiles
 OBJECTS_DIR += debug
 UI_DIR += ./GeneratedFiles
 RCC_DIR += ./GeneratedFiles
