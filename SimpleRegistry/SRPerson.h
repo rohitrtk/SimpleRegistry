@@ -2,15 +2,15 @@
 #define SRPERSON_H_
 
 #include "SRConsants.h"
-#include <string>
 #include <vector>
 #include <memory>
 #include <map>
+#include <QDate>
+#include <QString>
 
 class Person;
 class Parent;
 class Child;
-class QDate;
 
 template <class T>
 class PersonBuilder
@@ -21,101 +21,23 @@ class PersonBuilder
 public:
 	PersonBuilder() {}
 	~PersonBuilder() {}
-
-	std::unique_ptr<T> Build()
-	{
-		return std::make_unique<T>(this);
-	}
-
-	T FirstName(const QString& firstName)
-	{
-		this->firstName = std::make_unique<QString>(firstName);
-		return *this;
-	}
-
-	T LastName(const QString& lastName)
-	{
-		this->lastName = std::make_unique<QString>(lastName);
-		return *this;
-	}
 	
-	T DateOfBirth(const QDate& dateOfBirth)
-	{
-		this->lastName = std::make_unique<QString>(lastName);
-		return *this;
-	}
-
-	T Gender(const QString& gender)
-	{
-		this->gender = std::make_unique<QString>(gender);
-		return *this;
-	}
-
-	T HomeAddress(const QString& homeAddress)
-	{
-		this->homeAddress = std::make_unique<QString>(homeAddress);
-		return *this;
-	}
-
-	T EmailAddress(const QString& emailAddress)
-	{
-		this->emailAddress = std::make_unique<QString>(emailAddress);
-		return *this;
-	}
-
-	T HomePhone(const QString& homePhone)
-	{
-		this->homePhone = std::make_unique<QString>(homePhone);
-		return *this;
-	}
-
-	T CellPhone(const QString& cellPhone)
-	{
-		this->cellPhone = std::make_unique<QString>(cellPhone);
-		return *this;
-	}
-
-	T PrevAttended(bool prevAttended)
-	{
-		this->prevAttended = std::make_unique<QString>(prevAttended);
-		return *this;
-	}
-
-	T YearsAttended(const qint16& yearsAttended)
-	{
-		this->yearsAttended = std::make_unique<QString>(yearsAttended);
-		return *this;
-	}
-
-	T PrevLocation(const QString& prevLocation)
-	{
-		this->prevLocation = std::make_unique<QString>(prevLocation);
-		return *this;
-	}
-
-	T Allergies(const QString& allergies)
-	{
-		this->allergies = std::make_unique<QString>(allergies);
-		return *this;
-	}
-
-	T Group(const sr::Group&& group)
-	{
-		this->group = std::make_unique<QString>(group);
-		return *this;
-	}
-
-	T Parents(const QString& parents)
-	{
-		this->parents = std::make_unique<QString>(parents);
-		return *this;
-	}
-
-	T Children(const QString& children)
-	{
-		this->children = std::make_unique<QString>(children);
-		return *this;
-	}
+	std::unique_ptr<T> Build();
+	PersonBuilder<T>* FirstName(const QString& firstName);
+	PersonBuilder<T>* LastName(const QString& lastName);
+	PersonBuilder<T>* DateOfBirth(const QDate& dateOfBirth);
+	PersonBuilder<T>* Gender(const QString& gender);
+	PersonBuilder<T>* HomeAddress(const QString& homeAddress);
+	PersonBuilder<T>* EmailAddress(const QString& emailAddress);
+	PersonBuilder<T>* HomePhone(const QString& homePhone);
+	PersonBuilder<T>* CellPhone(const QString& cellPhone);
+	PersonBuilder<T>* PrevAttended(bool prevAttended);
+	PersonBuilder<T>* YearsAttended(const qint16& yearsAttended);
+	PersonBuilder<T>* PrevLocation(const QString& prevLocation);
+	PersonBuilder<T>* Allergies(const QString& allergies);
+	PersonBuilder<T>* Group(const sr::Group&& group);
+	PersonBuilder<T>* Parents(const QString& parents);
+	PersonBuilder<T>* Children(const QString& children);
 
 private:
 	
@@ -139,6 +61,117 @@ private:
 	std::unique_ptr<QString>	parents;
 	std::unique_ptr<QString>	children;
 };
+
+template <class T>
+std::unique_ptr<T> PersonBuilder<T>::Build()
+{
+	return std::make_unique<T>(this);
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::FirstName(const QString& firstName)
+{
+	this->firstName = std::make_unique<QString>(firstName);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::LastName(const QString& lastName)
+{
+	this->lastName = std::make_unique<QString>(lastName);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::DateOfBirth(const QDate& dateOfBirth)
+{
+	this->dateOfBirth = std::make_unique<QDate>(dateOfBirth);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Gender(const QString& gender)
+{
+	this->gender = std::make_unique<QString>(gender);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::HomeAddress(const QString& homeAddress)
+{
+	this->homeAddress = std::make_unique<QString>(homeAddress);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::EmailAddress(const QString& emailAddress)
+{
+	this->emailAddress = std::make_unique<QString>(emailAddress);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::HomePhone(const QString& homePhone)
+{
+	this->homePhone = std::make_unique<QString>(homePhone);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::CellPhone(const QString& cellPhone)
+{
+	this->cellPhone = std::make_unique<QString>(cellPhone);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::PrevAttended(bool prevAttended)
+{
+	this->prevAttended = std::make_unique<bool>(prevAttended);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::YearsAttended(const qint16& yearsAttended)
+{
+	this->yearsAttended = std::make_unique<qint16>(yearsAttended);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::PrevLocation(const QString& prevLocation)
+{
+	this->prevLocation = std::make_unique<QString>(prevLocation);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Allergies(const QString& allergies)
+{
+	this->allergies = std::make_unique<QString>(allergies);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Group(const sr::Group&& group)
+{
+	this->group = std::make_unique<QString>(group);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Parents(const QString& parents)
+{
+	this->parents = std::make_unique<QString>(parents);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Children(const QString& children)
+{
+	this->children = std::make_unique<QString>(children);
+	return this;
+}
 
 class Person
 {

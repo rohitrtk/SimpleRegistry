@@ -202,7 +202,6 @@
     <ClCompile Include="SRCreateChild.cpp" />
     <ClCompile Include="SRCreateParent.cpp" />
     <ClCompile Include="SRCSVHandler.cpp" />
-    <ClCompile Include="SRCreateUser.cpp" />
     <ClCompile Include="SRLogin.cpp" />
     <ClCompile Include="SRPerson.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
@@ -242,7 +241,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\moc_SRCreateUser.cpp" />
     <ClCompile Include="GeneratedFiles\moc_SRLogin.cpp" />
     <ClCompile Include="GeneratedFiles\moc_SimpleRegistry.cpp" />
     <CustomBuild Include="GeneratedFiles\moc_predefs.h.cbt">
@@ -256,7 +254,6 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GeneratedFiles\$(ConfigurationName)\moc_predefs.h;%(Outputs)</Outputs>
     </CustomBuild>
-    <ClInclude Include="GeneratedFiles\ui_SRCreateUser.h" />
     <ClInclude Include="GeneratedFiles\ui_SRLogin.h" />
     <ClInclude Include="GeneratedFiles\ui_SimpleRegistry.h" />
   </ItemGroup>
@@ -268,8 +265,6 @@
     <QtUic Include="SRCreateParent.ui">
       <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h</OutputFile>
       <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h</OutputFile>
-    </QtUic>
-    <QtUic Include="SRCreateUser.ui">
     </QtUic>
     <QtUic Include="SRLogin.ui">
     </QtUic>

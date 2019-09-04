@@ -54,7 +54,7 @@ void SRLogin::Login()
 	}
 }
 
-bool SRLogin::eventFilter(QObject* object, QEvent* event)
+bool SRLogin::eventFilter(QObject*, QEvent* event)
 {
 	if (event->type() == QEvent::KeyPress)
 	{

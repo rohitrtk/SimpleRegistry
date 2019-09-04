@@ -1,46 +1,47 @@
 #include "SRCreateParent.h"
-#include "ui_SRCreateParent.h"
 #include <QMessageBox>
 
 SRCreateParent::SRCreateParent(SimpleRegistry* mainWindow, QWidget *parent)
 	: QWidget(parent), mainWindow(mainWindow)
 {
-	ui = new Ui::SRCreateParent();
-	ui->setupUi(this);
+	ui.setupUi(this);
 
-	this->ui->lineEdit_firstName	->installEventFilter(this);
-	this->ui->lineEdit_lastName		->installEventFilter(this);
-	this->ui->comboBox_gender		->installEventFilter(this);
-	this->ui->dateEdit_dateOfBirth	->installEventFilter(this);
-	this->ui->lineEdit_homeAddress	->installEventFilter(this);
-	this->ui->lineEdit_homePhone	->installEventFilter(this);
-	this->ui->lineEdit_cellPhone	->installEventFilter(this);
-	this->ui->lineEdit_emailAddress	->installEventFilter(this);
-	this->ui->lineEdit_allergies	->installEventFilter(this);
-	this->ui->lineEdit_interests	->installEventFilter(this);
+	this->ui.lineEdit_firstName		->installEventFilter(this);
+	this->ui.lineEdit_lastName		->installEventFilter(this);
+	this->ui.comboBox_gender		->installEventFilter(this);
+	this->ui.dateEdit_dateOfBirth	->installEventFilter(this);
+	this->ui.lineEdit_homeAddress	->installEventFilter(this);
+	this->ui.lineEdit_homePhone		->installEventFilter(this);
+	this->ui.lineEdit_cellPhone		->installEventFilter(this);
+	this->ui.lineEdit_emailAddress	->installEventFilter(this);
+	this->ui.lineEdit_allergies		->installEventFilter(this);
+	this->ui.lineEdit_interests		->installEventFilter(this);
 
-	this->ui->comboBox_gender		->addItem("Male");
-	this->ui->comboBox_gender		->addItem("Female");
+	this->ui.comboBox_gender		->addItem("Male");
+	this->ui.comboBox_gender		->addItem("Female");
 
-	this->ui->label_firstName		->setText(ui->label_firstName->text() + "*");
-	this->ui->label_lastName		->setText(ui->label_lastName->text() + "*");
-	this->ui->label_dateOfBirth		->setText(ui->label_dateOfBirth->text() + "*");
-	this->ui->label_homeAddress		->setText(ui->label_homeAddress->text() + "*");
-	this->ui->label_homePhone		->setText(ui->label_homePhone->text() + "*");
-	this->ui->label_cellPhone		->setText(ui->label_cellPhone->text() + "*");
-	this->ui->label_emailAddress	->setText(ui->label_emailAddress->text() + "*");
+	this->ui.label_firstName		->setText(ui.label_firstName->text() + "*");
+	this->ui.label_lastName			->setText(ui.label_lastName->text() + "*");
+	this->ui.label_dateOfBirth		->setText(ui.label_dateOfBirth->text() + "*");
+	this->ui.label_homeAddress		->setText(ui.label_homeAddress->text() + "*");
+	this->ui.label_homePhone		->setText(ui.label_homePhone->text() + "*");
+	this->ui.label_cellPhone		->setText(ui.label_cellPhone->text() + "*");
+	this->ui.label_emailAddress		->setText(ui.label_emailAddress->text() + "*");
 
 	this->setWindowTitle("Create Parent");
+
+	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
+	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
+	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
 }
 
 SRCreateParent::~SRCreateParent()
 {
-	delete ui;
 }
 
 void SRCreateParent::MakeFirstName(PersonBuilder<Parent>& builder)
 {
-	QString firstName = ui->lineEdit_firstName->text();
+	QString firstName = ui.lineEdit_firstName->text();
 	if (!firstName.isEmpty())
 	{
 		builder.FirstName(std::move(firstName));
@@ -52,7 +53,7 @@ void SRCreateParent::MakeFirstName(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeLastName(PersonBuilder<Parent>& builder)
 {
-	QString lastName = ui->lineEdit_lastName->text();
+	QString lastName = ui.lineEdit_lastName->text();
 	if (!lastName.isEmpty())
 	{
 		builder.LastName(std::move(lastName));
@@ -64,18 +65,18 @@ void SRCreateParent::MakeLastName(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeDateOfBirth(PersonBuilder<Parent>& builder)
 {
-	builder.DateOfBirth(QDate(ui->dateEdit_dateOfBirth->date()));
+	builder.DateOfBirth(QDate(ui.dateEdit_dateOfBirth->date()));
 }
 
 void SRCreateParent::MakeGender(PersonBuilder<Parent>& builder)
 {
-	QString gender = ui->comboBox_gender->currentText();
+	QString gender = ui.comboBox_gender->currentText();
 	builder.Gender(gender);
 }
 
 void SRCreateParent::MakeHomeAddress(PersonBuilder<Parent>& builder)
 {
-	QString s = ui->lineEdit_homeAddress->text();
+	QString s = ui.lineEdit_homeAddress->text();
 
 	if (s.isEmpty())
 	{
@@ -88,7 +89,7 @@ void SRCreateParent::MakeHomeAddress(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeHomePhone(PersonBuilder<Parent>& builder)
 {
-	QString s = ui->lineEdit_homePhone->text();
+	QString s = ui.lineEdit_homePhone->text();
 
 	if (s.isEmpty())
 	{
@@ -101,7 +102,7 @@ void SRCreateParent::MakeHomePhone(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeCellPhone(PersonBuilder<Parent>& builder)
 {
-	QString s = ui->lineEdit_cellPhone->text();
+	QString s = ui.lineEdit_cellPhone->text();
 
 	if (s.isEmpty())
 	{
@@ -114,7 +115,7 @@ void SRCreateParent::MakeCellPhone(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeEmailAddress(PersonBuilder<Parent>& builder)
 {
-	QString email = ui->lineEdit_emailAddress->text();
+	QString email = ui.lineEdit_emailAddress->text();
 
 	if (email.isEmpty())
 	{
@@ -127,7 +128,7 @@ void SRCreateParent::MakeEmailAddress(PersonBuilder<Parent>& builder)
 
 void SRCreateParent::MakeAllergies(PersonBuilder<Parent>& builder)
 {
-	QString s = ui->lineEdit_allergies->text();
+	QString s = ui.lineEdit_allergies->text();
 
 	builder.Allergies(s);
 }
@@ -168,20 +169,15 @@ void SRCreateParent::Cancel()
 
 void SRCreateParent::Clear()
 {
-	for (int i = 0; i < ui->formLayout->count(); ++i)
-	{
-		QLineEdit* q = dynamic_cast<QLineEdit*>(ui->formLayout->itemAt(i)->widget());
-		if (q)
-		{
-			q->clear();
-		}
-		else
-		{
-			QCheckBox* c = dynamic_cast<QCheckBox*>(ui->formLayout->itemAt(i)->widget());
-			if (c)
-			{
-				c->setCheckState(Qt::CheckState::Unchecked);
-			}
-		}
-	}
+	this->ui.lineEdit_firstName		->setText("");
+	this->ui.lineEdit_lastName		->setText("");
+	this->ui.comboBox_gender		->setCurrentIndex(0);
+	this->ui.dateEdit_dateOfBirth	->setDate(QDate(2000, 1, 31));
+	this->ui.lineEdit_homeAddress	->setText("");
+	this->ui.lineEdit_homePhone		->setText("");
+	this->ui.lineEdit_cellPhone		->setText("");
+	this->ui.lineEdit_emailAddress	->setText("");
+	this->ui.lineEdit_children		->setText("");
+	this->ui.lineEdit_allergies		->setText("");
+	this->ui.lineEdit_interests		->setText("");
 }

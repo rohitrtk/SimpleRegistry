@@ -44,7 +44,7 @@ public:
     QLabel *label_emailAddress;
     QLineEdit *lineEdit_emailAddress;
     QLabel *label_kin;
-    QLineEdit *lineEdit_parentGuardians;
+    QLineEdit *lineEdit_children;
     QLabel *label_allergies;
     QLineEdit *lineEdit_allergies;
     QHBoxLayout *horizontalLayout_2;
@@ -58,10 +58,10 @@ public:
     {
         if (SRCreateParent->objectName().isEmpty())
             SRCreateParent->setObjectName(QString::fromUtf8("SRCreateParent"));
-        SRCreateParent->resize(500, 500);
+        SRCreateParent->resize(500, 440);
         formLayoutWidget = new QWidget(SRCreateParent);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 10, 481, 484));
+        formLayoutWidget->setGeometry(QRect(10, 10, 481, 421));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -114,6 +114,7 @@ public:
         dateEdit_dateOfBirth = new QDateEdit(formLayoutWidget);
         dateEdit_dateOfBirth->setObjectName(QString::fromUtf8("dateEdit_dateOfBirth"));
         dateEdit_dateOfBirth->setFont(font);
+        dateEdit_dateOfBirth->setDateTime(QDateTime(QDate(2000, 1, 31), QTime(0, 0, 0)));
         dateEdit_dateOfBirth->setCurrentSection(QDateTimeEdit::MonthSection);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, dateEdit_dateOfBirth);
@@ -172,11 +173,11 @@ public:
 
         formLayout->setWidget(8, QFormLayout::LabelRole, label_kin);
 
-        lineEdit_parentGuardians = new QLineEdit(formLayoutWidget);
-        lineEdit_parentGuardians->setObjectName(QString::fromUtf8("lineEdit_parentGuardians"));
-        lineEdit_parentGuardians->setFont(font);
+        lineEdit_children = new QLineEdit(formLayoutWidget);
+        lineEdit_children->setObjectName(QString::fromUtf8("lineEdit_children"));
+        lineEdit_children->setFont(font);
 
-        formLayout->setWidget(8, QFormLayout::FieldRole, lineEdit_parentGuardians);
+        formLayout->setWidget(8, QFormLayout::FieldRole, lineEdit_children);
 
         label_allergies = new QLabel(formLayoutWidget);
         label_allergies->setObjectName(QString::fromUtf8("label_allergies"));

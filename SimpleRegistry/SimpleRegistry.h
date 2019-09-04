@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_SimpleRegistry.h"
-#include "SRCreateUser.h"
+#include "SRConsants.h"
 #include "SRConsants.h"
 #include <memory>
 #include <vector>
@@ -12,30 +12,29 @@
 #include "SRCreateParent.h"
 #include "SRCreateChild.h"
 
+class SRCreateParent;
+class SRCreateChild;
+class QTableWidget;
+
 enum class TableTitleIndex
 {
-	ID,				TYPE,			FIRST_NAME,
-	LAST_NAME,		GENDER,			AGE,
-	DOB,			GROUP,			ADDRESS,
-	HOME_PHONE,		CELL_PHONE,		EMAIL_ADDRESS,
-	PREV_ATTENDED,	PREV_LOCATION,	YEARS_ATTENDED,
-	PARENTS,		CHILDREN,		ALLERGIES
+	ID,				FIRST_NAME,		LAST_NAME,		GENDER,
+	DATE_OF_BIRTH,	AGE,			AGE_31,			GROUP,
+	PARENTS_NAME,	RELATIONSHIP,	HOME_ADDRESS,	PRIMARY_PHONE,
+	ALT_PHONE,		EMAIL,			REGISTERED,		INTERESTS,
+	ALLERGIES
 };
 
 class TableManager
 {
 public:
-	TableManager(QTableWidget* tw);
+	TableManager(QTableView* tv);
 	~TableManager() {}
 
 	void AddPersonToTable(const Person& person);
 
-	inline const QTableWidget&	GetTableWidget() const { return *this->tableWidget; }
-	inline const QStringList&	GetTableTitles() const { return this->tableTitles; }
-
 private:
-	QTableWidget* tableWidget;
-	QStringList tableTitles;
+	QTableView* tableView;
 };
 
 class SimpleRegistry : public QMainWindow
@@ -62,12 +61,12 @@ private:
 
 	std::unique_ptr<QSqlDatabase> dataBase;
 
-	//std::unique_ptr<SRCreateParent> parentWindow;
-	//std::unique_ptr<SRCreateChild> childWindow;
+	std::unique_ptr<SRCreateParent> parentWindow;
+	std::unique_ptr<SRCreateChild> childWindow;
 
 	std::unique_ptr<TableManager> tableManager;
 
-	void MakeWindow(const sr::PersonType&& person) const;
+	void LoadTable();
 };
 
 #endif

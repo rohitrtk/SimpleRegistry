@@ -14,7 +14,7 @@
 #include <QSqlDatabase>
 #include "SRConsants.h"
 #include "SRCSVHandler.h"
-#include "SRCreateUser.h"
+#include <QTableWidget>
 
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
 	: QMainWindow(parent),
@@ -22,57 +22,33 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 {
 	ui.setupUi(this);
 
-	//this->parentWindow = std::make_unique<SRCreateParent>();
-//	this->childWindow  = std::make_unique<SRCreateChild>();
-	this->tableManager = std::make_unique<TableManager>(this->ui.tableWidget);
+	this->parentWindow = std::make_unique<SRCreateParent>(this);
+	this->childWindow  = std::make_unique<SRCreateChild>(this);
+	this->tableManager = std::make_unique<TableManager>(this->ui.tableView);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
 	connect(ui.actionSave,			SIGNAL(triggered()), this, SLOT(Save()));
+
+	LoadTable();
 }
 
 SimpleRegistry::~SimpleRegistry()
 {
 }
 
-void SimpleRegistry::MakeWindow(const sr::PersonType&& person) const
-{
-	/*
-	if (person == sr::PersonType::PARENT && !parentWindow->isVisible())
-	{
-		this->parentWindow->show();
-	}
-	else if (person == sr::PersonType::CHILD && !childWindow->isVisible())
-	{
-		this->childWindow->show();
-	}*/
-}
-
 void SimpleRegistry::CreateParent() const
 {
-	MakeWindow(sr::PersonType::PARENT);
+	this->parentWindow->show();
 }
 
 void SimpleRegistry::CreateChild() const
 {
-	MakeWindow(sr::PersonType::CHILD);
+	this->childWindow->show();
 }
 
 void SimpleRegistry::Save()
 {
-	const QTableWidget& tw = this->tableManager->GetTableWidget();
-	std::ofstream f;
-
-	f.open("test.csv");
-	for (int i = 0; i < tw.rowCount(); i++)
-	{
-		for (int j = 0; j < tw.columnCount(); j++)
-		{
-			qInfo() << tw.itemAt(j, i)->data(0);
-		}
-	}
-	f.close();
-	//handler.WriteRecord(this->people);
 }
 
 void SimpleRegistry::customEvent(QEvent* event)
@@ -95,33 +71,19 @@ void SimpleRegistry::resizeEvent(QResizeEvent* event)
 	QMainWindow::resizeEvent(event);
 
 	const QSize& size = event->size();
-	this->ui.tableWidget->setGeometry(0, 0, size.width(), size.height());
+	this->ui.tableView->setGeometry(0, 0, size.width(), size.height());
 }
 
-TableManager::TableManager(QTableWidget* tw) :
-	tableWidget(tw)
+TableManager::TableManager(QTableView* tv) :
+	tableView(tv)
 {	
-	this->tableTitles
-		<< "ID"					<< "Type"				<< "First Name"
-		<< "Last Name"			<< "Gender"				<< "Age"
-		<< "Date Of Birth"		<< "Group"				<< "Address"
-		<< "Home Phone"			<< "Cell Phone"			<< "Email Address"
-		<< "Previously Attended"<< "Previous Location"	<< "Years Attended"
-		<< "Parent/Guardian(s)" << "Children"			<< "Medical Allergies";
-
-	qint16 numColumns = tableTitles.size();
-	this->tableWidget->setColumnCount(numColumns);
-	this->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-	this->tableWidget->horizontalHeader()->setStretchLastSection(true);
-
-	for (size_t i = 0; i < numColumns; i++)
-	{
-		tableWidget->setHorizontalHeaderItem(i, new QTableWidgetItem(tableTitles[i]));
-	}
+	this->tableView->verticalHeader()->hide();
+	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void TableManager::AddPersonToTable(const Person& p)
 {
+	/*
 	this->tableWidget->insertRow(tableWidget->rowCount());
 	int row = this->tableWidget->rowCount() - 1;
 
@@ -155,4 +117,18 @@ void TableManager::AddPersonToTable(const Person& p)
 		q = new QTableWidgetItem(QString::number(p.GetYearsAttended()));
 		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED), q);
 	}
+	*/
+}
+
+void SimpleRegistry::LoadTable()
+{
+	QSqlQueryModel* model = new QSqlQueryModel();
+
+	QSqlQuery* query = new QSqlQuery(dataBase->database());
+
+	query->prepare("select * from test.registered");
+	query->exec();
+
+	model->setQuery(*query);
+	this->ui.tableView->setModel(model);
 }

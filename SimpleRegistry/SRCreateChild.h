@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include "SRCreateUser.h"
 #include "SimpleRegistry.h"
+#include "ui_SRCreateChild.h"
 
 namespace Ui { class SRCreateChild; };
 
@@ -13,7 +14,7 @@ class SRCreateChild : public QWidget, public SRCreateUser
 	Q_OBJECT
 
 public:
-	SRCreateChild() {}
+	SRCreateChild() = delete;
 	SRCreateChild(SimpleRegistry* mainWindow, QWidget* parent = Q_NULLPTR);
 	~SRCreateChild();
 
@@ -37,7 +38,7 @@ public slots:
 
 protected:
 
-	bool eventFilter(QObject* object, QEvent* event) override
+	bool eventFilter(QObject*, QEvent* event) override
 	{
 		if (event->type() == QEvent::KeyPress)
 		{
@@ -58,7 +59,7 @@ protected:
 	}
 
 private:
-	Ui::SRCreateChild* ui;
+	Ui::SRCreateChild ui;
 
 	SimpleRegistry* mainWindow;
 	std::unique_ptr<Child> user;

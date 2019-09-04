@@ -50,9 +50,6 @@
     <ClCompile Include="SRCSVHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRCreateUser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SRLogin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\moc_SRCreateUser.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\moc_SRLogin.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -105,9 +99,6 @@
     <CustomBuild Include="GeneratedFiles\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    <ClInclude Include="GeneratedFiles\ui_SRCreateUser.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_SRLogin.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -116,9 +107,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="SRCreateUser.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="SRLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>

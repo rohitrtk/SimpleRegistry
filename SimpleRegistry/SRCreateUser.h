@@ -2,7 +2,6 @@
 #define SRCreateUser_H_
 
 #include <QWidget>
-#include "ui_SRCreateUser.h"
 #include "SRConsants.h"
 #include "SRPerson.h"
 #include <sstream>

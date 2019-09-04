@@ -17,8 +17,9 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,7 +31,9 @@ public:
     QAction *actionCreate_Child;
     QAction *actionSave;
     QWidget *centralWidget;
-    QTableWidget *tableWidget;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
+    QTableView *tableView;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -50,17 +53,24 @@ public:
         actionSave->setObjectName(QString::fromUtf8("actionSave"));
         centralWidget = new QWidget(SimpleRegistryClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        tableWidget = new QTableWidget(centralWidget);
-        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
-        tableWidget->setGeometry(QRect(0, 0, 1279, 719));
-        tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-        tableWidget->setRowCount(0);
-        tableWidget->setColumnCount(0);
-        tableWidget->horizontalHeader()->setVisible(true);
-        tableWidget->verticalHeader()->setVisible(false);
-        tableWidget->verticalHeader()->setHighlightSections(true);
+        verticalLayoutWidget = new QWidget(centralWidget);
+        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(0, 0, 1281, 661));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        tableView = new QTableView(verticalLayoutWidget);
+        tableView->setObjectName(QString::fromUtf8("tableView"));
+        QFont font;
+        font.setPointSize(12);
+        tableView->setFont(font);
+        tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+
+        verticalLayout->addWidget(tableView);
+
         SimpleRegistryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SimpleRegistryClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
