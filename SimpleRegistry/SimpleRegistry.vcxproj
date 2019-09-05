@@ -201,7 +201,6 @@
   <ItemGroup>
     <ClCompile Include="SRCreateChild.cpp" />
     <ClCompile Include="SRCreateParent.cpp" />
-    <ClCompile Include="SRCSVHandler.cpp" />
     <ClCompile Include="SRLogin.cpp" />
     <ClCompile Include="SRPerson.cpp" />
     <ClCompile Include="SimpleRegistry.cpp" />
@@ -224,7 +223,6 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\GeneratedFiles;.\GeneratedFiles\$(ConfigurationName);.\..\..\..\..\QT\5.13.0\MSVC2017_64\include;.\..\..\..\..\QT\5.13.0\MSVC2017_64\include\QtWidgets;.\..\..\..\..\QT\5.13.0\MSVC2017_64\include\QtGui;.\..\..\..\..\QT\5.13.0\MSVC2017_64\include\QtANGLE;.\..\..\..\..\QT\5.13.0\MSVC2017_64\include\QtSql;.\..\..\..\..\QT\5.13.0\MSVC2017_64\include\QtCore;\include;.\..\..\..\..\QT\5.13.0\MSVC2017_64\mkspecs\win32-msvc</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_WIDGETS_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_SQL_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
     </QtMoc>
-    <ClInclude Include="SRCSVHandler.h" />
     <ClInclude Include="SRConsants.h" />
     <ClInclude Include="SRCreateUser.h">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DynamicSource>

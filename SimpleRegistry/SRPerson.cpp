@@ -10,10 +10,13 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	dateOfBirth		(std::move(builder->dateOfBirth)),
 	gender			(std::move(builder->gender)),
 	homeAddress		(std::move(builder->homeAddress)),
-	homePhone		(std::move(builder->homePhone)),
-	cellPhone		(std::move(builder->cellPhone)),
+	primaryPhone	(std::move(builder->primaryPhone)),
+	secondaryPhone	(std::move(builder->secondaryPhone)),
 	emailAddress	(std::move(builder->emailAddress)),
-	allergies		(std::move(builder->allergies))
+	prevAttended	(nullptr),
+	medical			(std::move(builder->medical)),
+	parents			(nullptr),
+	children		(std::move(builder->children))
 {
 	if (!firstName)		throw ErrorBuilderFirstName;
 	if (!lastName)		throw ErrorBuilderLastName;
@@ -21,27 +24,36 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	if (!gender)		throw ErrorBuilderGender;
 
 	this->age	= std::make_unique<qint16>(AssignAge());
-	this->group	= std::make_unique<sr::Group>(AssignGroup());
+	this->age31 = std::make_unique<qint16>(AssignAge31());
+	this->group	= std::make_unique<sr::Group>(sr::Group::ADULT);
 }
 
 Person::Person(PersonBuilder<Child>* builder) :
-	firstName(std::move(builder->firstName)),
-	lastName(std::move(builder->lastName)),
-	dateOfBirth(std::move(builder->dateOfBirth)),
-	gender(std::move(builder->gender)),
-	homeAddress(std::move(builder->homeAddress)),
-	homePhone(std::move(builder->homePhone)),
-	cellPhone(std::move(builder->cellPhone)),
-	emailAddress(std::move(builder->emailAddress)),
-	allergies(std::move(builder->allergies))
+	firstName		(std::move(builder->firstName)),
+	lastName		(std::move(builder->lastName)),
+	dateOfBirth		(std::move(builder->dateOfBirth)),
+	gender			(std::move(builder->gender)),
+	homeAddress		(std::move(builder->homeAddress)),
+	primaryPhone	(std::move(builder->primaryPhone)),
+	secondaryPhone	(std::move(builder->secondaryPhone)),
+	emailAddress	(std::move(builder->emailAddress)),
+	prevAttended	(std::move(builder->prevAttended)),
+	medical			(std::move(builder->medical)),
+	parents			(std::move(builder->parents)),
+	children		(nullptr)
 {
 	if (!firstName)		throw ErrorBuilderFirstName;
 	if (!lastName)		throw ErrorBuilderLastName;
 	if (!dateOfBirth)	throw ErrorBuilderDOB;
 	if (!gender)		throw ErrorBuilderGender;
 
-	this->age = std::make_unique<qint16>(AssignAge());
+	this->age =	  std::make_unique<qint16>(AssignAge());
+	this->age31 = std::make_unique<qint16>(AssignAge31());
 	this->group = std::make_unique<sr::Group>(AssignGroup());
+}
+
+Person::~Person()
+{
 }
 
 qint16 Person::AssignAge() const
@@ -55,7 +67,17 @@ qint16 Person::AssignAge() const
 		age -= 1;
 	}
 
-	return std::move(age);
+	return age;
+}
+
+qint16 Person::AssignAge31() const 
+{
+	if (QDate::currentDate() < *this->dateOfBirth)
+	{
+		return *age + 1;
+	}
+	
+	return *age;
 }
 
 sr::Group Person::AssignGroup() const
@@ -86,71 +108,25 @@ QString Person::GetGroupAsString() const
 
 Parent::Parent(PersonBuilder<Parent>* builder) : Person(builder)
 {
-	if (!homeAddress)	throw ErrorBuilderHomePhone;
-	if (!emailAddress)	throw ErrorBuilderEmailAddress;
-	if (!homePhone)		throw ErrorBuilderHomePhone;
-	if (!cellPhone)		throw ErrorBuilderCellPhone;
+	if (!homeAddress)		throw ErrorBuilderHomePhone;
+	if (!emailAddress)		throw ErrorBuilderEmailAddress;
+	if (!primaryPhone)		throw ErrorBuilderHomePhone;
+	if (!secondaryPhone)	throw ErrorBuilderCellPhone;
 
-	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::PARENT);
 }
 
 Child::Child(PersonBuilder<Child>* builder) : Person(builder)
 {
 	if (!prevAttended)	throw ErrorBuilderPrevAttended;
-	if (!yearsAttended) throw ErrorBuilderYearsAttended;
-
-	this->personType = std::make_unique<sr::PersonType>(sr::PersonType::CHILD);
 }
-
-/*
-template <class T>
-T* PersonBuilder<T>::PrevAttended(bool prevAttended)
-{
-	this->prevAttended = std::make_unique<bool>(prevAttended);
-	return this;
-}
-
-template <class T>
-T* PersonBuilder<T>::YearsAttended(const qint16& yearsAttended)
-{
-	this->yearsAttended = std::make_unique<qint16>(yearsAttended);
-	return this;
-}*/
-
-/*
-PersonBuilder* PersonBuilder::PrevLocation(const QString& prevLocation)
-{
-	this->prevLocation = std::make_unique<QString>(prevLocation);
-	return this;
-}
-
-PersonBuilder* PersonBuilder::Group(const sr::Group&& group)
-{
-	this->group = std::make_unique<sr::Group>(group);
-	return this;
-}
-
-PersonBuilder* PersonBuilder::Parents(const QString& parents)
-{
-	this->parents = std::make_unique<QString>(parents);
-	return this;
-}
-
-PersonBuilder* PersonBuilder::Children(const QString& children)
-{
-	this->children = std::make_unique<QString>(children);
-	return this;
-}
-*/
 
 std::ostream& operator << (std::ostream& stream, const Person& person)
 {
 	stream
-		<< *person.id << ", " << person.firstName->toStdString()				<< ", "
+		<< ", " << person.firstName->toStdString()				<< ", "
 		<< person.lastName->toStdString() << ", " << *person.age << ", "
 		<< person.dateOfBirth->toString().toStdString()	<< ", "
 		<< person.lastName->toStdString() << ", " 
-		<< ((*person.personType == sr::PersonType::CHILD) ? "Child" : "Parent") << ", "
 		<< person.gender->toStdString() << ", ";
 	
 	if (person.homeAddress)
@@ -159,15 +135,15 @@ std::ostream& operator << (std::ostream& stream, const Person& person)
 	}
 	stream << ", ";
 
-	if (person.homePhone)
+	if (person.primaryPhone)
 	{
-		stream << person.homePhone->toStdString();
+		stream << person.primaryPhone->toStdString();
 	}
 	stream << ", ";
 	
-	if (person.cellPhone)
+	if (person.secondaryPhone)
 	{
-		stream << person.cellPhone->toStdString();
+		stream << person.secondaryPhone->toStdString();
 	}
 	stream << ", ";
 
@@ -177,27 +153,15 @@ std::ostream& operator << (std::ostream& stream, const Person& person)
 	}
 	stream << ", ";
 
-	if (person.prevLocation)
-	{
-		stream << person.prevLocation->toStdString();
-	}
-	stream << ", ";
-
 	if (person.prevAttended)
 	{
 		stream << person.GetPrevAttendedS().toStdString();
 	}
 	stream << ", ";
 
-	if (person.yearsAttended)
+	if (person.medical)
 	{
-		stream << *person.yearsAttended;
-	}
-	stream << ", ";
-
-	if (person.allergies)
-	{
-		stream << person.allergies->toStdString();
+		stream << person.medical->toStdString();
 	}
 	stream << ", ";
 

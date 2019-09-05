@@ -13,7 +13,6 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include "SRConsants.h"
-#include "SRCSVHandler.h"
 #include <QTableWidget>
 
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
@@ -57,7 +56,7 @@ void SimpleRegistry::customEvent(QEvent* event)
 	{
 		SRUserCreatedEvent* e = static_cast<SRUserCreatedEvent*>(event);
 		
-		tableManager->AddPersonToTable(e->GetPerson());
+		//tableManager->AddPersonToTable(e->GetPerson());
 	}
 }
 
@@ -83,41 +82,9 @@ TableManager::TableManager(QTableView* tv) :
 
 void TableManager::AddPersonToTable(const Person& p)
 {
-	/*
-	this->tableWidget->insertRow(tableWidget->rowCount());
-	int row = this->tableWidget->rowCount() - 1;
-
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ID), new QTableWidgetItem(QString::number(p.GetID())));
-	
-	QTableWidgetItem* q;
-
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::FIRST_NAME),	new QTableWidgetItem(p.GetFirstName()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::LAST_NAME),		new QTableWidgetItem(p.GetLastName()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GENDER),		new QTableWidgetItem(p.GetGender()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::AGE),			new QTableWidgetItem(QString::number(p.GetAge())));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::DOB),			new QTableWidgetItem(p.GetDateOfBirth().toString()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::GROUP),			new QTableWidgetItem(p.GetGroupAsString()));
-	tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ALLERGIES),		new QTableWidgetItem(p.GetAllergies()));
-
-	if (p.GetPersonType() == sr::PersonType::PARENT)
-	{
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),			new QTableWidgetItem("Parent"));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::ADDRESS),		new QTableWidgetItem(p.GetHomeAddress()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::HOME_PHONE),	new QTableWidgetItem(p.GetHomePhone()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CELL_PHONE),	new QTableWidgetItem(p.GetCellPhone()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::EMAIL_ADDRESS),	new QTableWidgetItem(p.GetEmailAddress()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::CHILDREN),		new QTableWidgetItem(p.GetChildren()));
-	}
-	else if (p.GetPersonType() == sr::PersonType::CHILD)
-	{
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::TYPE),				new QTableWidgetItem("Child"));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PARENTS),			new QTableWidgetItem(p.GetParents()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_ATTENDED),		new QTableWidgetItem(p.GetPrevAttendedS()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::PREV_LOCATION),		new QTableWidgetItem(p.GetPrevLocation()));
-		q = new QTableWidgetItem(QString::number(p.GetYearsAttended()));
-		tableWidget->setItem(row, static_cast<int>(TableTitleIndex::YEARS_ATTENDED), q);
-	}
-	*/
+	QSqlQuery query;
+	QString s = "INSERT INTO test.registered ()";
+	query.prepare("");
 }
 
 void SimpleRegistry::LoadTable()
@@ -131,4 +98,6 @@ void SimpleRegistry::LoadTable()
 
 	model->setQuery(*query);
 	this->ui.tableView->setModel(model);
+
+	delete query;
 }

@@ -83,18 +83,18 @@ void SRCreateChild::MakeHomeAddress(PersonBuilder<Child>& builder)
 	builder.HomeAddress(std::move(s));
 }
 
-void SRCreateChild::MakeHomePhone(PersonBuilder<Child>& builder)
+void SRCreateChild::MakePrimaryPhone(PersonBuilder<Child>& builder)
 {
 	QString s = ui.lineEdit_homePhone->text();
 
-	builder.HomePhone(std::move(s));
+	builder.PrimaryPhone(std::move(s));
 }
 
-void SRCreateChild::MakeCellPhone(PersonBuilder<Child>& builder)
+void SRCreateChild::MakeSecondaryPhone(PersonBuilder<Child>& builder)
 {
 	QString s = ui.lineEdit_cellPhone->text();
 
-	builder.CellPhone(std::move(s));
+	builder.SecondaryPhone(std::move(s));
 }
 
 void SRCreateChild::MakeEmailAddress(PersonBuilder<Child>& builder)
@@ -112,29 +112,11 @@ void SRCreateChild::MakePrevAttended(PersonBuilder<Child>& builder)
 	else if (check == Qt::Unchecked) builder.PrevAttended(false);
 }
 
-void SRCreateChild::MakePrevLocation(PersonBuilder<Child>& builder)
-{
-	QString prevLocation = ui.lineEdit_prevLocation->text();
-
-	if (prevLocation.isEmpty())
-	{
-		this->paramMissing = true;
-		return;
-	}
-
-	builder.PrevLocation(prevLocation);
-}
-
-void SRCreateChild::MakeYearsAttended(PersonBuilder<Child>& builder)
-{
-	builder.YearsAttended(ui.spinBox_yearsAttended->value());
-}
-
-void SRCreateChild::MakeAllergies(PersonBuilder<Child>& builder)
+void SRCreateChild::MakeMedical(PersonBuilder<Child>& builder)
 {
 	QString s = ui.lineEdit_allergies->text();
 
-	builder.Allergies(s);
+	builder.Medical(s);
 }
 
 void SRCreateChild::Create()
@@ -148,13 +130,11 @@ void SRCreateChild::Create()
 	MakeDateOfBirth(builder);
 	MakeGender(builder);
 	MakeHomeAddress(builder);
-	MakeHomePhone(builder);
-	MakeCellPhone(builder);
+	MakePrimaryPhone(builder);
+	MakeSecondaryPhone(builder);
 	MakeEmailAddress(builder);
 	MakePrevAttended(builder);
-	MakePrevLocation(builder);
-	MakeYearsAttended(builder);
-	MakeAllergies(builder);
+	MakeMedical(builder);
 
 	if (this->paramMissing)
 	{

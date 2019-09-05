@@ -22,7 +22,16 @@ enum class TableTitleIndex
 	DATE_OF_BIRTH,	AGE,			AGE_31,			GROUP,
 	PARENTS_NAME,	RELATIONSHIP,	HOME_ADDRESS,	PRIMARY_PHONE,
 	ALT_PHONE,		EMAIL,			REGISTERED,		INTERESTS,
-	ALLERGIES
+	MEDICAL
+};
+
+struct TableTitle
+{
+	TableTitle(int index, QString&& name) : index(index), string(name) {}
+	TableTitle(TableTitleIndex title, QString&& name) : index(static_cast<int>(title)), string(name) {}
+
+	int index;
+	QString string;
 };
 
 class TableManager
@@ -32,7 +41,25 @@ public:
 	~TableManager() {}
 
 	void AddPersonToTable(const Person& person);
-
+	/*
+	static const TableTitle Id				(TableTitleIndex::ID,			"regsitered_id");
+	static const TableTitle FirstName		(TableTitleIndex::FIRST_NAME,	"First_Name");
+	static const TableTitle LastName		(TableTitleIndex::LAST_NAME,	"Last_Name");
+	static const TableTitle Gender			(TableTitleIndex::GENDER,		"Gender");
+	static const TableTitle Dob				(TableTitleIndex::DATE_OF_BIRTH,"Date_Of_Birth");
+	static const TableTitle Age				(TableTitleIndex::AGE,			"Age");
+	static const TableTitle Age31			(TableTitleIndex::AGE_31,		"Age_Dec_31");
+	static const TableTitle Group			(TableTitleIndex::GROUP,		"Group");
+	static const TableTitle ParentsName		(TableTitleIndex::PARENTS_NAME,	"Parent's_Name");
+	static const TableTitle Relation		(TableTitleIndex::RELATIONSHIP,	"Relationship");
+	static const TableTitle Address			(TableTitleIndex::HOME_ADDRESS,	"Address");
+	static const TableTitle PrimaryPhone	(TableTitleIndex::PRIMARY_PHONE,"Primary_#");
+	static const TableTitle SecondaryPhone	(TableTitleIndex::ALT_PHONE,	"Alternative_#");
+	static const TableTitle EmailAddress	(TableTitleIndex::EMAIL,		"Email");
+	static const TableTitle Registered		(TableTitleIndex::REGISTERED,	"Registered");
+	static const TableTitle Interest		(TableTitleIndex::INTERESTS,	"Interest");
+	static const TableTitle Medical			(TableTitleIndex::MEDICAL,		"regsitered_id");
+	*/
 private:
 	QTableView* tableView;
 };

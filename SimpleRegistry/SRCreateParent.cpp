@@ -87,7 +87,7 @@ void SRCreateParent::MakeHomeAddress(PersonBuilder<Parent>& builder)
 	builder.HomeAddress(std::move(s));
 }
 
-void SRCreateParent::MakeHomePhone(PersonBuilder<Parent>& builder)
+void SRCreateParent::MakePrimaryPhone(PersonBuilder<Parent>& builder)
 {
 	QString s = ui.lineEdit_homePhone->text();
 
@@ -97,10 +97,10 @@ void SRCreateParent::MakeHomePhone(PersonBuilder<Parent>& builder)
 		return;
 	}
 
-	builder.HomePhone(std::move(s));
+	builder.PrimaryPhone(std::move(s));
 }
 
-void SRCreateParent::MakeCellPhone(PersonBuilder<Parent>& builder)
+void SRCreateParent::MakeSecondaryPhone(PersonBuilder<Parent>& builder)
 {
 	QString s = ui.lineEdit_cellPhone->text();
 
@@ -110,7 +110,7 @@ void SRCreateParent::MakeCellPhone(PersonBuilder<Parent>& builder)
 		return;
 	}
 
-	builder.CellPhone(std::move(s));
+	builder.SecondaryPhone(std::move(s));
 }
 
 void SRCreateParent::MakeEmailAddress(PersonBuilder<Parent>& builder)
@@ -126,11 +126,11 @@ void SRCreateParent::MakeEmailAddress(PersonBuilder<Parent>& builder)
 	builder.EmailAddress(std::move(email));
 }
 
-void SRCreateParent::MakeAllergies(PersonBuilder<Parent>& builder)
+void SRCreateParent::MakeMedical(PersonBuilder<Parent>& builder)
 {
 	QString s = ui.lineEdit_allergies->text();
 
-	builder.Allergies(s);
+	builder.Medical(s);
 }
 
 void SRCreateParent::Create()
@@ -144,10 +144,10 @@ void SRCreateParent::Create()
 	MakeDateOfBirth(builder);
 	MakeGender(builder);
 	MakeHomeAddress(builder);
-	MakeHomePhone(builder);
-	MakeCellPhone(builder);
+	MakePrimaryPhone(builder);
+	MakeSecondaryPhone(builder);
 	MakeEmailAddress(builder);
-	MakeAllergies(builder);
+	MakeMedical(builder);
 
 	if (this->paramMissing)
 	{

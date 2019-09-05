@@ -23,10 +23,10 @@ public:
 	void MakeDateOfBirth	(PersonBuilder<Parent>& builder);
 	void MakeGender			(PersonBuilder<Parent>& builder);
 	void MakeHomeAddress	(PersonBuilder<Parent>& builder);
-	void MakeHomePhone		(PersonBuilder<Parent>& builder);
-	void MakeCellPhone		(PersonBuilder<Parent>& builder);
+	void MakePrimaryPhone	(PersonBuilder<Parent>& builder);
+	void MakeSecondaryPhone	(PersonBuilder<Parent>& builder);
 	void MakeEmailAddress	(PersonBuilder<Parent>& builder);
-	void MakeAllergies		(PersonBuilder<Parent>& builder);
+	void MakeMedical		(PersonBuilder<Parent>& builder);
 
 public slots:
 	void Create() override;
