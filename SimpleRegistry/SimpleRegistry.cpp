@@ -15,7 +15,7 @@
 #include "SRConsants.h"
 #include <QTableWidget>
 #include <QMessageBox>
-#include <fstream>
+
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
 	: QMainWindow(parent),
 	dataBase(std::move(db))
@@ -95,7 +95,8 @@ void TableManager::AddPersonToTable(const Person& p)
 		s += ",";
 	}	
 
-	s += ") VALUES ('67',";
+	s += ") VALUES (";
+	s += "'" + QString::number(SimpleRegistry::GetNextAvailableID()) + "',";
 
 	const auto& strings = p.GetValuesAsQStrings();
 	for (int i = 0; i < strings.size()-1; i++)
@@ -119,6 +120,8 @@ void TableManager::AddPersonToTable(const Person& p)
 	{
 		qInfo() << "Error saving user!" << query.lastError().text();
 	}
+
+	registry->GetNextAvailableID();
 }
 
 void SimpleRegistry::LoadTable()
@@ -127,11 +130,37 @@ void SimpleRegistry::LoadTable()
 
 	QSqlQuery* query = new QSqlQuery(dataBase->database());
 
-	query->prepare("select * from test.registered");
+	query->prepare("SELECT * FROM test.registered");
 	query->exec();
 
 	model->setQuery(*query);
 	this->ui.tableView->setModel(model);
 
 	delete query;
+}
+
+int SimpleRegistry::GetNextAvailableID()
+{
+	static int id = 1;
+
+	QSqlQuery query;
+	query.prepare("SELECT Id from test.registered ORDER BY Id ASC");
+
+	if (query.exec())
+	{
+		while (query.next())
+		{
+			if (id == query.value(NULL).toInt())
+			{
+				id++;
+				continue;
+			}
+		}
+	}
+	else
+	{
+		qInfo() << "Query failed!";
+	}
+
+	return id;
 }

@@ -30,7 +30,7 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	this->values[0] = *firstName;
 	this->values[1] = *lastName;
 	this->values[2] = *gender;
-	this->values[3] = dateOfBirth->toString("yyyy-M-d");
+	this->values[3] = dateOfBirth->toString(dobFormat);
 	this->values[4] = QString::number(*age);
 	this->values[5] = QString::number(*age31);
 	this->values[6] = this->GetGroupAsString();
@@ -72,7 +72,7 @@ Person::Person(PersonBuilder<Child>* builder) :
 	this->values[0] = *firstName;
 	this->values[1] = *lastName;
 	this->values[2] = *gender;
-	this->values[3] = dateOfBirth->toString("yyyy-M-d");
+	this->values[3] = dateOfBirth->toString(dobFormat);
 	this->values[4] = QString::number(*age);
 	this->values[5] = QString::number(*age31);
 	this->values[6] = this->GetGroupAsString();

@@ -79,6 +79,8 @@ public:
 
 	void LoadTable();
 
+	static int GetNextAvailableID();
+
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;

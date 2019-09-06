@@ -156,6 +156,8 @@ PersonBuilder<T>* PersonBuilder<T>::Children(const QString& children)
 	return this;
 }
 
+const QString dobFormat = "yyyy-M-d";
+
 class Person
 {
 public:
