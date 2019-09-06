@@ -26,6 +26,24 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	this->age	= std::make_unique<qint16>(AssignAge());
 	this->age31 = std::make_unique<qint16>(AssignAge31());
 	this->group	= std::make_unique<sr::Group>(sr::Group::ADULT);
+
+	this->values[0] = *firstName;
+	this->values[1] = *lastName;
+	this->values[2] = *gender;
+	this->values[3] = dateOfBirth->toString("yyyy-M-d");
+	this->values[4] = QString::number(*age);
+	this->values[5] = QString::number(*age31);
+	this->values[6] = this->GetGroupAsString();
+	this->values[7] = CHECK_NULL_STRING(parents);
+	this->values[8] = ""; // Relationship
+	this->values[9] = CHECK_NULL_STRING(homeAddress);
+	this->values[10] = CHECK_NULL_STRING(primaryPhone);
+	this->values[11] = CHECK_NULL_STRING(secondaryPhone);
+	this->values[12] = CHECK_NULL_STRING(emailAddress);
+	this->values[13] = ""; //this->GetPrevAttendedS();
+	this->values[14] = ""; // Interests
+	this->values[15] = CHECK_NULL_STRING(medical);
+	this->values[16] = CHECK_NULL_STRING(children);
 }
 
 Person::Person(PersonBuilder<Child>* builder) :
@@ -50,6 +68,24 @@ Person::Person(PersonBuilder<Child>* builder) :
 	this->age =	  std::make_unique<qint16>(AssignAge());
 	this->age31 = std::make_unique<qint16>(AssignAge31());
 	this->group = std::make_unique<sr::Group>(AssignGroup());
+
+	this->values[0] = *firstName;
+	this->values[1] = *lastName;
+	this->values[2] = *gender;
+	this->values[3] = dateOfBirth->toString("yyyy-M-d");
+	this->values[4] = QString::number(*age);
+	this->values[5] = QString::number(*age31);
+	this->values[6] = this->GetGroupAsString();
+	this->values[7] = CHECK_NULL_STRING(parents);
+	this->values[8] = ""; // Relationship
+	this->values[9] = CHECK_NULL_STRING(homeAddress);
+	this->values[10] = CHECK_NULL_STRING(primaryPhone);
+	this->values[11] = CHECK_NULL_STRING(secondaryPhone);
+	this->values[12] = CHECK_NULL_STRING(emailAddress);
+	this->values[13] = ""; //this->GetPrevAttendedS();
+	this->values[14] = ""; // Interests
+	this->values[15] = CHECK_NULL_STRING(medical);
+	this->values[16] = CHECK_NULL_STRING(children);
 }
 
 Person::~Person()

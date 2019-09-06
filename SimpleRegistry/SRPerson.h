@@ -2,11 +2,12 @@
 #define SRPERSON_H_
 
 #include "SRConsants.h"
-#include <vector>
+#include <array>
 #include <memory>
-#include <map>
 #include <QDate>
 #include <QString>
+
+#define CHECK_NULL_STRING(string) ((!string) ? "" : *string)
 
 class Person;
 class Parent;
@@ -175,7 +176,7 @@ public:
 	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
 
 	inline const bool&				GetPrevAttended()	const { return *this->prevAttended; }
-	inline QString					GetPrevAttendedS()	const { return (*this->prevAttended) ? "Yes" : "No"; }
+	inline const QString&&			GetPrevAttendedS()	const { return (*this->prevAttended) ? "Yes" : "No"; }
 	inline const QString&			GetMedical()		const { return *this->medical; }
 
 	inline const sr::Group&			GetGroup()			const { return *this->group; }
@@ -184,6 +185,8 @@ public:
 	inline const QString&			GetChildren()		const { return *this->children; }
 
 	QString							GetGroupAsString()	const;
+
+	const std::array<QString, 17>&	GetValuesAsQStrings() const { return this->values; }
 
 	friend std::ostream& operator << (std::ostream& stream, const Person& person);
 
@@ -207,6 +210,8 @@ protected:
 	std::unique_ptr<qint16>			age;
 	std::unique_ptr<qint16>			age31;
 	std::unique_ptr<sr::Group>		group;
+
+	std::array<QString, 17> values;
 
 private:
 	qint16 AssignAge()		const;

@@ -27,8 +27,8 @@ enum class TableTitleIndex
 
 struct TableTitle
 {
-	TableTitle(int index, QString&& name) : index(index), string(name) {}
-	TableTitle(TableTitleIndex title, QString&& name) : index(static_cast<int>(title)), string(name) {}
+	TableTitle(int index, QString name) :
+		index(index), string(name) {}
 
 	int index;
 	QString string;
@@ -37,30 +37,34 @@ struct TableTitle
 class TableManager
 {
 public:
-	TableManager(QTableView* tv);
+	TableManager(SimpleRegistry* sr, QTableView* tv);
 	~TableManager() {}
 
 	void AddPersonToTable(const Person& person);
-	/*
-	static const TableTitle Id				(TableTitleIndex::ID,			"regsitered_id");
-	static const TableTitle FirstName		(TableTitleIndex::FIRST_NAME,	"First_Name");
-	static const TableTitle LastName		(TableTitleIndex::LAST_NAME,	"Last_Name");
-	static const TableTitle Gender			(TableTitleIndex::GENDER,		"Gender");
-	static const TableTitle Dob				(TableTitleIndex::DATE_OF_BIRTH,"Date_Of_Birth");
-	static const TableTitle Age				(TableTitleIndex::AGE,			"Age");
-	static const TableTitle Age31			(TableTitleIndex::AGE_31,		"Age_Dec_31");
-	static const TableTitle Group			(TableTitleIndex::GROUP,		"Group");
-	static const TableTitle ParentsName		(TableTitleIndex::PARENTS_NAME,	"Parent's_Name");
-	static const TableTitle Relation		(TableTitleIndex::RELATIONSHIP,	"Relationship");
-	static const TableTitle Address			(TableTitleIndex::HOME_ADDRESS,	"Address");
-	static const TableTitle PrimaryPhone	(TableTitleIndex::PRIMARY_PHONE,"Primary_#");
-	static const TableTitle SecondaryPhone	(TableTitleIndex::ALT_PHONE,	"Alternative_#");
-	static const TableTitle EmailAddress	(TableTitleIndex::EMAIL,		"Email");
-	static const TableTitle Registered		(TableTitleIndex::REGISTERED,	"Registered");
-	static const TableTitle Interest		(TableTitleIndex::INTERESTS,	"Interest");
-	static const TableTitle Medical			(TableTitleIndex::MEDICAL,		"regsitered_id");
-	*/
+
+	const std::array<TableTitle, 17> tableTitles = 
+	{{
+		{ static_cast<int>(TableTitleIndex::ID),			"Id" },
+		{ static_cast<int>(TableTitleIndex::FIRST_NAME),	"First_Name" },
+		{ static_cast<int>(TableTitleIndex::LAST_NAME),		"Last_Name" },
+		{ static_cast<int>(TableTitleIndex::GENDER),		"Gender" },
+		{ static_cast<int>(TableTitleIndex::DATE_OF_BIRTH),	"Date_of_Birth" },
+		{ static_cast<int>(TableTitleIndex::AGE),			"Age" },
+		{ static_cast<int>(TableTitleIndex::AGE_31),		"Age_Dec_31" },
+		{ static_cast<int>(TableTitleIndex::GROUP),			"Group" },
+		{ static_cast<int>(TableTitleIndex::PARENTS_NAME),	"Parents_Name" },
+		{ static_cast<int>(TableTitleIndex::RELATIONSHIP),	"Relationship" },
+		{ static_cast<int>(TableTitleIndex::HOME_ADDRESS),	"Address" },
+		{ static_cast<int>(TableTitleIndex::PRIMARY_PHONE),	"Primary_#" },
+		{ static_cast<int>(TableTitleIndex::ALT_PHONE),		"Alternate_#" },
+		{ static_cast<int>(TableTitleIndex::EMAIL),			"Email" },
+		{ static_cast<int>(TableTitleIndex::REGISTERED),	"Registered" },
+		{ static_cast<int>(TableTitleIndex::INTERESTS),		"Interest" },
+		{ static_cast<int>(TableTitleIndex::MEDICAL),		"Medical" }
+	}};
+
 private:
+	SimpleRegistry* registry;
 	QTableView* tableView;
 };
 
@@ -72,6 +76,8 @@ public:
 	SimpleRegistry();
 	SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent = Q_NULLPTR);
 	~SimpleRegistry();
+
+	void LoadTable();
 
 public slots:
 	void CreateParent() const;
@@ -92,8 +98,6 @@ private:
 	std::unique_ptr<SRCreateChild> childWindow;
 
 	std::unique_ptr<TableManager> tableManager;
-
-	void LoadTable();
 };
 
 #endif

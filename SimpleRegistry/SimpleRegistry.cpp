@@ -14,7 +14,8 @@
 #include <QSqlDatabase>
 #include "SRConsants.h"
 #include <QTableWidget>
-
+#include <QMessageBox>
+#include <fstream>
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
 	: QMainWindow(parent),
 	dataBase(std::move(db))
@@ -23,7 +24,7 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 
 	this->parentWindow = std::make_unique<SRCreateParent>(this);
 	this->childWindow  = std::make_unique<SRCreateChild>(this);
-	this->tableManager = std::make_unique<TableManager>(this->ui.tableView);
+	this->tableManager = std::make_unique<TableManager>(this, this->ui.tableView);
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
@@ -56,7 +57,7 @@ void SimpleRegistry::customEvent(QEvent* event)
 	{
 		SRUserCreatedEvent* e = static_cast<SRUserCreatedEvent*>(event);
 		
-		//tableManager->AddPersonToTable(e->GetPerson());
+		tableManager->AddPersonToTable(e->GetPerson());
 	}
 }
 
@@ -73,8 +74,8 @@ void SimpleRegistry::resizeEvent(QResizeEvent* event)
 	this->ui.tableView->setGeometry(0, 0, size.width(), size.height());
 }
 
-TableManager::TableManager(QTableView* tv) :
-	tableView(tv)
+TableManager::TableManager(SimpleRegistry* sr, QTableView* tv) :
+	registry(sr), tableView(tv)
 {	
 	this->tableView->verticalHeader()->hide();
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -83,8 +84,41 @@ TableManager::TableManager(QTableView* tv) :
 void TableManager::AddPersonToTable(const Person& p)
 {
 	QSqlQuery query;
-	QString s = "INSERT INTO test.registered ()";
-	query.prepare("");
+	QString s = "INSERT INTO test.registered (";
+
+	for (int i = 0; i < tableTitles.size(); i++)
+	{
+		s += "`" + tableTitles[i].string + "`";
+
+		if (i == tableTitles.size() - 1) break;
+
+		s += ",";
+	}	
+
+	s += ") VALUES ('67',";
+
+	const auto& strings = p.GetValuesAsQStrings();
+	for (int i = 0; i < strings.size()-1; i++)
+	{
+		s += "'" + strings[i] + "'";
+
+		if (i == strings.size() - 2) break;
+
+		s += ",";
+	}
+
+	s += ")";
+
+	query.prepare(s);
+	if (query.exec())
+	{
+		qInfo() << "Saved!";
+		this->registry->LoadTable();
+	}
+	else
+	{
+		qInfo() << "Error saving user!" << query.lastError().text();
+	}
 }
 
 void SimpleRegistry::LoadTable()
