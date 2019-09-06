@@ -15,12 +15,15 @@
 #include "SRConsants.h"
 #include <QTableWidget>
 #include <QMessageBox>
+#include <QModelIndex>
+#include <QVariant>
 
 SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent)
 	: QMainWindow(parent),
 	dataBase(std::move(db))
 {
 	ui.setupUi(this);
+	ui.tableView->installEventFilter(this);
 
 	this->parentWindow = std::make_unique<SRCreateParent>(this);
 	this->childWindow  = std::make_unique<SRCreateChild>(this);
@@ -28,7 +31,6 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
-	connect(ui.actionSave,			SIGNAL(triggered()), this, SLOT(Save()));
 
 	LoadTable();
 }
@@ -45,10 +47,6 @@ void SimpleRegistry::CreateParent() const
 void SimpleRegistry::CreateChild() const
 {
 	this->childWindow->show();
-}
-
-void SimpleRegistry::Save()
-{
 }
 
 void SimpleRegistry::customEvent(QEvent* event)
@@ -163,4 +161,44 @@ int SimpleRegistry::GetNextAvailableID()
 	}
 
 	return id;
+}
+
+bool SimpleRegistry::eventFilter(QObject*, QEvent* event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+
+		if (keyEvent->key() == Qt::Key_Delete)
+		{
+			DeleteSelectedRow();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void SimpleRegistry::DeleteSelectedRow()
+{
+	QModelIndex index = ui.tableView->selectionModel()->currentIndex();
+
+	QVariant id = index.sibling(index.row(), 0).data();
+	
+	QSqlQuery query;
+	
+	QString s("DELETE FROM test.registered WHERE `Id` = ");
+	s += id.toString();
+	qInfo() << s;
+	query.prepare(s);
+
+	if (query.exec())
+	{
+		LoadTable();
+		qInfo() << "Deletion successful!";
+	}
+	else
+	{
+		qInfo() << query.lastError().text();
+	}
 }

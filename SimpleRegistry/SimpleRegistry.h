@@ -5,12 +5,12 @@
 #include "ui_SimpleRegistry.h"
 #include "SRConsants.h"
 #include "SRConsants.h"
-#include <memory>
-#include <vector>
-#include <array>
-#include <QSqlDatabase>
 #include "SRCreateParent.h"
 #include "SRCreateChild.h"
+#include <memory>
+#include <array>
+#include <QSqlDatabase>
+#include <QPoint>
 
 class SRCreateParent;
 class SRCreateChild;
@@ -84,12 +84,13 @@ public:
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;
-	void Save();
 
 protected:
 	void customEvent(QEvent* event) override;
 	void closeEvent (QCloseEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
+
+	bool eventFilter(QObject*, QEvent* event) override;
 
 private:
 	Ui::SimpleRegistryClass ui;
@@ -100,6 +101,8 @@ private:
 	std::unique_ptr<SRCreateChild> childWindow;
 
 	std::unique_ptr<TableManager> tableManager;
+
+	void DeleteSelectedRow();
 };
 
 #endif
