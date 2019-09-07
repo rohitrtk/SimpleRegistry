@@ -16,10 +16,10 @@
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>481</width>
-     <height>481</height>
+     <x>0</x>
+     <y>0</y>
+     <width>491</width>
+     <height>491</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -101,6 +101,16 @@
        <font>
         <pointsize>14</pointsize>
        </font>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2000</year>
+        <month>1</month>
+        <day>31</day>
+       </datetime>
       </property>
       <property name="currentSection">
        <enum>QDateTimeEdit::MonthSection</enum>
@@ -215,7 +225,22 @@
       </property>
      </widget>
     </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_relation">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Relationship</string>
+      </property>
+     </widget>
+    </item>
     <item row="9" column="1">
+     <widget class="QComboBox" name="comboBox_relation"/>
+    </item>
+    <item row="10" column="1">
      <widget class="QCheckBox" name="checkBox_prevAttended">
       <property name="font">
        <font>
@@ -228,25 +253,45 @@
      </widget>
     </item>
     <item row="11" column="0">
-     <widget class="QLabel" name="label_prevLocation">
+     <widget class="QLabel" name="label_yearsAttended">
       <property name="font">
        <font>
         <pointsize>14</pointsize>
        </font>
       </property>
       <property name="text">
-       <string>Previous Location</string>
+       <string>Years Attended</string>
       </property>
      </widget>
     </item>
     <item row="11" column="1">
-     <widget class="QLineEdit" name="lineEdit_prevLocation">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QSpinBox" name="spinBox_yearsAttended">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </item>
     <item row="12" column="0">
      <widget class="QLabel" name="label_allergies">
@@ -262,6 +307,27 @@
     </item>
     <item row="12" column="1">
      <widget class="QLineEdit" name="lineEdit_allergies">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_interests">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Interests</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1">
+     <widget class="QLineEdit" name="lineEdit_interests">
       <property name="font">
        <font>
         <pointsize>14</pointsize>
@@ -308,68 +374,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="label_yearsAttended">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Years Attended</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QSpinBox" name="spinBox_yearsAttended">
-        <property name="font">
-         <font>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item row="13" column="1">
-     <widget class="QLineEdit" name="lineEdit_interests">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
-     <widget class="QLabel" name="label_interests">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Interests</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

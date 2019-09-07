@@ -36,10 +36,11 @@ public:
 	PersonBuilder<T>* Medical			(const QString& allergies);
 	PersonBuilder<T>* Group				(const sr::Group&& group);
 	PersonBuilder<T>* Parents			(const QString& parents);
+	PersonBuilder<T>* Relation			(const QString& relation);
 	PersonBuilder<T>* Children			(const QString& children);
+	PersonBuilder<T>* Interests			(const QString& interests);
 
 private:
-	
 	std::unique_ptr<QString>	firstName;
 	std::unique_ptr<QString>	lastName;
 	std::unique_ptr<QString>	gender;
@@ -55,6 +56,7 @@ private:
 	std::unique_ptr<QString>	emailAddress;
 	std::unique_ptr<bool>		prevAttended;
 	std::unique_ptr<QString>	medical;
+	std::unique_ptr<QString>	interests;
 
 	std::unique_ptr<QString>	children;
 };
@@ -150,9 +152,23 @@ PersonBuilder<T>* PersonBuilder<T>::Parents(const QString& parents)
 }
 
 template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Relation(const QString& relation)
+{
+	this->relation = std::make_unique<QString>(relation);
+	return this;
+}
+
+template <class T>
 PersonBuilder<T>* PersonBuilder<T>::Children(const QString& children)
 {
 	this->children = std::make_unique<QString>(children);
+	return this;
+}
+
+template <class T>
+PersonBuilder<T>* PersonBuilder<T>::Interests(const QString& interests)
+{
+	this->interests = std::make_unique<QString>(interests);
 	return this;
 }
 
@@ -178,13 +194,15 @@ public:
 	inline const QString&			GetEmailAddress()	const { return *this->emailAddress; }
 
 	inline const bool&				GetPrevAttended()	const { return *this->prevAttended; }
-	inline const QString&&			GetPrevAttendedS()	const { return (*this->prevAttended) ? "Yes" : "No"; }
+	inline const QString			GetPrevAttendedS()	const { return (*this->prevAttended) ? "Y" : "N"; }
 	inline const QString&			GetMedical()		const { return *this->medical; }
+	inline const QString&			GetInterests()		const { return *this->interests; }
 
 	inline const sr::Group&			GetGroup()			const { return *this->group; }
 	
 	inline const QString&			GetParents()		const { return *this->parents; }
 	inline const QString&			GetChildren()		const { return *this->children; }
+	inline const QString&			GetRelation()		const { return *this->relation; }
 
 	QString							GetGroupAsString()	const;
 
@@ -208,6 +226,9 @@ protected:
 
 	std::unique_ptr<QString>		parents;
 	std::unique_ptr<QString>		children;
+	std::unique_ptr<QString>		relation;
+
+	std::unique_ptr<QString>		interests;
 
 	std::unique_ptr<qint16>			age;
 	std::unique_ptr<qint16>			age31;

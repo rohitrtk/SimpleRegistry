@@ -19,7 +19,7 @@ class SRCreateUser
 public:
 	SRCreateUser() {}
 	SRCreateUser(SimpleRegistry* mainWindow) : 
-		mainWindow(mainWindow), personType(sr::PersonType::UNDEFINED), paramMissing(false) {};
+		mainWindow(mainWindow), paramMissing(false) {};
 	~SRCreateUser() {};
 
 public slots:
@@ -30,8 +30,6 @@ public slots:
 protected:
 
 	SimpleRegistry* mainWindow;
-
-	sr::PersonType personType;
 	
 	bool paramMissing;
 };

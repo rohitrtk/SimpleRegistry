@@ -28,6 +28,9 @@ public:
 	void MakeEmailAddress	(PersonBuilder<Child>& builder);
 	void MakePrevAttended	(PersonBuilder<Child>& builder);
 	void MakeMedical		(PersonBuilder<Child>& builder);
+	void MakeInterests		(PersonBuilder<Child>& builder);
+	void MakeParents		(PersonBuilder<Child>& builder);
+	void MakeRelation		(PersonBuilder<Child>& builder);
 
 public slots:
 	void Create() override;

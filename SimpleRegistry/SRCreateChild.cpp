@@ -15,7 +15,6 @@ SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 	this->ui.lineEdit_cellPhone		->installEventFilter(this);
 	this->ui.lineEdit_emailAddress	->installEventFilter(this);
 	this->ui.checkBox_prevAttended	->installEventFilter(this);
-	this->ui.lineEdit_prevLocation	->installEventFilter(this);
 	this->ui.spinBox_yearsAttended	->installEventFilter(this);
 	this->ui.lineEdit_allergies		->installEventFilter(this);
 	this->ui.lineEdit_interests		->installEventFilter(this);
@@ -23,11 +22,16 @@ SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 	this->ui.comboBox_gender		->addItem("Male");
 	this->ui.comboBox_gender		->addItem("Female");
 
+	this->ui.comboBox_relation		->addItem("Parents");
+	this->ui.comboBox_relation		->addItem("Mother");
+	this->ui.comboBox_relation		->addItem("Father");
+	this->ui.comboBox_relation		->addItem("Guardian");
+
 	this->ui.label_firstName		->setText(ui.label_firstName->text() + "*");
 	this->ui.label_lastName			->setText(ui.label_lastName->text() + "*");
 	this->ui.label_dateOfBirth		->setText(ui.label_dateOfBirth->text() + "*");
+	this->ui.label_relation			->setText(ui.label_relation->text() + "*");
 	this->ui.checkBox_prevAttended	->setText(ui.checkBox_prevAttended->text() + "*");
-	this->ui.label_prevLocation		->setText(ui.label_prevLocation->text() + "*");
 	this->ui.label_yearsAttended	->setText(ui.label_yearsAttended->text() + "*");
 
 	this->setWindowTitle("Create Child");
@@ -35,6 +39,8 @@ SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
 	connect(ui.pushButton_create, SIGNAL(clicked()), this, SLOT(Create()));
+
+	this->ui.spinBox_yearsAttended->setEnabled(false);
 }
 
 SRCreateChild::~SRCreateChild()
@@ -119,22 +125,46 @@ void SRCreateChild::MakeMedical(PersonBuilder<Child>& builder)
 	builder.Medical(s);
 }
 
+void SRCreateChild::MakeInterests(PersonBuilder<Child>& builder)
+{
+	QString s = ui.lineEdit_interests->text();
+
+	builder.Interests(s);
+}
+
+void SRCreateChild::MakeParents(PersonBuilder<Child>& builder)
+{
+	QString s = ui.lineEdit_parentGuardians->text();
+
+	builder.Parents(s);
+}
+
+void SRCreateChild::MakeRelation(PersonBuilder<Child>& builder)
+{
+	QString s = ui.comboBox_relation->currentText();
+
+	builder.Relation(s);
+}
+
 void SRCreateChild::Create()
 {
 	this->paramMissing = false;
 
 	PersonBuilder<Child> builder;
 
-	MakeFirstName(builder);
-	MakeLastName(builder);
-	MakeDateOfBirth(builder);
-	MakeGender(builder);
-	MakeHomeAddress(builder);
-	MakePrimaryPhone(builder);
-	MakeSecondaryPhone(builder);
-	MakeEmailAddress(builder);
-	MakePrevAttended(builder);
-	MakeMedical(builder);
+	MakeFirstName		(builder);
+	MakeLastName		(builder);
+	MakeDateOfBirth		(builder);
+	MakeGender			(builder);
+	MakeHomeAddress		(builder);
+	MakePrimaryPhone	(builder);
+	MakeSecondaryPhone	(builder);
+	MakeEmailAddress	(builder);
+	MakePrevAttended	(builder);
+	MakeMedical			(builder);
+	MakeInterests		(builder);
+	MakeParents			(builder);
+	MakeRelation		(builder);
 
 	if (this->paramMissing)
 	{
@@ -167,7 +197,6 @@ void SRCreateChild::Clear()
 	this->ui.lineEdit_parentGuardians	->setText("");
 	this->ui.checkBox_prevAttended		->setChecked(false);
 	this->ui.spinBox_yearsAttended		->setValue(0);
-	this->ui.lineEdit_prevLocation		->setText("");
 	this->ui.lineEdit_allergies			->setText("");
 	this->ui.lineEdit_interests			->setText("");
 }

@@ -13,10 +13,12 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	primaryPhone	(std::move(builder->primaryPhone)),
 	secondaryPhone	(std::move(builder->secondaryPhone)),
 	emailAddress	(std::move(builder->emailAddress)),
-	prevAttended	(nullptr),
+	prevAttended	(std::move(builder->prevAttended)),
 	medical			(std::move(builder->medical)),
-	parents			(nullptr),
-	children		(std::move(builder->children))
+	parents			(std::move(builder->parents)),
+	children		(nullptr),
+	relation		(nullptr),
+	interests		(std::move(builder->interests))
 {
 	if (!firstName)		throw ErrorBuilderFirstName;
 	if (!lastName)		throw ErrorBuilderLastName;
@@ -29,19 +31,19 @@ Person::Person(PersonBuilder<Parent>* builder) :
 
 	this->values[0] = *firstName;
 	this->values[1] = *lastName;
-	this->values[2] = *gender;
+	this->values[2] = gender->at(0);
 	this->values[3] = dateOfBirth->toString(dobFormat);
 	this->values[4] = QString::number(*age);
 	this->values[5] = QString::number(*age31);
 	this->values[6] = this->GetGroupAsString();
 	this->values[7] = CHECK_NULL_STRING(parents);
-	this->values[8] = ""; // Relationship
+	this->values[8] = CHECK_NULL_STRING(relation);
 	this->values[9] = CHECK_NULL_STRING(homeAddress);
 	this->values[10] = CHECK_NULL_STRING(primaryPhone);
 	this->values[11] = CHECK_NULL_STRING(secondaryPhone);
 	this->values[12] = CHECK_NULL_STRING(emailAddress);
-	this->values[13] = ""; //this->GetPrevAttendedS();
-	this->values[14] = ""; // Interests
+	this->values[13] = this->GetPrevAttendedS();
+	this->values[14] = CHECK_NULL_STRING(interests);
 	this->values[15] = CHECK_NULL_STRING(medical);
 	this->values[16] = CHECK_NULL_STRING(children);
 }
@@ -58,7 +60,9 @@ Person::Person(PersonBuilder<Child>* builder) :
 	prevAttended	(std::move(builder->prevAttended)),
 	medical			(std::move(builder->medical)),
 	parents			(std::move(builder->parents)),
-	children		(nullptr)
+	children		(nullptr),
+	relation		(std::move(builder->relation)),
+	interests		(std::move(builder->interests))
 {
 	if (!firstName)		throw ErrorBuilderFirstName;
 	if (!lastName)		throw ErrorBuilderLastName;
@@ -71,19 +75,19 @@ Person::Person(PersonBuilder<Child>* builder) :
 
 	this->values[0] = *firstName;
 	this->values[1] = *lastName;
-	this->values[2] = *gender;
+	this->values[2] = gender->at(0);
 	this->values[3] = dateOfBirth->toString(dobFormat);
 	this->values[4] = QString::number(*age);
 	this->values[5] = QString::number(*age31);
 	this->values[6] = this->GetGroupAsString();
 	this->values[7] = CHECK_NULL_STRING(parents);
-	this->values[8] = ""; // Relationship
+	this->values[8] = CHECK_NULL_STRING(relation);
 	this->values[9] = CHECK_NULL_STRING(homeAddress);
 	this->values[10] = CHECK_NULL_STRING(primaryPhone);
 	this->values[11] = CHECK_NULL_STRING(secondaryPhone);
 	this->values[12] = CHECK_NULL_STRING(emailAddress);
-	this->values[13] = ""; //this->GetPrevAttendedS();
-	this->values[14] = ""; // Interests
+	this->values[13] = this->GetPrevAttendedS();
+	this->values[14] = CHECK_NULL_STRING(interests);
 	this->values[15] = CHECK_NULL_STRING(medical);
 	this->values[16] = CHECK_NULL_STRING(children);
 }

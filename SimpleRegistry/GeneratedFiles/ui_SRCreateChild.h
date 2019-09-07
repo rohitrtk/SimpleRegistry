@@ -48,21 +48,21 @@ public:
     QLineEdit *lineEdit_emailAddress;
     QLabel *label_kin;
     QLineEdit *lineEdit_parentGuardians;
+    QLabel *label_relation;
+    QComboBox *comboBox_relation;
     QCheckBox *checkBox_prevAttended;
-    QLabel *label_prevLocation;
-    QLineEdit *lineEdit_prevLocation;
-    QLabel *label_allergies;
-    QLineEdit *lineEdit_allergies;
-    QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_clear;
-    QPushButton *pushButton_cancel;
-    QPushButton *pushButton_create;
     QLabel *label_yearsAttended;
     QHBoxLayout *horizontalLayout;
     QSpinBox *spinBox_yearsAttended;
     QSpacerItem *horizontalSpacer;
-    QLineEdit *lineEdit_interests;
+    QLabel *label_allergies;
+    QLineEdit *lineEdit_allergies;
     QLabel *label_interests;
+    QLineEdit *lineEdit_interests;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *pushButton_clear;
+    QPushButton *pushButton_cancel;
+    QPushButton *pushButton_create;
 
     void setupUi(QWidget *SRCreateChild)
     {
@@ -71,7 +71,7 @@ public:
         SRCreateChild->resize(500, 500);
         formLayoutWidget = new QWidget(SRCreateChild);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 10, 481, 481));
+        formLayoutWidget->setGeometry(QRect(0, 0, 491, 491));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -124,6 +124,7 @@ public:
         dateEdit_dateOfBirth = new QDateEdit(formLayoutWidget);
         dateEdit_dateOfBirth->setObjectName(QString::fromUtf8("dateEdit_dateOfBirth"));
         dateEdit_dateOfBirth->setFont(font);
+        dateEdit_dateOfBirth->setDateTime(QDateTime(QDate(2000, 1, 31), QTime(0, 0, 0)));
         dateEdit_dateOfBirth->setCurrentSection(QDateTimeEdit::MonthSection);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, dateEdit_dateOfBirth);
@@ -188,23 +189,44 @@ public:
 
         formLayout->setWidget(8, QFormLayout::FieldRole, lineEdit_parentGuardians);
 
+        label_relation = new QLabel(formLayoutWidget);
+        label_relation->setObjectName(QString::fromUtf8("label_relation"));
+        label_relation->setFont(font);
+
+        formLayout->setWidget(9, QFormLayout::LabelRole, label_relation);
+
+        comboBox_relation = new QComboBox(formLayoutWidget);
+        comboBox_relation->setObjectName(QString::fromUtf8("comboBox_relation"));
+
+        formLayout->setWidget(9, QFormLayout::FieldRole, comboBox_relation);
+
         checkBox_prevAttended = new QCheckBox(formLayoutWidget);
         checkBox_prevAttended->setObjectName(QString::fromUtf8("checkBox_prevAttended"));
         checkBox_prevAttended->setFont(font);
 
-        formLayout->setWidget(9, QFormLayout::FieldRole, checkBox_prevAttended);
+        formLayout->setWidget(10, QFormLayout::FieldRole, checkBox_prevAttended);
 
-        label_prevLocation = new QLabel(formLayoutWidget);
-        label_prevLocation->setObjectName(QString::fromUtf8("label_prevLocation"));
-        label_prevLocation->setFont(font);
+        label_yearsAttended = new QLabel(formLayoutWidget);
+        label_yearsAttended->setObjectName(QString::fromUtf8("label_yearsAttended"));
+        label_yearsAttended->setFont(font);
 
-        formLayout->setWidget(11, QFormLayout::LabelRole, label_prevLocation);
+        formLayout->setWidget(11, QFormLayout::LabelRole, label_yearsAttended);
 
-        lineEdit_prevLocation = new QLineEdit(formLayoutWidget);
-        lineEdit_prevLocation->setObjectName(QString::fromUtf8("lineEdit_prevLocation"));
-        lineEdit_prevLocation->setFont(font);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        spinBox_yearsAttended = new QSpinBox(formLayoutWidget);
+        spinBox_yearsAttended->setObjectName(QString::fromUtf8("spinBox_yearsAttended"));
+        spinBox_yearsAttended->setFont(font);
 
-        formLayout->setWidget(11, QFormLayout::FieldRole, lineEdit_prevLocation);
+        horizontalLayout->addWidget(spinBox_yearsAttended);
+
+        horizontalSpacer = new QSpacerItem(200, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+
+        formLayout->setLayout(11, QFormLayout::FieldRole, horizontalLayout);
 
         label_allergies = new QLabel(formLayoutWidget);
         label_allergies->setObjectName(QString::fromUtf8("label_allergies"));
@@ -217,6 +239,18 @@ public:
         lineEdit_allergies->setFont(font);
 
         formLayout->setWidget(12, QFormLayout::FieldRole, lineEdit_allergies);
+
+        label_interests = new QLabel(formLayoutWidget);
+        label_interests->setObjectName(QString::fromUtf8("label_interests"));
+        label_interests->setFont(font);
+
+        formLayout->setWidget(13, QFormLayout::LabelRole, label_interests);
+
+        lineEdit_interests = new QLineEdit(formLayoutWidget);
+        lineEdit_interests->setObjectName(QString::fromUtf8("lineEdit_interests"));
+        lineEdit_interests->setFont(font);
+
+        formLayout->setWidget(13, QFormLayout::FieldRole, lineEdit_interests);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -242,40 +276,6 @@ public:
 
         formLayout->setLayout(14, QFormLayout::FieldRole, horizontalLayout_2);
 
-        label_yearsAttended = new QLabel(formLayoutWidget);
-        label_yearsAttended->setObjectName(QString::fromUtf8("label_yearsAttended"));
-        label_yearsAttended->setFont(font);
-
-        formLayout->setWidget(10, QFormLayout::LabelRole, label_yearsAttended);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        spinBox_yearsAttended = new QSpinBox(formLayoutWidget);
-        spinBox_yearsAttended->setObjectName(QString::fromUtf8("spinBox_yearsAttended"));
-        spinBox_yearsAttended->setFont(font);
-
-        horizontalLayout->addWidget(spinBox_yearsAttended);
-
-        horizontalSpacer = new QSpacerItem(200, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-
-        formLayout->setLayout(10, QFormLayout::FieldRole, horizontalLayout);
-
-        lineEdit_interests = new QLineEdit(formLayoutWidget);
-        lineEdit_interests->setObjectName(QString::fromUtf8("lineEdit_interests"));
-        lineEdit_interests->setFont(font);
-
-        formLayout->setWidget(13, QFormLayout::FieldRole, lineEdit_interests);
-
-        label_interests = new QLabel(formLayoutWidget);
-        label_interests->setObjectName(QString::fromUtf8("label_interests"));
-        label_interests->setFont(font);
-
-        formLayout->setWidget(13, QFormLayout::LabelRole, label_interests);
-
 
         retranslateUi(SRCreateChild);
 
@@ -295,14 +295,14 @@ public:
         label_cellPhone->setText(QCoreApplication::translate("SRCreateChild", "Cell Phone", nullptr));
         label_emailAddress->setText(QCoreApplication::translate("SRCreateChild", "Email Address", nullptr));
         label_kin->setText(QCoreApplication::translate("SRCreateChild", "Parents/Guardians", nullptr));
+        label_relation->setText(QCoreApplication::translate("SRCreateChild", "Relationship", nullptr));
         checkBox_prevAttended->setText(QCoreApplication::translate("SRCreateChild", "Previously Attended?", nullptr));
-        label_prevLocation->setText(QCoreApplication::translate("SRCreateChild", "Previous Location", nullptr));
+        label_yearsAttended->setText(QCoreApplication::translate("SRCreateChild", "Years Attended", nullptr));
         label_allergies->setText(QCoreApplication::translate("SRCreateChild", "Allergies", nullptr));
+        label_interests->setText(QCoreApplication::translate("SRCreateChild", "Interests", nullptr));
         pushButton_clear->setText(QCoreApplication::translate("SRCreateChild", "Clear", nullptr));
         pushButton_cancel->setText(QCoreApplication::translate("SRCreateChild", "Cancel", nullptr));
         pushButton_create->setText(QCoreApplication::translate("SRCreateChild", "Create", nullptr));
-        label_yearsAttended->setText(QCoreApplication::translate("SRCreateChild", "Years Attended", nullptr));
-        label_interests->setText(QCoreApplication::translate("SRCreateChild", "Interests", nullptr));
     } // retranslateUi
 
 };
