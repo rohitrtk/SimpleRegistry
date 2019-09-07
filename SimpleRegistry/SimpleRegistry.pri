@@ -7,25 +7,21 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./SRCSVHandler.h \
-    ./SRConsants.h \
-    ./SRPerson.h \
+HEADERS += ./SRConsants.h \
     ./SRCreateUser.h \
-    ./SRLogin.h \
-    ./SimpleRegistry.h \
+    ./SRPerson.h \
     ./SRCreateParent.h \
-    ./SRCreateChild.h
-SOURCES += ./SRCSVHandler.cpp \
-    ./SRCreateUser.cpp \
+    ./SRCreateChild.h \
+    ./SRLogin.h \
+    ./SimpleRegistry.h
+SOURCES += ./SRCreateChild.cpp \
+    ./SRCreateParent.cpp \
     ./SRLogin.cpp \
     ./SRPerson.cpp \
     ./SimpleRegistry.cpp \
-    ./main.cpp \
-    ./SRCreateParent.cpp \
-    ./SRCreateChild.cpp
-FORMS += ./SRCreateUser.ui \
-    ./SRLogin.ui \
-    ./SimpleRegistry.ui \
+    ./main.cpp
+FORMS += ./SRCreateChild.ui \
     ./SRCreateParent.ui \
-    ./SRCreateChild.ui
+    ./SRLogin.ui \
+    ./SimpleRegistry.ui
 RESOURCES += SimpleRegistry.qrc

@@ -47,6 +47,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SRCreateChild.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRCreateParent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SRLogin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,15 +65,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRCreateParent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SRCreateChild.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SRConsants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="SRCreateChild.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SRCreateParent.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="SRCreateUser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="SRLogin.h">
@@ -79,52 +88,34 @@
     <QtMoc Include="SimpleRegistry.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="SRCreateUser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\moc_SRLogin.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\moc_SimpleRegistry.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
+    
+    
+    
+    
     <CustomBuild Include="GeneratedFiles\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    <ClInclude Include="GeneratedFiles\ui_SRLogin.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_SimpleRegistry.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
+    
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="SRLogin.ui">
+    <CustomBuild Include="SRCreateChild.ui">
       <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="SimpleRegistry.ui">
+    </CustomBuild>
+    <CustomBuild Include="SRCreateParent.ui">
       <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="SRCreateParent.ui">
+    </CustomBuild>
+    <CustomBuild Include="SRLogin.ui">
       <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="SRCreateChild.ui">
+    </CustomBuild>
+    <CustomBuild Include="SimpleRegistry.ui">
       <Filter>Form Files</Filter>
-    </QtUic>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleRegistry.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="SRCreateParent.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="SRCreateChild.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
 </Project>
