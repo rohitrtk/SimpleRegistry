@@ -1,11 +1,11 @@
 #ifndef SRCREATECHILD_H_
 #define SRCREATECHILD_H_
 
-#include <QWidget>
-#include <QKeyEvent>
 #include "SRCreateUser.h"
 #include "SimpleRegistry.h"
 #include "ui_SRCreateChild.h"
+#include <QWidget>
+#include <QKeyEvent>
 
 namespace Ui { class SRCreateChild; };
 

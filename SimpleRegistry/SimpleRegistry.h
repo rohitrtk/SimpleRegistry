@@ -4,17 +4,25 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_SimpleRegistry.h"
 #include "SRConsants.h"
-#include "SRConsants.h"
 #include "SRCreateParent.h"
 #include "SRCreateChild.h"
 #include <memory>
 #include <array>
+#include <QDebug>
 #include <QSqlDatabase>
-#include <QPoint>
+#include <QSqlQueryModel>
+#include <QTableWidgetItem>
+
+#ifdef QT_DEBUG
+	#define LOG(x) qInfo() << x
+#else
+	#define LOG(x) x
+#endif
 
 class SRCreateParent;
 class SRCreateChild;
 class QTableWidget;
+class Qt::ItemFlags;
 
 enum class TableTitleIndex
 {
@@ -68,10 +76,27 @@ private:
 	QTableView* tableView;
 };
 
+class SRSqlQueryModel : public QSqlQueryModel
+{
+	Q_OBJECT
+public:
+	SRSqlQueryModel(QObject* parent = Q_NULLPTR) : QSqlQueryModel(parent) {}
+
+	Qt::ItemFlags flags(const QModelIndex& index) const override;
+};
+
+class SRTableView : public QTableView
+{
+	Q_OBJECT
+public:
+	SRTableView(QObject* parent = Q_NULLPTR) {}
+
+	void keyPressEvent(QKeyEvent* event) override;
+};
+
 class SimpleRegistry : public QMainWindow
 {
 	Q_OBJECT
-
 public:
 	SimpleRegistry();
 	SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* parent = Q_NULLPTR);
@@ -84,21 +109,20 @@ public:
 public slots:
 	void CreateParent() const;
 	void CreateChild()  const;
+	void DoubleClick(const QModelIndex& index) const;
 
 protected:
-	void customEvent(QEvent* event) override;
-	void closeEvent (QCloseEvent* event) override;
-	void resizeEvent(QResizeEvent* event) override;
-
-	bool eventFilter(QObject*, QEvent* event) override;
+	void customEvent(QEvent* event)					override;
+	void closeEvent (QCloseEvent* event)			override;
+	void resizeEvent(QResizeEvent* event)			override;
+	bool eventFilter(QObject*, QEvent* event)		override;
 
 private:
 	Ui::SimpleRegistryClass ui;
 
 	std::unique_ptr<QSqlDatabase> dataBase;
-
 	std::unique_ptr<SRCreateParent> parentWindow;
-	std::unique_ptr<SRCreateChild> childWindow;
+	std::unique_ptr<SRCreateChild>	childWindow;
 
 	std::unique_ptr<TableManager> tableManager;
 

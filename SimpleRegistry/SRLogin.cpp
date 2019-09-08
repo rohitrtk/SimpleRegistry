@@ -1,12 +1,12 @@
 #include "SRLogin.h"
 #include "ui_SRLogin.h"
+#include "SimpleRegistry.h"
+#include <sstream>
 #include <QDialog>
 #include <QMessageBox>
 #include <QSqlError>
-#include <sstream>
 #include <QDebug>
 #include <QKeyEvent>
-#include "SimpleRegistry.h"
 
 SRLogin::SRLogin(QWidget *parent)
 	: QWidget(parent), 
@@ -21,8 +21,8 @@ SRLogin::SRLogin(QWidget *parent)
 
 	this->ui->lineEdit_password	->setEchoMode(QLineEdit::Password);
 
-	dataBase->setHostName("localhost");
-	dataBase->setDatabaseName("test");
+	dataBase->setHostName(HostName);
+	dataBase->setDatabaseName(DatabaseName);
 
 	connect(ui->pushButton_login, SIGNAL(clicked()), this, SLOT(Login()));
 }
@@ -63,6 +63,11 @@ bool SRLogin::eventFilter(QObject*, QEvent* event)
 		if (keyEvent->key() == Qt::Key_Tab)
 		{
 			QWidget::focusNextChild();
+			return true;
+		}
+		else if (keyEvent->key() == Qt::Key_Return)
+		{
+			Login();
 			return true;
 		}
 	}

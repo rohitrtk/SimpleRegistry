@@ -7,20 +7,17 @@
 #include <sstream>
 #include <string>
 #include <memory>
+#include <QEvent>
 
 class SimpleRegistry;
 class SRUserCreatedEventFilter;
-class QString;
-class QEvent;
-class QCheckBox;
-
 class SRCreateUser
 {
 public:
 	SRCreateUser() {}
 	SRCreateUser(SimpleRegistry* mainWindow) : 
 		mainWindow(mainWindow), paramMissing(false) {};
-	~SRCreateUser() {};
+	virtual ~SRCreateUser() {};
 
 public slots:
 	virtual void Create() = 0;

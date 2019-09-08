@@ -1,11 +1,11 @@
 #ifndef SRCREATEPARENT_H_
 #define SRCREATEPARENT_H_
 
-#include <QWidget>
-#include <QKeyEvent>
 #include "SRCreateUser.h"
 #include "SimpleRegistry.h"
 #include "ui_SRCreateParent.h"
+#include <QWidget>
+#include <QKeyEvent>
 
 namespace Ui { class SRCreateParent; };
 

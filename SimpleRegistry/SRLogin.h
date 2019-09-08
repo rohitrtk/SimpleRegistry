@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSqlDatabase>
+#include <QString>
 
 namespace Ui { class SRLogin; };
 
@@ -24,6 +25,9 @@ private:
 	Ui::SRLogin *ui;
 
 	std::unique_ptr<QSqlDatabase> dataBase;
+
+	const QString HostName  = "localhost";
+	const QString DatabaseName = "test";
 };
 
 #endif

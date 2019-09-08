@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -31,7 +32,7 @@ public:
     QAction *actionCreate_Child;
     QAction *actionSave;
     QWidget *centralWidget;
-    QWidget *verticalLayoutWidget;
+    QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QTableView *tableView;
     QMenuBar *menuBar;
@@ -53,23 +54,26 @@ public:
         actionSave->setObjectName(QString::fromUtf8("actionSave"));
         centralWidget = new QWidget(SimpleRegistryClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        verticalLayoutWidget = new QWidget(centralWidget);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(0, 0, 1281, 661));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        tableView = new QTableView(verticalLayoutWidget);
+        tableView = new QTableView(centralWidget);
         tableView->setObjectName(QString::fromUtf8("tableView"));
         QFont font;
         font.setPointSize(12);
         tableView->setFont(font);
         tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         tableView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+        tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
         verticalLayout->addWidget(tableView);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
 
         SimpleRegistryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SimpleRegistryClass);
@@ -91,7 +95,6 @@ public:
         menuBar->addAction(menuEdit->menuAction());
         menuFile->addAction(actionCreate_Parent);
         menuFile->addAction(actionCreate_Child);
-        menuFile->addAction(actionSave);
 
         retranslateUi(SimpleRegistryClass);
 

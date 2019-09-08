@@ -1,7 +1,7 @@
 #include "SimpleRegistry.h"
 #include "SRPerson.h"
+#include "SRConsants.h"
 #include <memory>
-#include <QDebug>
 #include <QDate>
 #include <QAction>
 #include <QLineEdit>
@@ -9,10 +9,7 @@
 #include <QHeaderView>
 #include <QTableWidget>
 #include <QTableWidgetItem>
-#include <fstream>
 #include <QtSql>
-#include <QSqlDatabase>
-#include "SRConsants.h"
 #include <QTableWidget>
 #include <QMessageBox>
 #include <QModelIndex>
@@ -22,8 +19,11 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 	: QMainWindow(parent),
 	dataBase(std::move(db))
 {
+
 	ui.setupUi(this);
 	ui.tableView->installEventFilter(this);
+	ui.tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
+	ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
 	this->parentWindow = std::make_unique<SRCreateParent>(this);
 	this->childWindow  = std::make_unique<SRCreateChild>(this);
@@ -31,7 +31,8 @@ SimpleRegistry::SimpleRegistry(std::unique_ptr<QSqlDatabase>&& db, QWidget* pare
 
 	connect(ui.actionCreate_Parent, SIGNAL(triggered()), this, SLOT(CreateParent()));
 	connect(ui.actionCreate_Child,  SIGNAL(triggered()), this, SLOT(CreateChild()));
-
+	connect(ui.tableView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(DoubleClick(const QModelIndex&)));
+		
 	LoadTable();
 }
 
@@ -111,12 +112,12 @@ void TableManager::AddPersonToTable(const Person& p)
 	query.prepare(s);
 	if (query.exec())
 	{
-		qInfo() << "Saved!";
+		LOG("Saved!");
 		this->registry->LoadTable();
 	}
 	else
 	{
-		qInfo() << "Error saving user!" << query.lastError().text();
+		LOG("Error saving user!\n" + query.lastError().text());
 	}
 
 	registry->GetNextAvailableID();
@@ -124,8 +125,8 @@ void TableManager::AddPersonToTable(const Person& p)
 
 void SimpleRegistry::LoadTable()
 {
-	QSqlQueryModel* model = new QSqlQueryModel();
-
+	SRSqlQueryModel* model = new SRSqlQueryModel();
+	
 	QSqlQuery* query = new QSqlQuery(dataBase->database());
 
 	query->prepare("SELECT * FROM test.registered");
@@ -157,7 +158,7 @@ int SimpleRegistry::GetNextAvailableID()
 	}
 	else
 	{
-		qInfo() << "Query failed!";
+		LOG("Unable to get next available ID!");
 	}
 
 	return id;
@@ -172,6 +173,11 @@ bool SimpleRegistry::eventFilter(QObject*, QEvent* event)
 		if (keyEvent->key() == Qt::Key_Delete)
 		{
 			DeleteSelectedRow();
+			return true;
+		}
+		else if (keyEvent->key() == Qt::Key_Return)
+		{
+			this->ui.tableView->edit(ui.tableView->currentIndex());
 			return true;
 		}
 	}
@@ -195,10 +201,33 @@ void SimpleRegistry::DeleteSelectedRow()
 	if (query.exec())
 	{
 		LoadTable();
-		qInfo() << "Deletion successful!";
+		LOG("Deletion successful!");
 	}
 	else
 	{
-		qInfo() << query.lastError().text();
+		LOG("Unable to delete selected user!\n" + query.lastError().text());
 	}
+}
+
+void SimpleRegistry::DoubleClick(const QModelIndex& index) const
+{
+	if (index.isValid())
+	{
+		QString s = index.data().toString();
+		QVariant id = index.sibling(index.row(), 0).data();
+
+
+	}
+}
+
+Qt::ItemFlags SRSqlQueryModel::flags(const QModelIndex& index) const
+{
+	Qt::ItemFlags flags = QSqlQueryModel::flags(index);
+
+	//if (index.column() != 0)
+	//{
+	//	flags |= Qt::ItemIsEditable;
+	//}
+
+	return flags;
 }
