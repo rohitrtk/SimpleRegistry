@@ -1,24 +1,18 @@
 #include "SRCreateParent.h"
+
 #include <QMessageBox>
+#include <QKeyEvent>
+#include <QHideEvent>
+
+#include "SRPerson.h"
 
 SRCreateParent::SRCreateParent(SimpleRegistry* mainWindow, QWidget *parent)
 	: QWidget(parent), mainWindow(mainWindow)
 {
 	ui.setupUi(this);
 
-	this->ui.lineEdit_firstName		->installEventFilter(this);
-	this->ui.lineEdit_lastName		->installEventFilter(this);
-	this->ui.comboBox_gender		->installEventFilter(this);
-	this->ui.dateEdit_dateOfBirth	->installEventFilter(this);
-	this->ui.lineEdit_homeAddress	->installEventFilter(this);
-	this->ui.lineEdit_homePhone		->installEventFilter(this);
-	this->ui.lineEdit_cellPhone		->installEventFilter(this);
-	this->ui.lineEdit_emailAddress	->installEventFilter(this);
-	this->ui.lineEdit_allergies		->installEventFilter(this);
-	this->ui.lineEdit_interests		->installEventFilter(this);
-
-	this->ui.comboBox_gender		->addItem("Male");
-	this->ui.comboBox_gender		->addItem("Female");
+	this->ui.comboBox_gender		->addItem(ComboBoxGender_Male);
+	this->ui.comboBox_gender		->addItem(ComboBoxGender_Female);
 
 	this->ui.label_firstName		->setText(ui.label_firstName->text() + "*");
 	this->ui.label_lastName			->setText(ui.label_lastName->text() + "*");
@@ -28,7 +22,7 @@ SRCreateParent::SRCreateParent(SimpleRegistry* mainWindow, QWidget *parent)
 	this->ui.label_cellPhone		->setText(ui.label_cellPhone->text() + "*");
 	this->ui.label_emailAddress		->setText(ui.label_emailAddress->text() + "*");
 
-	this->setWindowTitle("Create Parent");
+	this->setWindowTitle(WindowTitle_CreateParent);
 
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
@@ -37,6 +31,19 @@ SRCreateParent::SRCreateParent(SimpleRegistry* mainWindow, QWidget *parent)
 
 SRCreateParent::~SRCreateParent()
 {
+}
+
+void SRCreateParent::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Tab)
+	{
+		QWidget::focusNextChild();
+	}
+}
+
+void SRCreateParent::hideEvent(QHideEvent*)
+{
+	this->Clear();
 }
 
 void SRCreateParent::MakeFirstName(PersonBuilder<Parent>& builder)
@@ -159,7 +166,7 @@ void SRCreateParent::Create()
 
 	this->user = builder.Build();
 
-	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(*this->user));
+	QApplication::postEvent(reinterpret_cast<QObject*>(mainWindow), new SRUserCreatedEvent(*this->user));
 }
 
 void SRCreateParent::Cancel()

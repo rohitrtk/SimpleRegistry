@@ -1,25 +1,23 @@
 #include "SRLogin.h"
 #include "ui_SRLogin.h"
+
 #include "SimpleRegistry.h"
-#include <sstream>
+
 #include <QDialog>
 #include <QMessageBox>
+#include <QSqlDatabase>
 #include <QSqlError>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QString>
 
 SRLogin::SRLogin(QWidget *parent)
 	: QWidget(parent), 
 	ui(new Ui::SRLogin()), 
-	dataBase(std::make_unique<QSqlDatabase>(QSqlDatabase::addDatabase("QMYSQL")))
+	dataBase(std::make_unique<QSqlDatabase>(QSqlDatabase::addDatabase(SqlType)))
 {
 	ui->setupUi(this);
-
-	this->ui->lineEdit_username	->installEventFilter(this);
-	this->ui->lineEdit_password	->installEventFilter(this);
-	this->ui->pushButton_login	->installEventFilter(this);
-
-	this->ui->lineEdit_password	->setEchoMode(QLineEdit::Password);
+	ui->lineEdit_password->setEchoMode(QLineEdit::Password);
 
 	dataBase->setHostName(HostName);
 	dataBase->setDatabaseName(DatabaseName);
@@ -43,34 +41,28 @@ void SRLogin::Login()
 		sr->setAttribute(Qt::WA_DeleteOnClose);
 		sr->show();
 		this->close();
+		return;
 	}
-	else
-	{
-		const QSqlError& err = dataBase->lastError();
-		std::stringstream ss;
+	
+	const QSqlError& err = dataBase->lastError();
 
-		ss << "Unable to connect to database!\n" << err.databaseText().toStdString() << "\n" << err.driverText().toStdString();
-		QMessageBox::information(this, "Connection Error", QString::fromStdString(ss.str()));
-	}
+	QString s = "Unable to connect to database\n";
+
+	s += err.databaseText() + "\n" + err.driverText();
+	
+	QMessageBox::information(this, "Connection Error", s);
 }
 
-bool SRLogin::eventFilter(QObject*, QEvent* event)
+void SRLogin::keyPressEvent(QKeyEvent* event)
 {
-	if (event->type() == QEvent::KeyPress)
+	if (event->key() == Qt::Key_Tab)
 	{
-		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-
-		if (keyEvent->key() == Qt::Key_Tab)
-		{
-			QWidget::focusNextChild();
-			return true;
-		}
-		else if (keyEvent->key() == Qt::Key_Return)
-		{
-			Login();
-			return true;
-		}
+		QWidget::focusNextChild();
+	}
+	else if (event->key() == Qt::Key_Return)
+	{
+		Login();
 	}
 
-	return false;
+	QWidget::keyPressEvent(event);
 }

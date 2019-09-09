@@ -7,10 +7,6 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	//SimpleRegistry* sr = new SimpleRegistry();
-	//sr->setAttribute(Qt::WA_DeleteOnClose);
-	//sr->show();
-
 	SRLogin* login = new SRLogin();
 	login->setAttribute(Qt::WA_DeleteOnClose);
 	login->show();

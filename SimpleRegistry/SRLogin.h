@@ -2,14 +2,22 @@
 #define SRLOGIN_H_
 
 #include <QWidget>
-#include <QSqlDatabase>
-#include <QString>
+
+class QSqlDatabase;
 
 namespace Ui { class SRLogin; };
+
+constexpr auto SqlType		= "QMYSQL";
+constexpr auto HostName		= "localhost";
+constexpr auto DatabaseName = "test";
 
 class SRLogin : public QWidget
 {
 	Q_OBJECT
+private:
+	Ui::SRLogin *ui;
+
+	std::unique_ptr<QSqlDatabase> dataBase;
 
 public:
 	SRLogin(QWidget *parent = Q_NULLPTR);
@@ -19,15 +27,7 @@ public slots:
 	void Login();
 
 protected:
-	bool eventFilter(QObject *watched, QEvent *event) override;
-
-private:
-	Ui::SRLogin *ui;
-
-	std::unique_ptr<QSqlDatabase> dataBase;
-
-	const QString HostName  = "localhost";
-	const QString DatabaseName = "test";
+	void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif

@@ -1,31 +1,23 @@
 #include "SRCreateChild.h"
+
 #include <QMessageBox>
+#include <QKeyEvent>
+#include <QHideEvent>
+
+#include "SRPerson.h"
 
 SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 	: QWidget(parent), mainWindow(mainWindow)
 {
 	ui.setupUi(this);
 
-	this->ui.lineEdit_firstName		->installEventFilter(this);
-	this->ui.lineEdit_lastName		->installEventFilter(this);
-	this->ui.comboBox_gender		->installEventFilter(this);
-	this->ui.dateEdit_dateOfBirth	->installEventFilter(this);
-	this->ui.lineEdit_homeAddress	->installEventFilter(this);
-	this->ui.lineEdit_homePhone		->installEventFilter(this);
-	this->ui.lineEdit_cellPhone		->installEventFilter(this);
-	this->ui.lineEdit_emailAddress	->installEventFilter(this);
-	this->ui.checkBox_prevAttended	->installEventFilter(this);
-	this->ui.spinBox_yearsAttended	->installEventFilter(this);
-	this->ui.lineEdit_allergies		->installEventFilter(this);
-	this->ui.lineEdit_interests		->installEventFilter(this);
+	this->ui.comboBox_gender		->addItem(ComboBoxGender_Male);
+	this->ui.comboBox_gender		->addItem(ComboBoxGender_Female);
 
-	this->ui.comboBox_gender		->addItem("Male");
-	this->ui.comboBox_gender		->addItem("Female");
-
-	this->ui.comboBox_relation		->addItem("Parents");
-	this->ui.comboBox_relation		->addItem("Mother");
-	this->ui.comboBox_relation		->addItem("Father");
-	this->ui.comboBox_relation		->addItem("Guardian");
+	this->ui.comboBox_relation		->addItem(ComboBoxRelation_Parents);
+	this->ui.comboBox_relation		->addItem(ComboBoxRelation_Mother);
+	this->ui.comboBox_relation		->addItem(ComboBoxRelation_Father);
+	this->ui.comboBox_relation		->addItem(ComboBoxRelation_Guardian);
 
 	this->ui.label_firstName		->setText(ui.label_firstName->text() + "*");
 	this->ui.label_lastName			->setText(ui.label_lastName->text() + "*");
@@ -34,7 +26,7 @@ SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 	this->ui.checkBox_prevAttended	->setText(ui.checkBox_prevAttended->text() + "*");
 	this->ui.label_yearsAttended	->setText(ui.label_yearsAttended->text() + "*");
 
-	this->setWindowTitle("Create Child");
+	this->setWindowTitle(WindowTitle_CreateChild);
 
 	connect(ui.pushButton_clear,  SIGNAL(clicked()), this, SLOT(Clear()));
 	connect(ui.pushButton_cancel, SIGNAL(clicked()), this, SLOT(Cancel()));
@@ -45,6 +37,19 @@ SRCreateChild::SRCreateChild(SimpleRegistry* mainWindow, QWidget *parent)
 
 SRCreateChild::~SRCreateChild()
 {
+}
+
+void SRCreateChild::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Tab)
+	{
+		QWidget::focusNextChild();
+	}
+}
+
+void SRCreateChild::hideEvent(QHideEvent*)
+{
+	this->Clear();
 }
 
 void SRCreateChild::MakeFirstName(PersonBuilder<Child>& builder)
@@ -176,7 +181,7 @@ void SRCreateChild::Create()
 
 	this->user = builder.Build();
 
-	QApplication::postEvent(mainWindow, new SRUserCreatedEvent(*this->user));
+	QApplication::postEvent(reinterpret_cast<QObject*>(mainWindow), new SRUserCreatedEvent(*this->user));
 }
 
 void SRCreateChild::Cancel()

@@ -1,9 +1,11 @@
 #ifndef SRPERSON_H_
 #define SRPERSON_H_
 
-#include "SRConsants.h"
 #include <array>
 #include <memory>
+
+#include "SRConsants.h"
+
 #include <QDate>
 #include <QString>
 
@@ -13,6 +15,9 @@ class Person;
 class Parent;
 class Child;
 
+/* ******************** PersonBuilder ******************** */
+
+/* Template builder class of type T. Responsible for building an object of type T */
 template <class T>
 class PersonBuilder
 {
@@ -171,8 +176,18 @@ PersonBuilder<T>* PersonBuilder<T>::Interests(const QString& interests)
 	this->interests = std::make_unique<QString>(interests);
 	return this;
 }
+// PersonBuilder
 
-const QString dobFormat = "yyyy-M-d";
+/* ******************** Person ******************** */
+
+constexpr auto dobFormat = "yyyy-M-d";
+
+constexpr auto Group_Pre = "PRE";
+constexpr auto Group_1 = "1";
+constexpr auto Group_2 = "2";
+constexpr auto Group_3 = "3";
+constexpr auto Group_4 = "4";
+constexpr auto Group_A = "A";
 
 class Person
 {
@@ -208,8 +223,6 @@ public:
 
 	const std::array<QString, 17>&	GetValuesAsQStrings() const { return this->values; }
 
-	friend std::ostream& operator << (std::ostream& stream, const Person& person);
-
 protected:
 	std::unique_ptr<QString>		firstName;
 	std::unique_ptr<QString>		lastName;
@@ -240,7 +253,9 @@ private:
 	qint16 AssignAge()		const;
 	qint16 AssignAge31()	const;
 	sr::Group AssignGroup() const;
-};
+}; // Person
+
+/* ******************** Parent ******************** */
 
 class Parent : public Person
 {
@@ -248,7 +263,9 @@ public:
 	Parent() = delete;
 	Parent(PersonBuilder<Parent>* builder);
 	~Parent() override {}
-};
+}; // Parent
+
+/* ******************** Child ******************** */
 
 class Child : public Person
 {
@@ -256,6 +273,6 @@ public:
 	Child() = delete;
 	Child(PersonBuilder<Child>* builder);
 	~Child() override {}
-};
+}; // Child
 
 #endif

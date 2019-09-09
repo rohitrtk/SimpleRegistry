@@ -2,22 +2,33 @@
 #define SRCreateUser_H_
 
 #include <QWidget>
-#include "SRConsants.h"
-#include "SRPerson.h"
+
 #include <sstream>
 #include <string>
 #include <memory>
+
 #include <QEvent>
 
 class SimpleRegistry;
-class SRUserCreatedEventFilter;
+class Person;
+
+constexpr auto WindowTitle_CreateChild		= "Create Child";
+constexpr auto WindowTitle_CreateParent		= "Create Parent";
+
+constexpr auto ComboBoxGender_Male			= "Male";
+constexpr auto ComboBoxGender_Female		= "Female";
+constexpr auto ComboBoxRelation_Parents		= "Parents";
+constexpr auto ComboBoxRelation_Mother		= "Mother";
+constexpr auto ComboBoxRelation_Father		= "Father";
+constexpr auto ComboBoxRelation_Guardian	= "Guardian";
+
 class SRCreateUser
 {
 public:
 	SRCreateUser() {}
 	SRCreateUser(SimpleRegistry* mainWindow) : 
 		mainWindow(mainWindow), paramMissing(false) {};
-	virtual ~SRCreateUser() {};
+	~SRCreateUser() {}
 
 public slots:
 	virtual void Create() = 0;
@@ -25,7 +36,6 @@ public slots:
 	virtual void Clear()  = 0;
 
 protected:
-
 	SimpleRegistry* mainWindow;
 	
 	bool paramMissing;

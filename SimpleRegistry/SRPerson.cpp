@@ -1,8 +1,8 @@
 #include "SRPerson.h"
-#include <sstream>
-#include <QString>
-#include <QDate>
+
 #include <QDebug>
+
+/* ******************** Person ******************** */
 
 Person::Person(PersonBuilder<Parent>* builder) :
 	firstName		(std::move(builder->firstName)),
@@ -42,7 +42,7 @@ Person::Person(PersonBuilder<Parent>* builder) :
 	this->values[10] = CHECK_NULL_STRING(primaryPhone);
 	this->values[11] = CHECK_NULL_STRING(secondaryPhone);
 	this->values[12] = CHECK_NULL_STRING(emailAddress);
-	this->values[13] = this->GetPrevAttendedS();
+	this->values[13] = "";
 	this->values[14] = CHECK_NULL_STRING(interests);
 	this->values[15] = CHECK_NULL_STRING(medical);
 	this->values[16] = CHECK_NULL_STRING(children);
@@ -69,7 +69,7 @@ Person::Person(PersonBuilder<Child>* builder) :
 	if (!dateOfBirth)	throw ErrorBuilderDOB;
 	if (!gender)		throw ErrorBuilderGender;
 
-	this->age =	  std::make_unique<qint16>(AssignAge());
+	this->age	= std::make_unique<qint16>(AssignAge());
 	this->age31 = std::make_unique<qint16>(AssignAge31());
 	this->group = std::make_unique<sr::Group>(AssignGroup());
 
@@ -136,15 +136,17 @@ sr::Group Person::AssignGroup() const
 QString Person::GetGroupAsString() const
 {
 	QString s;
-	if		(*group == sr::Group::PRE)		s = "PRE";
-	else if (*group == sr::Group::GROUP_1)	s = "1";
-	else if (*group == sr::Group::GROUP_2)	s = "2";
-	else if (*group == sr::Group::GROUP_3)	s = "3";
-	else if (*group == sr::Group::GROUP_4)	s = "4";
-	else									s = "A";
+	if		(*group == sr::Group::PRE)		s = Group_Pre;
+	else if (*group == sr::Group::GROUP_1)	s = Group_1;
+	else if (*group == sr::Group::GROUP_2)	s = Group_2;
+	else if (*group == sr::Group::GROUP_3)	s = Group_3;
+	else if (*group == sr::Group::GROUP_4)	s = Group_4;
+	else									s = Group_A;
 
 	return s;
 }
+
+/* ******************** Parent ******************** */
 
 Parent::Parent(PersonBuilder<Parent>* builder) : Person(builder)
 {
@@ -152,71 +154,11 @@ Parent::Parent(PersonBuilder<Parent>* builder) : Person(builder)
 	if (!emailAddress)		throw ErrorBuilderEmailAddress;
 	if (!primaryPhone)		throw ErrorBuilderHomePhone;
 	if (!secondaryPhone)	throw ErrorBuilderCellPhone;
-
 }
+
+/* ******************** Child ******************** */
 
 Child::Child(PersonBuilder<Child>* builder) : Person(builder)
 {
 	if (!prevAttended)	throw ErrorBuilderPrevAttended;
-}
-
-std::ostream& operator << (std::ostream& stream, const Person& person)
-{
-	stream
-		<< ", " << person.firstName->toStdString()				<< ", "
-		<< person.lastName->toStdString() << ", " << *person.age << ", "
-		<< person.dateOfBirth->toString().toStdString()	<< ", "
-		<< person.lastName->toStdString() << ", " 
-		<< person.gender->toStdString() << ", ";
-	
-	if (person.homeAddress)
-	{
-		stream << person.homeAddress->toStdString();
-	}
-	stream << ", ";
-
-	if (person.primaryPhone)
-	{
-		stream << person.primaryPhone->toStdString();
-	}
-	stream << ", ";
-	
-	if (person.secondaryPhone)
-	{
-		stream << person.secondaryPhone->toStdString();
-	}
-	stream << ", ";
-
-	if (person.emailAddress)
-	{
-		stream << person.emailAddress->toStdString();
-	}
-	stream << ", ";
-
-	if (person.prevAttended)
-	{
-		stream << person.GetPrevAttendedS().toStdString();
-	}
-	stream << ", ";
-
-	if (person.medical)
-	{
-		stream << person.medical->toStdString();
-	}
-	stream << ", ";
-
-	stream << person.GetGroupAsString().toStdString() << ", ";
-
-	if (person.parents)
-	{
-		stream << person.parents->toStdString();
-	}
-	stream << ", ";
-		
-	if (person.children)
-	{
-		stream << person.children->toStdString();
-	}
-
-	return stream;
 }

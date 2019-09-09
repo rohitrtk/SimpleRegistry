@@ -1,14 +1,20 @@
 #ifndef SRCREATECHILD_H_
 #define SRCREATECHILD_H_
 
-#include "SRCreateUser.h"
-#include "SimpleRegistry.h"
-#include "ui_SRCreateChild.h"
 #include <QWidget>
-#include <QKeyEvent>
+#include "ui_SRCreateChild.h"
+#include "SRCreateUser.h"
+
+class QKeyEvent;
+class QHideEvent;
+class SimpleRegistry;
+class Child;
+
+template <class T> class PersonBuilder;
 
 namespace Ui { class SRCreateChild; };
 
+/* Child creation window */
 class SRCreateChild : public QWidget, public SRCreateUser
 {
 	Q_OBJECT
@@ -16,7 +22,7 @@ class SRCreateChild : public QWidget, public SRCreateUser
 public:
 	SRCreateChild() = delete;
 	SRCreateChild(SimpleRegistry* mainWindow, QWidget* parent = Q_NULLPTR);
-	~SRCreateChild();
+	~SRCreateChild() override;
 
 	void MakeFirstName		(PersonBuilder<Child>& builder);
 	void MakeLastName		(PersonBuilder<Child>& builder);
@@ -38,32 +44,14 @@ public slots:
 	void Clear()  override;
 
 protected:
-
-	bool eventFilter(QObject*, QEvent* event) override
-	{
-		if (event->type() == QEvent::KeyPress)
-		{
-			QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-
-			if (keyEvent->key() == Qt::Key_Tab)
-			{
-				QWidget::focusNextChild();
-				return true;
-			}
-		}
-		else if (event->type() == QEvent::Hide)
-		{
-			this->Clear();
-		}
-
-		return false;
-	}
+	void keyPressEvent(QKeyEvent* event)	override;
+	void hideEvent(QHideEvent* event)		override;
 
 private:
 	Ui::SRCreateChild ui;
 
 	SimpleRegistry* mainWindow;
 	std::unique_ptr<Child> user;
-};
+}; // SRCreateChild
 
 #endif
